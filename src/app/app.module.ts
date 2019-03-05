@@ -65,7 +65,9 @@ export function HttpLoaderFactory(http: HttpClient) {
 
     !environment.production ? StoreDevtoolsModule.instrument() : [],
 
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production
+    })
   ],
   providers: [{ provide: RouterStateSerializer, useClass: RouteSerializer }],
   bootstrap: [AppComponent]
