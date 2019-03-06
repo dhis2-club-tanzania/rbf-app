@@ -33,7 +33,7 @@
     "@ngrx/store-devtools": "^7.3.0",
     "@ngx-translate/core": "^10.0.2",
     "@ngx-translate/http-loader": "^3.0.1",
-    "bootstrap": "^4.2.1",
+    "bootstrap": "^4.3.1",
     "core-js": "^2.6.4",
     "d2": "^31.5.0",
     "dexie": "^2.0.4",
