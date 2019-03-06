@@ -6,19 +6,43 @@
 
 Boilerplate codes to fast track developing DHIS2 applications based on Angular framework
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.2.3.
+## Prerequisites
+
+1. [NodeJs (10 or higher)](https://nodejs.org)
+2. npm (6.4.0 or higher), can be installed by running `apt install npm`
+3. git, can be installed by running `apt install git`
 
 ## Setup
 
-Run `npm install` to install all required dependencies for the app
+Clone repository
+
+```bash
+ git clone https://github.com/hisptz/ngx-seed-app.git
+```
+
+Navigate to application root folder
+
+```bash
+cd ngx-seed-app
+```
+
+Install all required dependencies for the app
+
+```bash
+npm install
+```
 
 ## Development server
 
-Run `npm start` for a dev server. Navigate to `http://localhost:4200/`.
+To start development server
+
+`npm start`
+
+Navigate to [http://localhost:4200](http://localhost:4200).
 
 This command will require proxy-config.json file available in the root of your source code, usually this file has this format
 
-```
+```json
 {
   "/api": {
     "target": "https://play.dhis2.org/2.29/",
@@ -33,14 +57,17 @@ This command will require proxy-config.json file available in the root of your s
     "changeOrigin": "true"
   }
 }
-
 ```
 
 We have provided `proxy-config.example.json` file as an example, make a copy and rename to `proxy-config.json`
 
 ## Build
 
-Run `npm run build` to build the project. The build artifacts will be stored in the `dist/`, this will included a zip file ready for deploying to any DHIS2 instance.
+To build the project run
+
+`npm run build`
+
+The build artifacts will be stored in the `dist/`, this will include a zip file ready for deploying to any DHIS2 instance.
 
 ## Running unit tests
 
