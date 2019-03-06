@@ -38,7 +38,13 @@ export function HttpLoaderFactory(http: HttpClient) {
     BrowserModule,
     HttpClientModule,
     RoutingModule,
-    CoreModule,
+    CoreModule.forRoot({
+      namespace: 'hisptz',
+      version: 1,
+      models: {
+        users: 'id'
+      }
+    }),
     BrowserAnimationsModule,
     StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot(effects),

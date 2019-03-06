@@ -7,10 +7,18 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { Dhis2ApiService } from './services';
+import {
+  Dhis2ApiService,
+  IndexDbServiceConfig,
+  IndexDbService
+} from './services';
 
 export function initialize(dhis2ApiService: Dhis2ApiService) {
   return () => dhis2ApiService.initialize();
+}
+
+export function initializeDb(indexDbServiceConfig: IndexDbServiceConfig) {
+  return () => new IndexDbService(indexDbServiceConfig);
 }
 
 @NgModule({
@@ -36,5 +44,20 @@ export class CoreModule {
     if (parentModule) {
       throw new Error('CoreModule is already loaded. Import only in AppModule');
     }
+  }
+
+  static forRoot(config: IndexDbServiceConfig): ModuleWithProviders {
+    return {
+      ngModule: CoreModule,
+      providers: [
+        { provide: IndexDbServiceConfig, useValue: config },
+        {
+          provide: APP_INITIALIZER,
+          useFactory: initializeDb,
+          deps: [IndexDbServiceConfig],
+          multi: true
+        }
+      ]
+    };
   }
 }
