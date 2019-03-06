@@ -61,6 +61,33 @@ This command will require proxy-config.json file available in the root of your s
 
 We have provided `proxy-config.example.json` file as an example, make a copy and rename to `proxy-config.json`
 
+## Index DB Setup
+
+This app support index DB as based on [dexie library](https://dexie.org/). In order to initiatiate index db then you have to passed index db configuration in forRoot of core module, so in app.module.ts
+
+```ts
+........
+@NgModule({
+  declarations: [AppComponent, ...fromPages.pages],
+  imports: [
+   ..........
+    CoreModule.forRoot({
+      namespace: 'hisptz',
+      version: 1,
+      models: {
+        users: 'id',
+        dataElement: 'id',
+        .......
+      }
+    })
+    .......
+    ]
+    ......
+    })
+```
+
+where in the models, for example user will be a table "user" and 'id' will be a keyIndex for the table
+
 ## Build
 
 To build the project run
