@@ -1,11 +1,29 @@
-import { NgModule, Optional, SkipSelf } from '@angular/core';
+import {
+  NgModule,
+  Optional,
+  SkipSelf,
+  ModuleWithProviders,
+  APP_INITIALIZER
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import { Dhis2ApiService } from './services';
+
+export function initialize(dhis2ApiService: Dhis2ApiService) {
+  return () => dhis2ApiService.initialize();
+}
 
 @NgModule({
   imports: [CommonModule, HttpClientModule],
   declarations: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initialize,
+      deps: [Dhis2ApiService],
+      multi: true
+    }
+  ],
   exports: []
 })
 export class CoreModule {

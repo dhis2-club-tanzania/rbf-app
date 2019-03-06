@@ -35,6 +35,7 @@
     "@ngx-translate/http-loader": "^3.0.1",
     "bootstrap": "^4.2.1",
     "core-js": "^2.6.4",
+    "d2": "^31.5.0",
     "rxjs": "~6.4.0",
     "tslib": "^1.9.0",
     "zone.js": "^0.8.29"
