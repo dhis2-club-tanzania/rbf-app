@@ -1,18 +1,46 @@
-# NgxSeedApp
+[![Build Status](https://travis-ci.org/hisptz/ngx-seed-app.svg?branch=master)](https://travis-ci.org/hisptz/ngx-seed-app)
+[![Maintainability](https://api.codeclimate.com/v1/badges/dbe97dbdfbd55344c38f/maintainability)](https://codeclimate.com/github/hisptz/ngx-seed-app/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/dbe97dbdfbd55344c38f/test_coverage)](https://codeclimate.com/github/hisptz/ngx-seed-app/test_coverage)
+
+# Angular DHIS2 based seed app
+
+Boilerplate codes to fast track developing DHIS2 applications based on Angular framework
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.2.3.
 
+## Setup
+
+Run `npm install` to install all required dependencies for the app
+
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Run `npm start` for a dev server. Navigate to `http://localhost:4200/`.
 
-## Code scaffolding
+This command will require proxy-config.json file available in the root of your source code, usually this file has this format
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+```
+{
+  "/api": {
+    "target": "https://play.dhis2.org/2.29/",
+    "secure": "false",
+    "auth": "admin:district",
+    "changeOrigin": "true"
+  },
+  "/": {
+    "target": "https://play.dhis2.org/2.29/",
+    "secure": "false",
+    "auth": "admin:district",
+    "changeOrigin": "true"
+  }
+}
+
+```
+
+We have provided `proxy-config.example.json` file as an example, make a copy and rename to `proxy-config.json`
 
 ## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+Run `npm run build` to build the project. The build artifacts will be stored in the `dist/`, this will included a zip file ready for deploying to any DHIS2 instance.
 
 ## Running unit tests
 
