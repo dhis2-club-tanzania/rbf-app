@@ -39,7 +39,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     HttpClientModule,
     RoutingModule,
     CoreModule.forRoot({
-      namespace: 'hisptz',
+      namespace: 'iapps',
       version: 1,
       models: {
         users: 'id'

@@ -32,6 +32,7 @@ install:
   - npm install
 
 script:
+  - npm run test:travis
   - npm run build
 
 notifications:
@@ -40,3 +41,4 @@ notifications:
       - rajeyw@gmail.com
     on_failure: always
     on_success: always
+  slack: hisptz:2UQgrRwNrI14ohefnnPyzms7
