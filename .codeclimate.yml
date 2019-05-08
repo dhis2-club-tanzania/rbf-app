@@ -9,3 +9,6 @@ exclude_paths:
   - 'src/assets/'
   - 'src/typings.d.ts'
   - 'src/app/**/*.spec.ts'
+  - 'src/karma.conf.js'
+  - 'src/polyfills.ts'
+  - 'src/test.ts'

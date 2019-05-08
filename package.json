@@ -6,8 +6,10 @@
     "start": "ng serve",
     "build": "ng build --prod --aot && cd dist/ngx-seed-app && zip -r -D ngx-seed-app.zip .",
     "test": "ng test",
+    "test:travis": "ng test -- --no-watch --no-progress --code-coverage --browsers=ChromeHeadlessCI",
     "lint": "ng lint",
     "e2e": "ng e2e",
+    "e2e:travis": "ng e2e -- --protractor-config=e2e/protractor-ci.conf.js",
     "compodoc": "./node_modules/.bin/compodoc -p src/tsconfig.app.json",
     "serve-docs": "./node_modules/.bin/compodoc -s -d documentation"
   },
