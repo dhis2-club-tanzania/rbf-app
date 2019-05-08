@@ -32,7 +32,6 @@ install:
 
 script:
   - npm run test:travis
-  - npm run e2e:travis
   - npm run build
 
 notifications:
