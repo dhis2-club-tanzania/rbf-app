@@ -6,7 +6,13 @@ describe('IndexDbService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: IndexDbService = TestBed.get(IndexDbService);
+    const service: IndexDbService = new IndexDbService({
+      namespace: 'iapps',
+      version: 1,
+      models: {
+        users: 'id'
+      }
+    });
     expect(service).toBeTruthy();
   });
 });
