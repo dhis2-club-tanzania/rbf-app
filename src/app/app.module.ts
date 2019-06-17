@@ -67,7 +67,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     /**
      * @ngrx/router-store keeps router state up-to-date in the store
      */
-    StoreRouterConnectingModule,
+    StoreRouterConnectingModule.forRoot(),
 
     !environment.production ? StoreDevtoolsModule.instrument() : [],
 
