@@ -1,47 +1,31 @@
 import { createReducer, on } from '@ngrx/store';
 
-import { ErrorMessage, User } from '../../core';
 import {
   addCurrentUser,
   loadCurrentUser,
   loadCurrentUserFail
 } from '../actions/user.actions';
-
-export interface UserState {
-  currentUser: User;
-  loading: boolean;
-  loaded: boolean;
-  hasError: boolean;
-  error: ErrorMessage;
-}
-
-export const initialState: UserState = {
-  currentUser: null,
-  loading: false,
-  loaded: false,
-  hasError: false,
-  error: null
-};
+import { initialUserState, UserState } from '../states/user.state';
+import {
+  loadingBaseState,
+  loadedBaseState,
+  errorBaseState
+} from '../states/base.state';
 
 export const reducer = createReducer(
-  initialState,
+  initialUserState,
   on(loadCurrentUser, state => ({
     ...state,
-    loading: true,
-    loaded: false,
-    hasError: false,
-    error: null
+    ...loadingBaseState
   })),
   on(addCurrentUser, (state, { currentUser }) => ({
     ...state,
-    currentUser,
-    loading: false,
-    loaded: true
+    ...loadedBaseState,
+    currentUser
   })),
   on(loadCurrentUserFail, (state, { error }) => ({
     ...state,
-    loading: false,
-    hasError: true,
+    ...errorBaseState,
     error
   }))
 );

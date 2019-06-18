@@ -2,7 +2,7 @@ import { createSelector } from '@ngrx/store';
 
 import { User } from '../../core';
 import { getRootState, State } from '../reducers';
-import { UserState } from '../reducers/user.reducer';
+import { UserState } from '../states/user.state';
 
 export const getUserState = createSelector(
   getRootState,
