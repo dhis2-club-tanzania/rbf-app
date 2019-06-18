@@ -25,13 +25,13 @@ export interface State {
   /**
    * Router state
    */
-  route: RouterReducerState;
+  router: RouterReducerState;
 }
 
 export const reducers: ActionReducerMap<State> = {
   user: fromUser.reducer,
   systemInfo: fromSystemInfo.reducer,
-  route: routerReducer
+  router: routerReducer
 };
 
 export const metaReducers: MetaReducer<State>[] = !environment.production

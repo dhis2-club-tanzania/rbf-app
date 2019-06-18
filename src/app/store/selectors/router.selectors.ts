@@ -1,14 +1,15 @@
-import { createSelector } from '@ngrx/store';
-import { getRootState, State } from '../reducers';
-import { RouterReducerState } from '@ngrx/router-store';
+import { getSelectors, RouterReducerState } from '@ngrx/router-store';
+import { createFeatureSelector } from '@ngrx/store';
 
-export const getRouteState = createSelector(
-  getRootState,
-  (state: State) => state.route
+import { State } from '../reducers';
+
+export const selectRouter = createFeatureSelector<State, RouterReducerState>(
+  'router'
 );
 
-export const getRouteUrl = createSelector(
-  getRouteState,
-  (routeState: RouterReducerState) =>
-    routeState && routeState.state ? routeState.state.url : ''
-);
+const {
+  selectQueryParams: getQueryParams, // select the current route query params
+  selectRouteParams: getRouteParams, // select the current route params
+  selectRouteData: getRouteData, // select the current route data
+  selectUrl: getUrl // select the current url
+} = getSelectors(selectRouter);
