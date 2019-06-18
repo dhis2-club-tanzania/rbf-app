@@ -1,79 +1,51 @@
-import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { User, ErrorMessage } from '../../core';
-import { UserActions, UserActionTypes } from '../actions/user.actions';
+import { createReducer, on } from '@ngrx/store';
 
-export interface State extends EntityState<User> {
-  // additional entities state properties
+import { ErrorMessage, User } from '../../core';
+import {
+  addCurrentUser,
+  loadCurrentUser,
+  loadCurrentUserFail
+} from '../actions/user.actions';
 
-  /**
-   * User loading status
-   */
+export interface UserState {
+  currentUser: User;
   loading: boolean;
-
-  /**
-   * User information loaded status
-   */
   loaded: boolean;
-
-  /**
-   * User information error status
-   */
   hasError: boolean;
-
-  /**
-   * User loading error
-   */
   error: ErrorMessage;
 }
 
-export const adapter: EntityAdapter<User> = createEntityAdapter<User>();
-
-export const initialState: State = adapter.getInitialState({
-  // additional entity state properties
+export const initialState: UserState = {
+  currentUser: null,
   loading: false,
   loaded: false,
   hasError: false,
   error: null
-});
+};
 
-export function reducer(state = initialState, action: UserActions): State {
-  switch (action.type) {
-    case UserActionTypes.LoadCurrentUser: {
-      return {
-        ...state,
-        loading: true,
-        loaded: false,
-        hasError: false,
-        error: null
-      };
-    }
+export const reducer = createReducer(
+  initialState,
+  on(loadCurrentUser, state => ({
+    ...state,
+    loading: true,
+    loaded: false,
+    hasError: false,
+    error: null
+  })),
+  on(addCurrentUser, (state, { currentUser }) => ({
+    ...state,
+    currentUser,
+    loading: false,
+    loaded: true
+  })),
+  on(loadCurrentUserFail, (state, { error }) => ({
+    ...state,
+    loading: false,
+    hasError: true,
+    error
+  }))
+);
 
-    case UserActionTypes.AddCurrentUser: {
-      return adapter.addOne(action.currentUser, {
-        ...state,
-        loading: false,
-        loaded: true
-      });
-    }
-
-    case UserActionTypes.LoadCurrentUserFail: {
-      return { ...state, loading: false, hasError: true, error: action.error };
-    }
-
-    default: {
-      return state;
-    }
-  }
+export function userReducer(state, action): UserState {
+  return reducer(state, action);
 }
-
-// additional selectors
-
-/**
- * User loading state selector
- */
-export const getUserLoadingState = (state: State) => state.loading;
-export const getUserLoadedState = (state: State) => state.loaded;
-export const getUserHasErrorState = (state: State) => state.hasError;
-export const getUserErrorState = (state: State) => state.error;
-
-export const { selectAll: selectAllUsers } = adapter.getSelectors();

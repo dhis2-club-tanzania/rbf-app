@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, forkJoin } from 'rxjs';
 import { User } from '../models/user.model';
-import { NgxDhis2HttpClientService } from '@hisptz/ngx-dhis2-http-client';
+import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import { map } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })

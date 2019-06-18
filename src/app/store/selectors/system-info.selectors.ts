@@ -1,18 +1,29 @@
 import { createSelector } from '@ngrx/store';
+
 import { getRootState, State } from '../reducers';
-import { getSystemInfosState } from '../reducers/system-info.reducer';
+import { SystemInfoState } from '../reducers/system-info.reducer';
 
 export const getSystemInfoState = createSelector(
   getRootState,
   (state: State) => state.systemInfo
 );
 
-export const getSystemInfos = createSelector(
+export const getSystemInfo = createSelector(
   getSystemInfoState,
-  getSystemInfosState
+  (state: SystemInfoState) => state.systemInfo
 );
 
-export const getSystemInfo = createSelector(
-  getSystemInfos,
-  (systemInfos: any[]) => systemInfos[0]
+export const getSystemInfoLoading = createSelector(
+  getSystemInfoState,
+  (state: SystemInfoState) => state.loading
+);
+
+export const getSystemInfoLoaded = createSelector(
+  getSystemInfoState,
+  (state: SystemInfoState) => state.loaded
+);
+
+export const getSystemInfoLoadingError = createSelector(
+  getSystemInfoState,
+  (state: SystemInfoState) => state.error
 );

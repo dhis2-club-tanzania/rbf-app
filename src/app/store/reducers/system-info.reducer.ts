@@ -1,78 +1,47 @@
-import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { SystemInfo, ErrorMessage } from '../../core';
-import { SystemInfoActions, SystemInfoActionTypes } from '../actions';
+import { createReducer, on } from '@ngrx/store';
 
-export interface State extends EntityState<SystemInfo> {
-  // additional entities state properties
-  /**
-   * SystemInfo loading status
-   */
+import { ErrorMessage, SystemInfo } from '../../core';
+import { addSystemInfo, loadSystemInfo, loadSystemInfoFail } from '../actions';
+
+export interface SystemInfoState {
+  systemInfo: SystemInfo;
   loading: boolean;
-
-  /**
-   * SystemInfo information loaded status
-   */
   loaded: boolean;
-
-  /**
-   * SystemInfo information error status
-   */
   hasError: boolean;
-
-  /**
-   * SystemInfo loading error
-   */
   error: ErrorMessage;
 }
 
-export const adapter: EntityAdapter<SystemInfo> = createEntityAdapter<
-  SystemInfo
->();
-
-export const initialState: State = adapter.getInitialState({
-  // additional entity state properties
+export const initialState: SystemInfoState = {
+  systemInfo: null,
   loading: false,
   loaded: false,
   hasError: false,
   error: null
-});
+};
 
-export function reducer(
-  state = initialState,
-  action: SystemInfoActions
-): State {
-  switch (action.type) {
-    case SystemInfoActionTypes.AddSystemInfo: {
-      return adapter.addOne(action.systemInfo, {
-        ...state,
-        loading: false,
-        loaded: true
-      });
-    }
+export const reducer = createReducer(
+  initialState,
+  on(loadSystemInfo, state => ({
+    ...state,
+    loading: true,
+    loaded: false,
+    hasError: false,
+    error: null
+  })),
+  on(addSystemInfo, (state, { systemInfo }) => ({
+    ...state,
+    systemInfo,
+    loading: false,
+    loaded: true
+  })),
+  on(loadSystemInfoFail, (state, { error }) => ({
+    ...state,
+    loading: false,
+    hasError: true,
+    error
+  }))
+);
 
-    case SystemInfoActionTypes.LoadSystemInfo: {
-      return {
-        ...state,
-        loading: true,
-        loaded: false,
-        hasError: false,
-        error: null
-      };
-    }
-
-    case SystemInfoActionTypes.LoadSystemInfoFail: {
-      return { ...state, loading: false, hasError: true, error: action.error };
-    }
-
-    default: {
-      return state;
-    }
-  }
+export function systemInfoReducer(state, action): SystemInfoState {
+  return reducer(state, action);
 }
-
-export const getSystemInfoLoadingState = (state: State) => state.loading;
-export const getSystemInfoLoadedState = (state: State) => state.loaded;
-export const getSystemInfoHasErrorState = (state: State) => state.hasError;
-export const getSystemInfoErrorState = (state: State) => state.error;
-
-export const { selectAll: getSystemInfosState } = adapter.getSelectors();

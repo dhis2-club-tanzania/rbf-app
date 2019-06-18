@@ -1,21 +1,14 @@
-import {
-  NgModule,
-  Optional,
-  SkipSelf,
-  ModuleWithProviders,
-  APP_INITIALIZER
-} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import {
-  Dhis2ApiService,
-  IndexDbServiceConfig,
-  IndexDbService
-} from './services';
+  APP_INITIALIZER,
+  ModuleWithProviders,
+  NgModule,
+  Optional,
+  SkipSelf
+} from '@angular/core';
 
-export function initialize(dhis2ApiService: Dhis2ApiService) {
-  return () => dhis2ApiService.initialize();
-}
+import { IndexDbService, IndexDbServiceConfig } from './services';
 
 export function initializeDb(indexDbServiceConfig: IndexDbServiceConfig) {
   return () => new IndexDbService(indexDbServiceConfig);
@@ -24,14 +17,7 @@ export function initializeDb(indexDbServiceConfig: IndexDbServiceConfig) {
 @NgModule({
   imports: [CommonModule, HttpClientModule],
   declarations: [],
-  providers: [
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initialize,
-      deps: [Dhis2ApiService],
-      multi: true
-    }
-  ],
+  providers: [],
   exports: []
 })
 export class CoreModule {

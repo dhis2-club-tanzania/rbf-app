@@ -1,5 +1,6 @@
-import { Action } from '@ngrx/store';
-import { SystemInfo, ErrorMessage } from '../../core';
+import { createAction, props } from '@ngrx/store';
+
+import { ErrorMessage, SystemInfo } from '../../core';
 
 export enum SystemInfoActionTypes {
   LoadSystemInfo = '[SystemInfo] Load System info',
@@ -7,23 +8,14 @@ export enum SystemInfoActionTypes {
   LoadSystemInfoFail = '[SystemInfo] Load System info fail'
 }
 
-export class LoadSystemInfo implements Action {
-  readonly type = SystemInfoActionTypes.LoadSystemInfo;
-}
+export const loadSystemInfo = createAction('[SystemInfo] Load System info');
 
-export class AddSystemInfo implements Action {
-  readonly type = SystemInfoActionTypes.AddSystemInfo;
+export const addSystemInfo = createAction(
+  '[SystemInfo] Add System info',
+  props<{ systemInfo: SystemInfo }>()
+);
 
-  constructor(public systemInfo: SystemInfo) {}
-}
-
-export class LoadSystemInfoFail implements Action {
-  readonly type = SystemInfoActionTypes.LoadSystemInfoFail;
-
-  constructor(public error: ErrorMessage) {}
-}
-
-export type SystemInfoActions =
-  | LoadSystemInfo
-  | AddSystemInfo
-  | LoadSystemInfoFail;
+export const loadSystemInfoFail = createAction(
+  '[SystemInfo] Load System info fail',
+  props<{ error: ErrorMessage }>()
+);
