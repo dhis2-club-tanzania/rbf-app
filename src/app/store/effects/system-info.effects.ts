@@ -1,15 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Observable, of, defer } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
-import { catchError } from 'rxjs/operators';
-import { Action } from '@ngrx/store';
-
-import { SystemInfoService } from '@hisptz/ngx-dhis2-http-client';
-
-import * as fromSystemInfoActions from '../actions/system-info.actions';
+import { SystemInfoService } from '@iapps/ngx-dhis2-http-client';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { defer, of } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
 
 import { getSanitizedSystemInfo } from '../../core';
+import { addSystemInfo, loadSystemInfo, loadSystemInfoFail } from '../actions';
 
 @Injectable()
 export class SystemInfoEffects {
@@ -18,23 +14,21 @@ export class SystemInfoEffects {
     private systemInfoService: SystemInfoService
   ) {}
 
-  @Effect()
-  loadSystemInfo$: Observable<any> = this.actions$.pipe(
-    ofType(fromSystemInfoActions.SystemInfoActionTypes.LoadSystemInfo),
-    switchMap(() => this.systemInfoService.getSystemInfo()),
-    map(
-      (systemInfo: any) =>
-        new fromSystemInfoActions.AddSystemInfo(
-          getSanitizedSystemInfo(systemInfo)
+  loadSystemInfo$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadSystemInfo),
+      switchMap(() =>
+        this.systemInfoService.getSystemInfo().pipe(
+          map((systemInfoResponse: any) =>
+            addSystemInfo({
+              systemInfo: getSanitizedSystemInfo(systemInfoResponse)
+            })
+          ),
+          catchError((error: any) => of(loadSystemInfoFail({ error })))
         )
-    ),
-    catchError((error: any) =>
-      of(new fromSystemInfoActions.LoadSystemInfoFail(error))
+      )
     )
   );
 
-  @Effect()
-  init$: Observable<Action> = defer(() =>
-    of(new fromSystemInfoActions.LoadSystemInfo())
-  );
+  init$ = createEffect(() => defer(() => of(loadSystemInfo())));
 }

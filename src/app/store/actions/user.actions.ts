@@ -1,5 +1,6 @@
-import { Action } from '@ngrx/store';
-import { User, ErrorMessage, SystemInfo } from '../../core';
+import { createAction, props } from '@ngrx/store';
+
+import { ErrorMessage, SystemInfo, User } from '../../core';
 
 export enum UserActionTypes {
   LoadCurrentUser = '[User] Load current User',
@@ -7,24 +8,17 @@ export enum UserActionTypes {
   LoadCurrentUserFail = '[User] Load Current User fail'
 }
 
-export class LoadCurrentUser implements Action {
-  readonly type = UserActionTypes.LoadCurrentUser;
-  constructor(public systemInfo: SystemInfo) {}
-}
+export const loadCurrentUser = createAction(
+  '[User] Load current User',
+  props<{ systemInfo: SystemInfo }>()
+);
 
-export class AddCurrentUser implements Action {
-  readonly type = UserActionTypes.AddCurrentUser;
+export const addCurrentUser = createAction(
+  '[User] Add Current User',
+  props<{ currentUser: User; systemInfo: SystemInfo }>()
+);
 
-  constructor(public currentUser: User, public systemInfo: SystemInfo) {}
-}
-
-export class LoadCurrentUserFail implements Action {
-  readonly type = UserActionTypes.LoadCurrentUserFail;
-
-  constructor(public error: ErrorMessage) {}
-}
-
-export type UserActions =
-  | LoadCurrentUser
-  | AddCurrentUser
-  | LoadCurrentUserFail;
+export const loadCurrentUserFail = createAction(
+  '[User] Load Current User fail',
+  props<{ error: ErrorMessage }>()
+);

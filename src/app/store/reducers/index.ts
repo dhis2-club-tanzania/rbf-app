@@ -1,41 +1,25 @@
-import {
-  ActionReducer,
-  ActionReducerMap,
-  createFeatureSelector,
-  createSelector,
-  MetaReducer
-} from '@ngrx/store';
-import { environment } from '../../../environments/environment';
+import { routerReducer, RouterReducerState } from '@ngrx/router-store';
+import { ActionReducerMap, MetaReducer } from '@ngrx/store';
+import { storeFreeze } from 'ngrx-store-freeze';
 
-import * as fromUser from '../reducers/user.reducer';
-import * as fromSystemInfo from '../reducers/system-info.reducer';
-import { RouterReducerState, routerReducer } from '@ngrx/router-store';
+import { environment } from '../../../environments/environment';
+import { systemInfoReducer, SystemInfoState } from './system-info.reducer';
+import { UserState, userReducer } from './user.reducer';
 
 export interface State {
-  /**
-   * User state
-   */
-  user: fromUser.State;
-
-  /**
-   * System info state
-   */
-  systemInfo: fromSystemInfo.State;
-
-  /**
-   * Router state
-   */
+  user: UserState;
+  systemInfo: SystemInfoState;
   router: RouterReducerState;
 }
 
 export const reducers: ActionReducerMap<State> = {
-  user: fromUser.reducer,
-  systemInfo: fromSystemInfo.reducer,
+  user: userReducer,
+  systemInfo: systemInfoReducer,
   router: routerReducer
 };
 
 export const metaReducers: MetaReducer<State>[] = !environment.production
-  ? []
+  ? [storeFreeze]
   : [];
 
 /**
