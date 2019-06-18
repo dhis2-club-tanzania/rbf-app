@@ -1,43 +1,30 @@
 import { createReducer, on } from '@ngrx/store';
 
-import { ErrorMessage, SystemInfo } from '../../core';
 import { addSystemInfo, loadSystemInfo, loadSystemInfoFail } from '../actions';
-
-export interface SystemInfoState {
-  systemInfo: SystemInfo;
-  loading: boolean;
-  loaded: boolean;
-  hasError: boolean;
-  error: ErrorMessage;
-}
-
-export const initialState: SystemInfoState = {
-  systemInfo: null,
-  loading: false,
-  loaded: false,
-  hasError: false,
-  error: null
-};
+import {
+  initialSystemInfoState,
+  SystemInfoState
+} from '../states/system-info.state';
+import {
+  loadingBaseState,
+  loadedBaseState,
+  errorBaseState
+} from '../states/base.state';
 
 export const reducer = createReducer(
-  initialState,
+  initialSystemInfoState,
   on(loadSystemInfo, state => ({
     ...state,
-    loading: true,
-    loaded: false,
-    hasError: false,
-    error: null
+    ...loadingBaseState
   })),
   on(addSystemInfo, (state, { systemInfo }) => ({
     ...state,
-    systemInfo,
-    loading: false,
-    loaded: true
+    ...loadedBaseState,
+    systemInfo
   })),
   on(loadSystemInfoFail, (state, { error }) => ({
     ...state,
-    loading: false,
-    hasError: true,
+    ...errorBaseState,
     error
   }))
 );

@@ -3,8 +3,10 @@ import { ActionReducerMap, MetaReducer } from '@ngrx/store';
 import { storeFreeze } from 'ngrx-store-freeze';
 
 import { environment } from '../../../environments/environment';
-import { systemInfoReducer, SystemInfoState } from './system-info.reducer';
-import { UserState, userReducer } from './user.reducer';
+import { SystemInfoState } from '../states/system-info.state';
+import { UserState } from '../states/user.state';
+import { systemInfoReducer } from './system-info.reducer';
+import { userReducer } from './user.reducer';
 
 export interface State {
   user: UserState;
