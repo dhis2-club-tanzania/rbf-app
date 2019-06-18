@@ -1,8 +1,8 @@
-[![Build Status](https://travis-ci.org/interactive-apps/ngx-seed-app.svg?branch=master)](https://travis-ci.org/interactive-apps/ngx-seed-app)
-[![dependencies Status](https://david-dm.org/interactive-apps/ngx-seed-app/status.svg)](https://david-dm.org/interactive-apps/ngx-seed-app)
-[![devDependencies Status](https://david-dm.org/interactive-apps/ngx-seed-app/dev-status.svg)](https://david-dm.org/interactive-apps/ngx-seed-app?type=dev)
-[![Maintainability](https://api.codeclimate.com/v1/badges/dbe97dbdfbd55344c38f/maintainability)](https://codeclimate.com/github/interactive-apps/ngx-seed-app/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/dbe97dbdfbd55344c38f/test_coverage)](https://codeclimate.com/github/interactive-apps/ngx-seed-app/test_coverage)
+[![Build Status](https://travis-ci.org/hisptz/ngx-seed-app.svg?branch=master)](https://travis-ci.org/hisptz/ngx-seed-app)
+[![dependencies Status](https://david-dm.org/hisptz/ngx-seed-app/status.svg)](https://david-dm.org/hisptz/ngx-seed-app)
+[![devDependencies Status](https://david-dm.org/hisptz/ngx-seed-app/dev-status.svg)](https://david-dm.org/hisptz/ngx-seed-app?type=dev)
+[![Maintainability](https://api.codeclimate.com/v1/badges/dbe97dbdfbd55344c38f/maintainability)](https://codeclimate.com/github/hisptz/ngx-seed-app/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/dbe97dbdfbd55344c38f/test_coverage)](https://codeclimate.com/github/hisptz/ngx-seed-app/test_coverage)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
 # Angular DHIS2 based seed app
@@ -20,7 +20,7 @@ Boilerplate codes to fast track developing DHIS2 applications based on Angular f
 Clone repository
 
 ```bash
- git clone https://github.com/interactive-apps/ngx-seed-app.git
+ git clone https://github.com/hisptz/ngx-seed-app.git
 ```
 
 Navigate to application root folder
