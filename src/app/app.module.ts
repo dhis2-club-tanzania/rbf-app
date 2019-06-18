@@ -23,7 +23,7 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 
-import { NgxDhis2MenuModule } from '@hisptz/ngx-dhis2-menu';
+import { NgxDhis2MenuModule } from '@iapps/ngx-dhis2-menu';
 import * as fromPages from './pages';
 import { ServiceWorkerModule } from '@angular/service-worker';
 
