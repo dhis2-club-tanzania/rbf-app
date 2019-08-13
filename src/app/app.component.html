@@ -1,6 +1,25 @@
 <div class="application-container">
   <ngx-dhis2-menu></ngx-dhis2-menu>
   <div class="application-content">
+      <nav class="navbar navbar-light bg-light">
+          <ul class="nav">
+            <li class="nav-item">
+              <a class="nav-link"  [routerLink]="'/assessment'">Assesment</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" [routerLink]="['/verification']" routerLinkActive="router-link-active"  >Verification</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link"  [routerLink]="['/budget']" routerLinkActive="router-link-active" >Budget</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" [routerLink]="['/report']" routerLinkActive="router-link-active"  >Report</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" [routerLink]="['/configuration']" routerLinkActive="router-link-active"  >Configuration</a>
+            </li>
+          </ul>
+        </nav>
     <router-outlet></router-outlet>
   </div>
 </div>

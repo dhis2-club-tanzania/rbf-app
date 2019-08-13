@@ -33,7 +33,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 }
 
 @NgModule({
-  declarations: [AppComponent, ...fromPages.pages],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     HttpClientModule,

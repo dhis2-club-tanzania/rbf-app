@@ -1,6 +1,6 @@
 {
-  "name": "ngx-seed-app",
-  "short_name": "ngx-seed-app",
+  "name": "rbf-app",
+  "short_name": "rbf-app",
   "theme_color": "#1976d2",
   "background_color": "#fafafa",
   "display": "standalone",
