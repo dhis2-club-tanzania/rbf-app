@@ -1,25 +1,18 @@
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
-// import { AssessmentComponent } from './pages/assessment/assessment.component';
-// import { VerificationComponent } from './pages/verification/verification.component';
-// import { BudgetComponent } from './pages/budget/budget.component';
-// import { ReportComponent } from './pages/report/report.component';
-// import { ConfigurationComponent } from './pages/configuration/configuration.component';
+import { BudgetComponent } from './pages/budget/budget.component';
+import { AssessmentComponent } from './pages/assessment/assessment.component';
+import { ConfigurationComponent } from './pages/configuration/configuration.component';
+import { ReportComponent } from './pages/report/report.component';
+import { VerificationComponent } from './pages/verification/verification.component';
 
 export const routes: Routes = [
-//   {
-//     path: '',
-//     pathMatch: 'full',
-//     redirectTo: 'assessment'
-//   },
-//   {
-//     path: 'assessment',
-//     component: AssessmentComponent
-//   },
-//   { path: 'verification', component: VerificationComponent },
-//   { path: 'budget', component: BudgetComponent },
-//   { path: 'report', component: ReportComponent },
-//   { path: 'configuration', component: ConfigurationComponent}
+  { path: '', pathMatch: 'full', redirectTo: 'assessment'},
+  { path: 'budget', component: BudgetComponent },
+  { path: 'assessment', component: AssessmentComponent },
+  { path: 'configuration', component: ConfigurationComponent },
+  { path: 'report', component: ReportComponent },
+  { path: 'verification', component: VerificationComponent }
 ];
 
 @NgModule({

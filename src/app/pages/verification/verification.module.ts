@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { VerificationComponent } from '../verification/verification.component';
 
 @NgModule({
-  declarations: [],
+  declarations: [VerificationComponent],
   imports: [
     CommonModule
   ]
