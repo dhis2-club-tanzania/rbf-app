@@ -26,6 +26,11 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { NgxDhis2MenuModule } from '@iapps/ngx-dhis2-menu';
 import * as fromPages from './pages';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { BudgetModule } from './pages/budget/budget.module';
+import { AssessmentModule } from './pages/assessment/assessment.module';
+import { ConfigurationModule } from './pages/configuration/configuration.module';
+import { ReportModule } from './pages/report/report.module';
+import { VerificationModule } from './pages/verification/verification.module';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -33,7 +38,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 }
 
 @NgModule({
-  declarations: [AppComponent, ...fromPages.pages],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -73,7 +78,14 @@ export function HttpLoaderFactory(http: HttpClient) {
 
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production
-    })
+    }),
+
+    // Functional Modules
+    AssessmentModule,
+    BudgetModule,
+    ConfigurationModule,
+    ReportModule,
+    VerificationModule
   ],
   providers: [{ provide: RouterStateSerializer, useClass: RouteSerializer }],
   bootstrap: [AppComponent]

@@ -1,10 +1,10 @@
 {
-  "name": "ngx-seed-app",
+  "name": "rbf-app",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build --prod --aot && cd dist/ngx-seed-app && zip -r -D ngx-seed-app.zip .",
+    "start": "ng serve --port 4200 --proxy-config proxy-config.json",
+    "build": "ng build --prod --aot && cd dist/rbf-app && zip -r -D rbf-app.zip .",
     "test": "ng test",
     "test:travis": "ng test -- --no-watch --no-progress --code-coverage --browsers=ChromeHeadlessCI",
     "lint": "ng lint",
