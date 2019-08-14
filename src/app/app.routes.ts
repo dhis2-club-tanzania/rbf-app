@@ -8,24 +8,41 @@ export const routes: Routes = [
   },
   {
     path: 'assessment',
-    loadChildren: './pages/assessment/assessment.module#AssessmentModule'
+    // loadChildren: './pages/assessment/assessment.module#AssessmentModule'
+    loadChildren: () =>
+      import('./pages/assessment/assessment.module').then(
+        module => module.AssessmentModule
+      )
   },
   {
     path: 'budget',
-    loadChildren: './pages/budget/budget.module#BudgetModule'
+    // loadChildren: './pages/budget/budget.module#BudgetModule'
+    loadChildren: () =>
+      import('./pages/budget/budget.module').then(module => module.BudgetModule)
   },
   {
     path: 'verification',
-    loadChildren: './pages/verification/verification.module#VerificationModule'
+    // loadChildren: './pages/verification/verification.module#VerificationModule'
+    loadChildren: () =>
+      import('./pages/verification/verification.module').then(
+        module => module.VerificationModule
+      )
   },
   {
     path: 'report',
-    loadChildren: './pages/report/report.module#ReportModule'
+    // loadChildren: './pages/report/report.module#ReportModule'
+    loadChildren: () =>
+      import('./pages/report/report.module').then(module => module.ReportModule)
   },
   {
     path: 'configuration',
-    loadChildren: './pages/configuration/configuration.module#ConfigurationModule'
-  },
+    // loadChildren:
+    //   './pages/configuration/configuration.module#ConfigurationModule'
+    loadChildren: () =>
+      import('./pages/configuration/configuration.module').then(
+        module => module.ConfigurationModule
+      )
+  }
 ];
 
 @NgModule({
