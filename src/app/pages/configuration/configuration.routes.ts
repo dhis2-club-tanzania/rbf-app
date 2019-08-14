@@ -7,43 +7,37 @@ import { GeneralComponent } from './components/general/general.component';
 import { ConfigurationListComponent } from './components/configuration-list/configuration-list.component';
 import { ConfigurationComponent } from './components/configuration/configuration.component';
 
-
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'home',
-    pathMatch: 'full'
-  },
-  {
-    path: 'assessment',
-    component: AssessmentComponent
-  },
-  {
-    path: 'verification',
-    component: VerificationComponent
-  },
-  {
-    path: 'budget',
-    component: BudgetComponent
-  },
-  {
-    path: 'home',
-    component: ConfigurationComponent
-  },
-  {
-    path: 'configurationslist',
-    component: ConfigurationListComponent
-  },
-  {
-    path: 'general',
-    component: GeneralComponent
+    component: ConfigurationComponent,
+    children: [
+      {
+        path: 'assessment',
+        component: AssessmentComponent
+      },
+      {
+        path: 'verification',
+        component: VerificationComponent
+      },
+      {
+        path: 'budget',
+        component: BudgetComponent
+      },
+      {
+        path: 'configurationslist',
+        component: ConfigurationListComponent
+      },
+      {
+        path: 'general',
+        component: GeneralComponent
+      }
+    ]
   }
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forChild(routes)
-  ],
+  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
 export class RoutingModule {}
