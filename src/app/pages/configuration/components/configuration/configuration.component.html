@@ -2,23 +2,23 @@
   <div class="shadow col-2">
     <ul class="nav flex-column">
       <li class="nav-item">
-        <a class="nav-link active" href="#">Configurations</a>
+        <a class="nav-link active" [routerLink]="['/configuration/configurationslist']" >Configurations</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">General</a>
+        <a class="nav-link"  [routerLink]="['/configuration/general']">General</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Assessment</a>
+        <a class="nav-link"  [routerLink]="['/configuration/assessment']">Assessment</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Budget</a>
+        <a class="nav-link"  [routerLink]="['/configuration/budget']">Budget</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Verification</a>
+        <a class="nav-link"  [routerLink]="['/configuration/verification']">Verification</a>
       </li>
     </ul>
   </div>
   <div class="col-10">
-    Here is where the router outlet will be placed
+    <router-outlet></router-outlet>
   </div>
 </div>
