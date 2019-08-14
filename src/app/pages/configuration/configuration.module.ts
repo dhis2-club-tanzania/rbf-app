@@ -9,7 +9,13 @@ import { ConfigurationComponent } from './components/configuration/configuration
 import { ConfigurationListComponent } from './components/configuration-list/configuration-list.component';
 
 @NgModule({
-  declarations: [AssessmentComponent, GeneralComponent, BudgetComponent, VerificationComponent, ConfigurationComponent, ConfigurationListComponent],
+  declarations: [AssessmentComponent,
+    GeneralComponent,
+    BudgetComponent,
+    VerificationComponent,
+    ConfigurationComponent,
+    ConfigurationListComponent
+  ],
   imports: [
     CommonModule,
     RoutingModule
