@@ -20,7 +20,7 @@ export class AssessmentComponent implements OnInit {
   ngOnInit() {
     this.assessmentForm = new FormGroup({
       indicator: new FormControl(),
-      dataElement: new FormControl(),
+      dataElement: new FormControl('[Select Data Element]'),
       possibleMaxValue: new FormControl(),
     });
   }

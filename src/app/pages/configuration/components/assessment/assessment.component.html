@@ -10,7 +10,7 @@
     <div class="form-group">
         <label>Data Element</label>
         <select class="custom-select" formControlName="dataElement">
-            <option selected>[Select Data Element]</option>
+            <option>[Select Data Element]</option>
             <option *ngFor="let option of dataElements; let i=index" value="{{i}}">{{option}}</option>
           </select>
       </div>
@@ -19,10 +19,10 @@
       <input type="number" formControlName="possibleMaxValue" class="form-control" placeholder="{{possibleMaximumValue}}">
     </div>
     <div class="row">
-      <div class="form-group form-check col-6">
+      <div class="form-group form-check col col-10">
         <input type="submit" class="btn btn-primary" value="Done">
       </div>
-      <div class="form-group form-check col-6">
+      <div class="form-group form-check  col col-2">
         <button type="submit" class="btn btn-primary" (click)="onClickAdd(assessmentForm.value)">Add</button>
       </div>
     </div>
