@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
+import { AssessmentConfiguration } from '../../models/assessment-configuration.model';
 
 @Component({
   selector: 'app-assessment',
@@ -13,7 +14,7 @@ export class AssessmentComponent implements OnInit {
   dataElement;
   possibleMaximumValue = 'Enter the possible maximum value';
   dataElements = ['First data element', 'Second Data Element', 'Etc ...'];
-  formDataArray = [];
+  formDataArray: AssessmentConfiguration[] = [];
 
   constructor() { }
 
@@ -29,11 +30,23 @@ export class AssessmentComponent implements OnInit {
     this.indicator = data.indicator;
     this.dataElement = data.dataElement;
     this.possibleMaximumValue = data.possibleMaxValue;
-    this.formDataArray.push(data.indicator, data.dataElement, data.possibleMaxValue);
+    this.formDataArray.push(
+      {
+        indicator: data.indicator,
+        dataElement: {id: 'kjdfjdjk',
+        name: data.dataElement},
+        possibleMaxValue: data.possibleMaxValue
+      });
     console.log(this.formDataArray);
   }
   onClickAdd(data) {
-    this.formDataArray.push(data.indicator, data.dataElement, data.possibleMaxValue);
+    this.formDataArray.push(
+      {
+      indicator: data.indicator,
+      dataElement: {id: 'kjdfjdjk',
+      name: data.dataElement},
+      possibleMaxValue: data.possibleMaxValue
+    });
     console.log(this.formDataArray);
   }
 

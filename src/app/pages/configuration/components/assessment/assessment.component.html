@@ -2,7 +2,7 @@
     <div class="card-header">
         Assessment Configurations
       </div>
-  <form [formGroup]="assessmentForm" (ngSubmit)="onClickDone(assessmentForm.value)">
+  <form [formGroup]="assessmentForm">
     <div class="form-group">
       <label>Indicator</label>
       <input type="text" formControlName="indicator" class="form-control" placeholder="{{indicator}}">
@@ -20,7 +20,7 @@
     </div>
     <div class="row">
       <div class="form-group form-check col col-10">
-        <input type="submit" class="btn btn-primary" value="Done">
+          <button type="submit" class="btn btn-primary" (click)="onClickDone(assessmentForm.value)">Done</button>
       </div>
       <div class="form-group form-check  col col-2">
         <button type="submit" class="btn btn-primary" (click)="onClickAdd(assessmentForm.value)">Add</button>

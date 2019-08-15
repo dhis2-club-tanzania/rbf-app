@@ -2,7 +2,7 @@
     <div class="card-header">
         Verification Configurations
       </div>
-  <form [formGroup]="verificationForm" (ngSubmit)="onClickDone(verificationForm.value)">
+  <form [formGroup]="verificationForm">
     <div class="form-group">
       <label>Indicator</label>
       <input type="text" formControlName="indicator" class="form-control" placeholder="{{indicator}}">
@@ -19,9 +19,9 @@
       <input type="number" formControlName="unitFee" class="form-control" placeholder="{{unitFee}}">
     </div>
     <div class="form-group">
-        <label>Torelance Rate</label>
+        <label>Tolerance Rate</label>
         <div class="input-group">
-        <input type="number" formControlName="torelanceRate" class="form-control" placeholder="{{torelanceRate}}">
+        <input type="number" formControlName="toleranceRate" class="form-control" placeholder="{{toleranceRate}}">
         <div class="input-group-append">
             <span class="input-group-text">%</span>
           </div>
@@ -29,7 +29,7 @@
     </div>
     <div class="row">
       <div class="form-group form-check col col-10">
-        <input type="submit" class="btn btn-primary" value="Done">
+        <button type="submit" class="btn btn-primary" (click)="onClickDone(verificationForm.value)">Done</button>
       </div>
       <div class="form-group form-check col col-2">
         <button type="submit" class="btn btn-primary" (click)="onClickAdd(verificationForm.value)">Add</button>

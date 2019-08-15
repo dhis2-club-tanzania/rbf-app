@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
+import { VerificationConfiguration } from '../../models/verification-configuration.model';
 
 @Component({
   selector: 'app-verification',
@@ -10,10 +11,10 @@ export class VerificationComponent implements OnInit {
   verificationForm;
   indicator = 'Enter indicator';
   dataElement;
-  torelanceRate = 'Enter torelance rate in percentage';
+  toleranceRate = 'Enter tolerance rate in percentage';
   unitFee = 'Enter unit fee';
   dataElements = ['First data element', 'Second Data Element', 'Etc ...'];
-  formDataArray = [];
+  formDataArray: VerificationConfiguration[] = [];
 
   constructor() { }
 
@@ -22,15 +23,31 @@ export class VerificationComponent implements OnInit {
       indicator: new FormControl(),
       dataElement: new FormControl('[Select Data Element]'),
       unitFee: new FormControl(),
-      torelanceRate: new FormControl(),
+      toleranceRate: new FormControl(),
     });
   }
 
   onClickDone(data) {
-    console.log('Clicked');
+    this.formDataArray.push(
+      {
+        indicator: data.indicator,
+        dataElement: {id: 'kjdfjdjk',
+        name: data.dataElement},
+        unitFee: data.unitFee,
+        toleranceRate: data.toleranceRate,
+      });
+    console.log(this.formDataArray);
   }
 
   onClickAdd(data) {
-    console.log('Clicked');
+    this.formDataArray.push(
+      {
+        indicator: data.indicator,
+        dataElement: {id: 'kjdfjdjk',
+        name: data.dataElement},
+        unitFee: data.unitFee,
+        toleranceRate: data.toleranceRate,
+      });
+    console.log(this.formDataArray);
   }
 }
