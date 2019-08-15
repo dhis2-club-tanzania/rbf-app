@@ -9,17 +9,32 @@ import { FormGroup, FormControl } from '@angular/forms';
 export class AssessmentComponent implements OnInit {
 
   assessmentForm;
-  indicator;
-  possibleMaximumValue;
-  dataElement = ['First data element', 'Second Data Element', 'Etc ...'];
+  indicator = 'Enter indicator';
+  dataElement;
+  possibleMaximumValue = 'Enter the possible maximum value';
+  dataElements = ['First data element', 'Second Data Element', 'Etc ...'];
+  formDataArray = [];
 
   constructor() { }
 
   ngOnInit() {
     this.assessmentForm = new FormGroup({
       indicator: new FormControl(),
-      possibleMaximumValue: new FormControl(),
+      dataElement: new FormControl(),
+      possibleMaxValue: new FormControl(),
     });
+  }
+
+  onClickDone(data) {
+    this.indicator = data.indicator;
+    this.dataElement = data.dataElement;
+    this.possibleMaximumValue = data.possibleMaxValue;
+    this.formDataArray.push(data.indicator, data.dataElement, data.possibleMaxValue);
+    console.log(this.formDataArray);
+  }
+  onClickAdd(data) {
+    this.formDataArray.push(data.indicator, data.dataElement, data.possibleMaxValue);
+    console.log(this.formDataArray);
   }
 
 }

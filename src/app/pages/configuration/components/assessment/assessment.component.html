@@ -2,28 +2,28 @@
     <div class="card-header">
         Assessment Configurations
       </div>
-  <form [formGroup]="assessmentForm">
+  <form [formGroup]="assessmentForm" (ngSubmit)="onClickDone(assessmentForm.value)">
     <div class="form-group">
       <label>Indicator</label>
-      <input type="text" class="form-control" placeholder="Enter indicator">
+      <input type="text" formControlName="indicator" class="form-control" placeholder="{{indicator}}">
     </div>
     <div class="form-group">
         <label>Data Element</label>
-        <select class="custom-select">
+        <select class="custom-select" formControlName="dataElement">
             <option selected>[Select Data Element]</option>
-            <option *ngFor="let option of dataElement; let i=index" value="i">{{option}}</option>
+            <option *ngFor="let option of dataElements; let i=index" value="{{i}}">{{option}}</option>
           </select>
       </div>
     <div class="form-group">
       <label>Possible Maximum Value</label>
-      <input type="number" class="form-control" placeholder="Enter possible maximum vallue">
+      <input type="number" formControlName="possibleMaxValue" class="form-control" placeholder="{{possibleMaximumValue}}">
     </div>
     <div class="row">
       <div class="form-group form-check col-6">
         <input type="submit" class="btn btn-primary" value="Done">
       </div>
       <div class="form-group form-check col-6">
-        <button type="submit" class="btn btn-primary">Next</button>
+        <button type="submit" class="btn btn-primary" (click)="onClickAdd(assessmentForm.value)">Add</button>
       </div>
     </div>
   </form>
