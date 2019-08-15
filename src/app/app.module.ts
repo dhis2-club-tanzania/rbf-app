@@ -25,6 +25,7 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 
 import { NgxDhis2MenuModule } from '@iapps/ngx-dhis2-menu';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { ReactiveFormsModule } from '@angular/forms';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -37,6 +38,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     BrowserModule,
     HttpClientModule,
     RoutingModule,
+    ReactiveFormsModule,
     CoreModule.forRoot({
       namespace: 'iapps',
       version: 1,
