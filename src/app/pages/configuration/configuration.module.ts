@@ -6,8 +6,16 @@ import { ReactiveFormsModule } from '@angular/forms';
 import * as fromConfiguration from './components';
 import { HttpClientModule } from '@angular/common/http';
 
+import { NgxDhis2PeriodFilterModule } from '@iapps/ngx-dhis2-period-filter';
+
 @NgModule({
   declarations: [...fromConfiguration.components],
-  imports: [CommonModule, RoutingModule, HttpClientModule, ReactiveFormsModule]
+  imports: [
+    CommonModule,
+    RoutingModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+    NgxDhis2PeriodFilterModule
+  ]
 })
 export class ConfigurationModule {}
