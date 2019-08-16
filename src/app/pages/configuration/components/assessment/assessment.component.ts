@@ -19,7 +19,6 @@ export class AssessmentComponent implements OnInit {
   indicator = 'Enter indicator';
   dataElement;
   possibleMaximumValue = 'Enter the possible maximum value';
-  dataElements = ['First data element', 'Second Data Element', 'Etc ...'];
   formDataArray: AssessmentConfiguration[] = [];
 
   constructor(private store: Store<State>) {}
