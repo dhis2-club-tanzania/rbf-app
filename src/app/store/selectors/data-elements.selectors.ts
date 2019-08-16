@@ -7,7 +7,7 @@ export const getDataElementsState = createSelector(
   (state: State) => state.dataElements
 );
 
-export const getAllDataSets = createSelector(
+export const getAllDataElements = createSelector(
   getDataElementsState,
   (state: DataElementsState) => state.dataElements
 );

@@ -3,16 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { VerificationComponent } from './verification.component';
 import { ReactiveFormsModule } from '@angular/forms';
 
+import { reducers, metaReducers } from 'src/app/store/reducers';
+import { StoreModule } from '@ngrx/store';
+
 describe('VerificationComponent', () => {
   let component: VerificationComponent;
   let fixture: ComponentFixture<VerificationComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ VerificationComponent ],
-      imports: [ReactiveFormsModule]
-    })
-    .compileComponents();
+      declarations: [VerificationComponent],
+      imports: [
+        ReactiveFormsModule,
+        StoreModule.forRoot(reducers, { metaReducers })
+      ]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

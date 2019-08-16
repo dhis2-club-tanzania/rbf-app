@@ -1,29 +1,55 @@
 <div>
-    <div class="card-header">
-        Assessment Configurations
-      </div>
+  <div class="card-header">
+    Assessment Configurations
+  </div>
   <form [formGroup]="assessmentForm">
     <div class="form-group">
       <label>Indicator</label>
-      <input type="text" formControlName="indicator" class="form-control" placeholder="{{indicator}}">
+      <input
+        type="text"
+        formControlName="indicator"
+        class="form-control"
+        placeholder="{{ indicator }}"
+      />
     </div>
     <div class="form-group">
-        <label>Data Element</label>
-        <select class="custom-select" formControlName="dataElement">
-            <option>[Select Data Element]</option>
-            <option *ngFor="let option of dataElements; let i=index" value="{{i}}">{{option}}</option>
-          </select>
-      </div>
+      <label>Data Element</label>
+      <select class="custom-select" formControlName="dataElement">
+        <option>[Select Data Element]</option>
+        <option
+          *ngFor="let option of dataElements$ | async; let i = index"
+          value="{{ option.id }}"
+          >{{ option.name }}</option
+        >
+      </select>
+    </div>
     <div class="form-group">
       <label>Possible Maximum Value</label>
-      <input type="number" formControlName="possibleMaxValue" class="form-control" placeholder="{{possibleMaximumValue}}">
+      <input
+        type="number"
+        formControlName="possibleMaxValue"
+        class="form-control"
+        placeholder="{{ possibleMaximumValue }}"
+      />
     </div>
     <div class="row">
       <div class="form-group form-check col col-10">
-          <button type="submit" class="btn btn-primary" (click)="onClickDone(assessmentForm.value)">Done</button>
+        <button
+          type="submit"
+          class="btn btn-primary"
+          (click)="onClickDone(assessmentForm.value)"
+        >
+          Done
+        </button>
       </div>
       <div class="form-group form-check  col col-2">
-        <button type="submit" class="btn btn-primary" (click)="onClickAdd(assessmentForm.value)">Add</button>
+        <button
+          type="submit"
+          class="btn btn-primary"
+          (click)="onClickAdd(assessmentForm.value)"
+        >
+          Add
+        </button>
       </div>
     </div>
   </form>
