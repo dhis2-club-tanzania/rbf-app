@@ -14,10 +14,10 @@ export const routes: Routes = [
   //   path: 'budget',
   //   loadChildren: './pages/budget/budget.module#BudgetModule'
   // },
-  // {
-  //   path: 'verification',
-  //   loadChildren: './pages/verification/verification.module#VerificationModule'
-  // },
+  {
+    path: 'verification',
+    loadChildren: './pages/verification/verification.module#VerificationModule'
+  },
   // {
   //   path: 'report',
   //   loadChildren: './pages/report/report.module#ReportModule'
