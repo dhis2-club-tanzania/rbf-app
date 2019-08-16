@@ -10,7 +10,7 @@ import {
 import { of } from 'rxjs';
 
 @Injectable()
-export class DataElementsEffect {
+export class DataElementsEffects {
   constructor(
     private dataElementsService: DataElementsService,
     private actions$: Actions
