@@ -51,6 +51,6 @@ export class VerificationComponent implements OnInit {
       unitFee: data.unitFee,
       toleranceRate: data.toleranceRate
     });
-    console.log(this.formDataArray);
+    console.log(data);
   }
 }

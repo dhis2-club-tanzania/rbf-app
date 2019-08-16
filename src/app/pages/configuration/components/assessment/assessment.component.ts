@@ -6,7 +6,6 @@ import { DataElementList } from '../../models/data-element.model';
 import { Observable } from 'rxjs';
 import { getAllDataElements } from 'src/app/store/selectors';
 import { State } from 'src/app/store/reducers';
-import { updateConfiguration } from 'src/app/store/actions';
 
 @Component({
   selector: 'app-assessment',
@@ -40,7 +39,6 @@ export class AssessmentComponent implements OnInit {
       possibleMaxValue: data.possibleMaxValue
     });
     console.log(this.formDataArray);
-    // this.store.dispatch(updateConfiguration({configuration: }));
   }
   onClickAdd(data) {
     this.formDataArray.push({
@@ -48,6 +46,6 @@ export class AssessmentComponent implements OnInit {
       dataElementId: data.dataElement,
       possibleMaxValue: data.possibleMaxValue
     });
-    console.log(this.formDataArray);
+    console.log(data);
   }
 }
