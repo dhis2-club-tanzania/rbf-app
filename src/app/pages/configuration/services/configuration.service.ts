@@ -11,17 +11,13 @@ import { Configuration } from '../models/configuration.model';
 export class ConfigurationService {
   dataStoreUrl: string;
   constructor(private httpService: NgxDhis2HttpClientService) {
-    this.dataStoreUrl = 'dataStore/RBF-config';
+    this.dataStoreUrl = 'dataStore/RBF/config';
   }
 
-  /**
-   *
-   * @param configType type of configurations
-   */
-  getConfiguration(configType: string): any {
+  getConfiguration(): any {
     return this.httpService.get(this.dataStoreUrl).pipe(
       switchMap((configurations: string[]) =>
-        this.httpService.get(`${this.dataStoreUrl}/${configType}`)
+        this.httpService.get(`${this.dataStoreUrl}`)
       ),
       catchError(error => {
         if (error.status !== 404) {
@@ -29,47 +25,31 @@ export class ConfigurationService {
         }
 
         const configObject: Configuration = {
-          configurationType: configType,
-          configurations: []
+          name: 'config',
+          assessment: [],
+          verification: []
         };
 
         this.httpService
-          .post(
-            `${this.dataStoreUrl}/${configObject.configurationType}`,
-            configObject
-          )
-          .pipe(map(() => [configObject]));
+          .post(`${this.dataStoreUrl}/`, configObject)
+          .pipe(map(() => configObject));
       })
     );
   }
 
   /**
    *
-   * @param configType type of configuration
    * @param configurations updated configuration object
    */
-  updateConfiguration(
-    configType: string,
-    updatedConfigurations: Configuration
-  ): any {
-    return this.httpService.put(
-      `${this.dataStoreUrl}/${configType}`,
-      updatedConfigurations
-    );
+  updateConfiguration(updatedConfigurations: Configuration): any {
+    return this.httpService.put(`${this.dataStoreUrl}`, updatedConfigurations);
   }
 
   /**
    *
-   * @param configType type of configuration
    * @param configurations configuration object
    */
-  createConfiguration(
-    configType: string,
-    createdConfigurations: Configuration
-  ): any {
-    return this.httpService.post(
-      `${this.dataStoreUrl}/${configType}`,
-      createdConfigurations
-    );
+  createConfiguration(createdConfigurations: Configuration): any {
+    return this.httpService.post(`${this.dataStoreUrl}`, createdConfigurations);
   }
 }
