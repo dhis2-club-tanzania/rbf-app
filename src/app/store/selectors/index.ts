@@ -2,4 +2,5 @@ export * from './router.selectors';
 export * from './system-info.selectors';
 export * from './user.selectors';
 export * from './data-elements.selectors';
-export * from './configurations.selectors';
+export * from './assessment-configuration.selectors';
+export * from './veification-configuration.selectors';

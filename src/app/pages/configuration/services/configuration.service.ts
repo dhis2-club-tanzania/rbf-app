@@ -11,27 +11,27 @@ import { Configuration } from '../models/configuration.model';
 export class ConfigurationService {
   dataStoreUrl: string;
   constructor(private httpService: NgxDhis2HttpClientService) {
-    this.dataStoreUrl = 'dataStore/RBF/config';
+    this.dataStoreUrl = 'dataStore/RBF';
   }
 
-  getConfiguration(): Observable<any> {
+  getConfiguration(configType: string): Observable<any> {
     return this.httpService.get(this.dataStoreUrl).pipe(
-      switchMap(() => this.httpService.get(`${this.dataStoreUrl}`)),
+      switchMap(() =>
+        this.httpService.get(`${this.dataStoreUrl}/${configType}`)
+      ),
       catchError(error => {
         return throwError(error);
       })
     );
   }
 
-  createDefaultConfig(): Observable<any> {
-    const configObject: Configuration = {
-      name: 'config',
-      assessment: [],
-      verification: []
+  createDefaultConfig(configType: string): Observable<any> {
+    const configObject = {
+      config: []
     };
 
     return this.httpService
-      .post(`${this.dataStoreUrl}/`, configObject)
+      .post(`${this.dataStoreUrl}/${configType}`, configObject)
       .pipe(map(() => configObject));
   }
 
@@ -39,15 +39,27 @@ export class ConfigurationService {
    *
    * @param configurations updated configuration object
    */
-  updateConfiguration(updatedConfigurations: Configuration): Observable<any> {
-    return this.httpService.put(`${this.dataStoreUrl}`, updatedConfigurations);
+  updateConfiguration(
+    configType: string,
+    updatedConfigurations: Configuration
+  ): Observable<any> {
+    return this.httpService.put(
+      `${this.dataStoreUrl}/${configType}`,
+      updatedConfigurations
+    );
   }
 
   /**
    *
    * @param configurations configuration object
    */
-  createConfiguration(createdConfigurations: Configuration): Observable<any> {
-    return this.httpService.post(`${this.dataStoreUrl}`, createdConfigurations);
+  createConfiguration(
+    configType: string,
+    createdConfigurations: Configuration
+  ): Observable<any> {
+    return this.httpService.post(
+      `${this.dataStoreUrl}/${configType}`,
+      createdConfigurations
+    );
   }
 }
