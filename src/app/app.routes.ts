@@ -18,10 +18,10 @@ export const routes: Routes = [
     path: 'verification',
     loadChildren: './pages/verification/verification.module#VerificationModule'
   },
-  // {
-  //   path: 'report',
-  //   loadChildren: './pages/report/report.module#ReportModule'
-  // },
+  {
+    path: 'report',
+    loadChildren: './pages/report/report.module#ReportModule'
+  },
   {
     path: 'configuration',
     loadChildren: './pages/configuration/configuration.module#ConfigurationModule'
