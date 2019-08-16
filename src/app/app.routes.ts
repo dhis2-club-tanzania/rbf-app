@@ -10,10 +10,10 @@ export const routes: Routes = [
     path: 'assessment',
     loadChildren: './pages/assessment/assessment.module#AssessmentModule'
   },
-  // {
-  //   path: 'budget',
-  //   loadChildren: './pages/budget/budget.module#BudgetModule'
-  // },
+  {
+    path: 'budget',
+    loadChildren: './pages/budget/budget.module#BudgetModule'
+  },
   {
     path: 'verification',
     loadChildren: './pages/verification/verification.module#VerificationModule'
