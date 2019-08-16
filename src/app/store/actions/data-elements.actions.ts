@@ -1,10 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { ErrorMessage } from 'src/app/core';
-
-export interface DataElement {
-  id: string;
-  name: string;
-}
+import { DataElementList } from 'src/app/pages/configuration/models/data-element.model';
 
 export const loadDataElements = createAction(
   '[DATA ELEMENTS] load Data Elements'
@@ -12,7 +8,7 @@ export const loadDataElements = createAction(
 
 export const loadDataElementsSuccess = createAction(
   '[DATA ELEMENTS] load Data Elements success',
-  props<{ dataElements: DataElement[] }>()
+  props<{ dataElements: DataElementList[] }>()
 );
 
 export const loadDataElementsFail = createAction(
