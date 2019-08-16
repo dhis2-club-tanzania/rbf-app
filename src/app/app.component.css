@@ -7,3 +7,12 @@ a{
 .btn{
   float: right;
 }
+.page-link{
+  line-height: 1.5;
+  border: none;
+  background-color: transparent;
+}
+.router-link-active{
+  background: rgb(21, 119, 248);
+  color: white;
+}
