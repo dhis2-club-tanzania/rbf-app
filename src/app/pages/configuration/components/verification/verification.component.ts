@@ -37,18 +37,17 @@ export class VerificationComponent implements OnInit {
   onClickDone(data) {
     this.formDataArray.push({
       indicator: data.indicator,
-      dataElement: { id: 'kjdfjdjk', name: data.dataElement },
+      dataElementId: data.dataElement,
       unitFee: data.unitFee,
       toleranceRate: data.toleranceRate
     });
     console.log(this.formDataArray);
   }
 
-  // TODO add the id and name of selected Data Element
   onClickAdd(data) {
     this.formDataArray.push({
       indicator: data.indicator,
-      dataElement: { id: 'kjdfjdjk', name: data.dataElement },
+      dataElementId: data.dataElement,
       unitFee: data.unitFee,
       toleranceRate: data.toleranceRate
     });

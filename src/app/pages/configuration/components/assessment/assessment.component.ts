@@ -35,11 +35,10 @@ export class AssessmentComponent implements OnInit {
   // TODO add the id and name of selected Data Element
   onClickDone(data) {
     this.indicator = data.indicator;
-    this.dataElement = data.dataElement;
     this.possibleMaximumValue = data.possibleMaxValue;
     this.formDataArray.push({
       indicator: data.indicator,
-      dataElement: { id: 'kjdfjdjk', name: data.dataElement },
+      dataElementId: data.dataElement,
       possibleMaxValue: data.possibleMaxValue
     });
     console.log(this.formDataArray);
@@ -47,7 +46,7 @@ export class AssessmentComponent implements OnInit {
   onClickAdd(data) {
     this.formDataArray.push({
       indicator: data.indicator,
-      dataElement: { id: 'kjdfjdjk', name: data.dataElement },
+      dataElementId: data.dataElement,
       possibleMaxValue: data.possibleMaxValue
     });
     console.log(this.formDataArray);

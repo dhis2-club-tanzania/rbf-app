@@ -1,6 +1,6 @@
 export interface VerificationConfiguration {
   indicator: string;
-  dataElement: { id: string; name: string };
+  dataElementId: string;
   unitFee: number;
   toleranceRate: number;
 }

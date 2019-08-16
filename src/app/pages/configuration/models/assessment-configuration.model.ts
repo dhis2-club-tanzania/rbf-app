@@ -1,5 +1,5 @@
 export interface AssessmentConfiguration {
   indicator: string;
-  dataElement: { id: string; name: string };
+  dataElementId: string;
   possibleMaxValue: number;
 }
