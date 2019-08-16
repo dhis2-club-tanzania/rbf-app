@@ -25,3 +25,7 @@ export const updateConfigurationFail = createAction(
   '[CONFIGURATION] Update Configurations',
   props<{ error: ErrorMessage }>()
 );
+
+export const addDefaultConfiguration = createAction(
+  '[CONFIGURATION] add Default Configuration'
+);

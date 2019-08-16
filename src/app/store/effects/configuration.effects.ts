@@ -8,7 +8,8 @@ import {
   loadConfigurationsSuccess,
   loadConfigurationsFail,
   updateConfiguration,
-  updateConfigurationSuccess
+  updateConfigurationSuccess,
+  addDefaultConfiguration
 } from '../actions';
 import { ConfigurationService } from 'src/app/pages/configuration/services/configuration.service';
 
@@ -18,10 +19,6 @@ export class ConfigurationEffects {
     private configServices: ConfigurationService,
     private actions$: Actions
   ) {}
-
-  // loadingConfigurations$ = createEffect(() =>
-  //   this.actions$.pipe(ofType(addSystemInfo))
-  // );
 
   loadConfiguratons$ = createEffect(() =>
     this.actions$.pipe(
@@ -35,7 +32,13 @@ export class ConfigurationEffects {
             )
           )
       ),
-      catchError(error => of(loadConfigurationsFail({ error: error })))
+      catchError(error => {
+        if (error.status === 404) {
+          return of(addDefaultConfiguration());
+        } else {
+          of(loadConfigurationsFail({ error: error }));
+        }
+      })
     )
   );
 
@@ -49,6 +52,20 @@ export class ConfigurationEffects {
             map(configurations =>
               updateConfigurationSuccess({ configuration: configurations })
             )
+          )
+      ),
+      catchError(error => of(loadConfigurationsFail({ error: error })))
+    )
+  );
+
+  addDefaultConfiguration$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(addDefaultConfiguration),
+      switchMap(() =>
+        this.configServices
+          .createDefaultConfig()
+          .pipe(
+            map(config => loadConfigurationsSuccess({ configuration: config }))
           )
       ),
       catchError(error => of(loadConfigurationsFail({ error: error })))
