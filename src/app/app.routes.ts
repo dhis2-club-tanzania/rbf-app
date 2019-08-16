@@ -6,10 +6,10 @@ export const routes: Routes = [
     pathMatch: 'full',
     redirectTo: 'configuration'
   },
-  // {
-  //   path: 'assessment',
-  //   loadChildren: './pages/assessment/assessment.module#AssessmentModule'
-  // },
+  {
+    path: 'assessment',
+    loadChildren: './pages/assessment/assessment.module#AssessmentModule'
+  },
   // {
   //   path: 'budget',
   //   loadChildren: './pages/budget/budget.module#BudgetModule'
