@@ -4,6 +4,6 @@
 .router-link-active{
   background: rgb(21, 119, 248);
   color: white;
-  border-bottom-right-radius: 5px;
-  border-top-right-radius: 5px;
+  border-bottom-right-radius: 55px;
+  border-top-right-radius: 55px;
 }
