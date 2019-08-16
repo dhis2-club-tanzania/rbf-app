@@ -13,7 +13,7 @@ a{
   background-color: transparent;
 }
 .router-link-active{
-  background: rgb(21, 119, 248);
+  background-color: rgb(39, 102, 150);
   color: white;
   border-radius: 2px;
 }

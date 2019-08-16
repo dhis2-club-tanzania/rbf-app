@@ -2,7 +2,7 @@
   margin: 5px;
 }
 .router-link-active{
-  background: rgb(21, 119, 248);
+  background-color: rgb(39, 102, 150);
   color: white;
   border-bottom-right-radius: 55px;
   border-top-right-radius: 55px;
