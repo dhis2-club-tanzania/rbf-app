@@ -13,6 +13,10 @@ export const routes: Routes = [
     component: ConfigurationComponent,
     children: [
       {
+        path: '',
+        redirectTo: 'configurationslist'
+      },
+      {
         path: 'assessment',
         component: AssessmentComponent
       },
