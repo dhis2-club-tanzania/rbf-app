@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { VerificationConfiguration } from '../../models/verification-configuration.model';
 import { Store } from '@ngrx/store';
 import { State } from 'src/app/store/reducers';
 import { Observable } from 'rxjs';
 import { DataElementList } from '../../models/data-element.model';
 import { getAllDataElements } from 'src/app/store/selectors';
+import { updateVerificationConfigurations } from 'src/app/store/actions';
 
 @Component({
   selector: 'app-verification',
@@ -17,7 +18,7 @@ export class VerificationComponent implements OnInit {
 
   verificationForm;
   indicator = 'Enter indicator';
-  dataElement;
+  dataElement = '[Select Data Element]';
   toleranceRate = 'Enter tolerance rate in percentage';
   unitFee = 'Enter unit fee';
   formDataArray: VerificationConfiguration[] = [];
@@ -28,9 +29,9 @@ export class VerificationComponent implements OnInit {
     this.dataElements$ = this.store.select(getAllDataElements);
     this.verificationForm = new FormGroup({
       indicator: new FormControl(),
-      dataElement: new FormControl('[Select Data Element]'),
-      unitFee: new FormControl(),
-      toleranceRate: new FormControl()
+      dataElement: new FormControl('[Select Data Element]', Validators.required),
+      unitFee: new FormControl(Validators.required),
+      toleranceRate: new FormControl(Validators.required)
     });
   }
 
@@ -42,6 +43,7 @@ export class VerificationComponent implements OnInit {
       toleranceRate: data.toleranceRate
     });
     console.log(this.formDataArray);
+    this.store.dispatch(updateVerificationConfigurations({configuration: this.formDataArray}));
   }
 
   onClickAdd(data) {
@@ -52,5 +54,6 @@ export class VerificationComponent implements OnInit {
       toleranceRate: data.toleranceRate
     });
     console.log(data);
+    this.verificationForm.reset();
   }
 }

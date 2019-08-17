@@ -17,7 +17,7 @@
       <select class="custom-select" formControlName="dataElement">
         <option selected>[Select Data Element]</option>
         <option
-          *ngFor="let option of dataElements$ | async; let i = index"
+          *ngFor="let option of dataElements$ | async"
           value="{{ option.id }}"
           >{{ option.name }}</option
         >

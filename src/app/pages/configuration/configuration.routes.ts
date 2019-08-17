@@ -4,7 +4,6 @@ import { AssessmentComponent } from './components/assessment/assessment.componen
 import { VerificationComponent } from './components/verification/verification.component';
 import { BudgetComponent } from './components/budget/budget.component';
 import { GeneralComponent } from './components/general/general.component';
-import { ConfigurationListComponent } from './components/configuration-list/configuration-list.component';
 import { ConfigurationComponent } from './components/configuration/configuration.component';
 
 export const routes: Routes = [
@@ -14,7 +13,7 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'configurationslist'
+        redirectTo: 'general'
       },
       {
         path: 'assessment',
@@ -27,10 +26,6 @@ export const routes: Routes = [
       {
         path: 'budget',
         component: BudgetComponent
-      },
-      {
-        path: 'configurationslist',
-        component: ConfigurationListComponent
       },
       {
         path: 'general',
