@@ -7,6 +7,8 @@ export interface AssessmentConfigurationState
     EntityState<AssessmentConfiguration> {
   updating: boolean;
   updated: boolean;
+  deleting: boolean;
+  deleted: boolean;
 }
 
 export function sortByIndicator(
@@ -31,7 +33,9 @@ export const initialConfigurationState: AssessmentConfigurationState = adapter.g
   {
     ...initialBaseState,
     updated: false,
-    updating: false
+    updating: false,
+    deleting: false,
+    deleted: false
   }
 );
 

@@ -7,6 +7,8 @@ export interface VerificationConfigurationState
     EntityState<VerificationConfiguration> {
   updating: boolean;
   updated: boolean;
+  deleting: boolean;
+  deleted: boolean;
 }
 
 export function sortByIndicator(
@@ -30,7 +32,9 @@ export const initialConfigurationState: VerificationConfigurationState = adapter
   {
     ...initialBaseState,
     updated: false,
-    updating: false
+    updating: false,
+    deleted: false,
+    deleting: false
   }
 );
 export const {
