@@ -1,31 +1,54 @@
 import { createAction, props } from '@ngrx/store';
+import { Update } from '@ngrx/entity';
 import { ErrorMessage } from 'src/app/core';
 import { VerificationConfiguration } from 'src/app/pages/configuration/models/verification-configuration.model';
+
 export const loadVerificationConfigurations = createAction(
   '[CONFIGURATION] Load Configuration'
 );
-export const loadVerificationConfigurationsFail = createAction(
+export const loadVerificationConfigurationFail = createAction(
   '[CONFIGURATION] Load Verification Configuration fail',
   props<{ error: ErrorMessage }>()
 );
-export const loadVerificationConfigurationsSuccess = createAction(
+export const loadVerificationConfigurationSuccess = createAction(
   '[CONFIGURATION] Load Verification Configuration success',
-  props<{ configuration: VerificationConfiguration[] }>()
+  props<{ configuration: VerificationConfiguration }>()
 );
 
-export const updateVerificationConfigurations = createAction(
-  '[CONFIGURATION] Update Verification Configurations',
-  props<{ configuration: VerificationConfiguration[] }>()
+export const addVerificationConfiguration = createAction(
+  '[CONFIGURATION] add Verification Configuration',
+  props<{ configuration: VerificationConfiguration }>()
 );
-export const updateVerificationConfigurationsSuccess = createAction(
-  '[CONFIGURATION] Update Verification Configurations',
-  props<{ configuration: VerificationConfiguration[] }>()
+export const addVerificationConfigurationSuccess = createAction(
+  '[CONFIGURATION] add Verification Configuration Success',
+  props<{ configuration: VerificationConfiguration }>()
 );
-export const updateVerificationConfigurationsFail = createAction(
-  '[CONFIGURATION] Update Verification Configurations',
+export const addVerificationConfigurationFail = createAction(
+  '[CONFIGURATION] add Verification Configuration Fail',
+  props<{ error: ErrorMessage }>()
+);
+export const updateVerificationConfiguration = createAction(
+  '[CONFIGURATION] Update Verification Configuration',
+  props<{ configuration: VerificationConfiguration }>()
+);
+export const updateVerificationConfigurationSuccess = createAction(
+  '[CONFIGURATION] Update Verification Configurations Success',
+  props<{ configuration: Update<VerificationConfiguration> }>()
+);
+export const updateVerificationConfigurationFail = createAction(
+  '[CONFIGURATION] Update Verification Configuration Fail',
   props<{ error: ErrorMessage }>()
 );
 
-export const addDefaultVerificationConfigurations = createAction(
-  '[CONFIGURATION] add Default Verification Configuration'
+export const deleteVerificationConfiguration = createAction(
+  '[CONFIGURATION] delete Verification Configuration',
+  props<{ configuration: VerificationConfiguration }>()
+);
+export const deleteVerificationConfigurationSuccess = createAction(
+  '[CONFIGURATION] delete Verification Configuration success',
+  props<{ configuration: VerificationConfiguration }>()
+);
+export const deleteVerificationConfigurationFail = createAction(
+  '[CONFIGURATION] delete Verification Configuration fail',
+  props<{ error: ErrorMessage }>()
 );
