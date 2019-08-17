@@ -42,11 +42,11 @@ export const updateVerificationConfigurationFail = createAction(
 
 export const deleteVerificationConfiguration = createAction(
   '[CONFIGURATION] delete Verification Configuration',
-  props<{ configuration: VerificationConfiguration }>()
+  props<{ id: string }>()
 );
 export const deleteVerificationConfigurationSuccess = createAction(
   '[CONFIGURATION] delete Verification Configuration success',
-  props<{ configuration: VerificationConfiguration }>()
+  props<{ id: string }>()
 );
 export const deleteVerificationConfigurationFail = createAction(
   '[CONFIGURATION] delete Verification Configuration fail',

@@ -6,12 +6,11 @@ import { of } from 'rxjs';
 import { ConfigurationService } from 'src/app/pages/configuration/services/configuration.service';
 import {
   addSystemInfo,
-  loadVerificationConfigurationsSuccess,
-  addDefaultVerificationConfigurations,
-  loadVerificationConfigurationsFail,
-  updateVerificationConfigurations,
-  updateVerificationConfigurationsFail,
-  updateVerificationConfigurationsSuccess
+  loadVerificationConfigurationSuccess,
+  loadVerificationConfigurationFail,
+  updateVerificationConfiguration,
+  updateVerificationConfigurationFail,
+  updateVerificationConfigurationSuccess
 } from '../actions';
 
 @Injectable()
