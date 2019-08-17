@@ -21,63 +21,63 @@ export class VerificationConfigurationEffects {
     private actions$: Actions
   ) {}
 
-  loadConfiguratons$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(addSystemInfo),
-      switchMap(() =>
-        this.configServices.getConfiguration('verification').pipe(
-          map(configurations =>
-            loadVerificationConfigurationsSuccess({
-              configuration: configurations
-            })
-          )
-        )
-      ),
-      catchError(error => {
-        if (error.status === 404) {
-          return of(addDefaultVerificationConfigurations());
-        } else {
-          of(loadVerificationConfigurationsFail({ error: error }));
-        }
-      })
-    )
-  );
+  // loadConfiguratons$ = createEffect(() =>
+  //   this.actions$.pipe(
+  //     ofType(addSystemInfo),
+  //     switchMap(() =>
+  //       this.configServices.getConfiguration('verification').pipe(
+  //         map(configurations =>
+  //           loadVerificationConfigurationsSuccess({
+  //             configuration: configurations
+  //           })
+  //         )
+  //       )
+  //     ),
+  //     catchError(error => {
+  //       if (error.status === 404) {
+  //         return of(addDefaultVerificationConfigurations());
+  //       } else {
+  //         of(loadVerificationConfigurationsFail({ error: error }));
+  //       }
+  //     })
+  //   )
+  // );
 
-  updateConfigurations$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(updateVerificationConfigurations),
-      switchMap((action: any) =>
-        this.configServices
-          .updateConfiguration('verification', action.configuration)
-          .pipe(
-            map(configurations =>
-              updateVerificationConfigurationsSuccess({
-                configuration: configurations
-              })
-            )
-          )
-      ),
-      catchError(error =>
-        of(updateVerificationConfigurationsFail({ error: error }))
-      )
-    )
-  );
+  // updateConfigurations$ = createEffect(() =>
+  //   this.actions$.pipe(
+  //     ofType(updateVerificationConfigurations),
+  //     switchMap((action: any) =>
+  //       this.configServices
+  //         .updateConfiguration('verification', action.configuration)
+  //         .pipe(
+  //           map(configurations =>
+  //             updateVerificationConfigurationsSuccess({
+  //               configuration: configurations
+  //             })
+  //           )
+  //         )
+  //     ),
+  //     catchError(error =>
+  //       of(updateVerificationConfigurationsFail({ error: error }))
+  //     )
+  //   )
+  // );
 
-  addDefaultConfiguration$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(addDefaultVerificationConfigurations),
-      switchMap(() =>
-        this.configServices
-          .createDefaultConfig('verification')
-          .pipe(
-            map(config =>
-              loadVerificationConfigurationsSuccess({ configuration: config })
-            )
-          )
-      ),
-      catchError(error =>
-        of(loadVerificationConfigurationsFail({ error: error }))
-      )
-    )
-  );
+  // addDefaultConfiguration$ = createEffect(() =>
+  //   this.actions$.pipe(
+  //     ofType(addDefaultVerificationConfigurations),
+  //     switchMap(() =>
+  //       this.configServices
+  //         .createDefaultConfig('verification')
+  //         .pipe(
+  //           map(config =>
+  //             loadVerificationConfigurationsSuccess({ configuration: config })
+  //           )
+  //         )
+  //     ),
+  //     catchError(error =>
+  //       of(loadVerificationConfigurationsFail({ error: error }))
+  //     )
+  //   )
+  // );
 }

@@ -20,7 +20,7 @@ export class VerificationComponent implements OnInit {
   dataElement;
   toleranceRate = 'Enter tolerance rate in percentage';
   unitFee = 'Enter unit fee';
-  formDataArray: VerificationConfiguration[] = [];
+  formDataArray: any[] = [];
 
   constructor(private store: Store<State>) {}
 
@@ -37,7 +37,7 @@ export class VerificationComponent implements OnInit {
   onClickDone(data) {
     this.formDataArray.push({
       indicator: data.indicator,
-      dataElementId: data.dataElement,
+      dataElement: data.dataElement,
       unitFee: data.unitFee,
       toleranceRate: data.toleranceRate
     });
@@ -47,7 +47,7 @@ export class VerificationComponent implements OnInit {
   onClickAdd(data) {
     this.formDataArray.push({
       indicator: data.indicator,
-      dataElementId: data.dataElement,
+      dataElement: data.dataElement,
       unitFee: data.unitFee,
       toleranceRate: data.toleranceRate
     });
