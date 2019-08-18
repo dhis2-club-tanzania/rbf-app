@@ -1,8 +1,11 @@
-import { VerificationConfiguration } from './verification-configuration.model';
-import { AssessmentConfiguration } from './assessment-configuration.model';
-
-export interface Configuration {
-  name: string;
-  assessment: AssessmentConfiguration[];
-  verification: VerificationConfiguration[];
+export interface BaseConfiguration {
+  id?: string;
+  indicator: string;
+  dataElement: string;
+  created: Date;
+  lastUpdate: Date;
+  user: {
+    id: string;
+    name: string;
+  };
 }

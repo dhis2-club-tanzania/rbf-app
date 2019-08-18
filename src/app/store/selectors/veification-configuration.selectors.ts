@@ -1,6 +1,6 @@
 import { createSelector } from '@ngrx/store';
 import { getRootState, State } from '../reducers';
-import { VerificationConfigurationState } from '../states/verification-configuration.state';
+import * as fromConfigState from '../states/verification-configuration.state';
 
 export const getVerificationConfigurationState = createSelector(
   getRootState,
@@ -9,5 +9,5 @@ export const getVerificationConfigurationState = createSelector(
 
 export const getVerificationConfigurations = createSelector(
   getVerificationConfigurationState,
-  (state: VerificationConfigurationState) => state.verificationConfig
+  fromConfigState.selectAllVerificationConfigurations
 );

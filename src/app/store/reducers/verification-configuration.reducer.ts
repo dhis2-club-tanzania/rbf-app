@@ -1,7 +1,8 @@
 import { createReducer, on } from '@ngrx/store';
 import {
   initialConfigurationState,
-  VerificationConfigurationState
+  VerificationConfigurationState,
+  adapter
 } from '../states/verification-configuration.state';
 
 import {
@@ -11,11 +12,14 @@ import {
 } from '../states/base.state';
 import {
   loadVerificationConfigurations,
-  loadVerificationConfigurationsSuccess,
-  loadVerificationConfigurationsFail,
-  updateVerificationConfigurations,
-  updateVerificationConfigurationsSuccess,
-  updateVerificationConfigurationsFail
+  loadVerificationConfigurationSuccess,
+  loadVerificationConfigurationFail,
+  updateVerificationConfiguration,
+  updateVerificationConfigurationSuccess,
+  updateVerificationConfigurationFail,
+  deleteVerificationConfiguration,
+  deleteVerificationConfigurationSuccess,
+  deleteVerificationConfigurationFail
 } from '../actions/verification-configuration.actions';
 
 export const reducer = createReducer(
@@ -24,30 +28,42 @@ export const reducer = createReducer(
     ...state,
     ...loadingBaseState
   })),
-  on(loadVerificationConfigurationsSuccess, (state, { configuration }) => ({
-    ...state,
-    ...loadedBaseState,
-    configurations: configuration
-  })),
-  on(loadVerificationConfigurationsFail, (state, { error }) => ({
+  on(loadVerificationConfigurationSuccess, (state, { configuration }) =>
+    adapter.addOne(configuration, { ...state, ...loadedBaseState })
+  ),
+  on(loadVerificationConfigurationFail, (state, { error }) => ({
     ...state,
     ...errorBaseState,
     error
   })),
-  on(updateVerificationConfigurations, state => ({
+  on(updateVerificationConfiguration, state => ({
     ...state,
     updating: true,
     updated: false
   })),
-  on(updateVerificationConfigurationsSuccess, (state, { configuration }) => ({
+  on(updateVerificationConfigurationSuccess, (state, { configuration }) =>
+    adapter.updateOne(configuration, {
+      ...state,
+      updated: true,
+      updating: false
+    })
+  ),
+  on(updateVerificationConfigurationFail, (state, { error }) => ({
     ...state,
     updating: false,
-    updated: true,
-    configurations: configuration
+    ...errorBaseState,
+    error
   })),
-  on(updateVerificationConfigurationsFail, (state, { error }) => ({
+  on(deleteVerificationConfiguration, (state, { id }) => ({
     ...state,
-    updating: false,
+    deleting: true,
+    deleted: false
+  })),
+  on(deleteVerificationConfigurationSuccess, (state, { id }) =>
+    adapter.removeOne(id, { ...state, deleted: true, deleting: false })
+  ),
+  on(deleteVerificationConfigurationFail, (state, { error }) => ({
+    ...state,
     ...errorBaseState,
     error
   }))
