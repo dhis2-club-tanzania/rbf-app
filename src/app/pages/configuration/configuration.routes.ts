@@ -5,6 +5,7 @@ import { VerificationComponent } from './components/verification/verification.co
 import { BudgetComponent } from './components/budget/budget.component';
 import { GeneralComponent } from './components/general/general.component';
 import { ConfigurationComponent } from './components/configuration/configuration.component';
+import { AssessmentListComponent } from './components/assessment-list/assessment-list.component';
 
 export const routes: Routes = [
   {
@@ -17,6 +18,10 @@ export const routes: Routes = [
       },
       {
         path: 'assessment',
+        component: AssessmentListComponent
+      },
+      {
+        path: 'assessment_configurations',
         component: AssessmentComponent
       },
       {

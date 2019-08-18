@@ -1,0 +1,10 @@
+.add{
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  background: none;
+  background-color: transparent;
+  border: none;
+  color:  rgb(39, 102, 150);
+  font-size: 3rem;
+}
