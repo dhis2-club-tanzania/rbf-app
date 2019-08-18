@@ -1,6 +1,6 @@
-export interface VerificationConfiguration {
-  indicator: string;
-  dataElementId: string;
+import { BaseConfiguration } from './configuration.model';
+
+export interface VerificationConfiguration extends BaseConfiguration {
   unitFee: number;
   toleranceRate: number;
 }

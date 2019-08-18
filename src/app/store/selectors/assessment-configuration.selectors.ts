@@ -1,6 +1,6 @@
 import { createSelector } from '@ngrx/store';
 import { getRootState, State } from '../reducers';
-import { AssessmentConfigurationState } from '../states/assessment-configuration.state';
+import * as fromConfigState from '../states/assessment-configuration.state';
 
 export const getAssessmentConfigurationState = createSelector(
   getRootState,
@@ -9,5 +9,5 @@ export const getAssessmentConfigurationState = createSelector(
 
 export const getAssessmentConfigurations = createSelector(
   getAssessmentConfigurationState,
-  (state: AssessmentConfigurationState) => state.assessmentConfig
+  fromConfigState.selectAllAssessmentConfigurations
 );

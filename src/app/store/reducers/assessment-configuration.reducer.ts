@@ -1,7 +1,8 @@
 import { createReducer, on } from '@ngrx/store';
 import {
   initialConfigurationState,
-  AssessmentConfigurationState
+  AssessmentConfigurationState,
+  adapter
 } from '../states/assessment-configuration.state';
 
 import {
@@ -11,11 +12,14 @@ import {
 } from '../states/base.state';
 import {
   loadAssessmentConfigurations,
-  loadAssessmentConfigurationsSuccess,
-  loadAssessmentConfigurationsFail,
-  updateAssessmenConfiguration,
+  loadAssessmentConfigurationSuccess,
+  loadAssessmentConfigurationFail,
+  updateAssessmentConfiguration,
   updateAssessmentConfigurationSuccess,
-  updateAssessmenConfigurationFail
+  updateAssessmentConfigurationFail,
+  deleteAssessmentConfiguration,
+  deleteAssessmentConfigurationSuccess,
+  deleteAssessmentConfigurationFail
 } from '../actions/assessment-config.actions';
 
 export const reducer = createReducer(
@@ -24,30 +28,42 @@ export const reducer = createReducer(
     ...state,
     ...loadingBaseState
   })),
-  on(loadAssessmentConfigurationsSuccess, (state, { configuration }) => ({
-    ...state,
-    ...loadedBaseState,
-    configurations: configuration
-  })),
-  on(loadAssessmentConfigurationsFail, (state, { error }) => ({
+  on(loadAssessmentConfigurationSuccess, (state, { configuration }) =>
+    adapter.addOne(configuration, { ...state, ...loadedBaseState })
+  ),
+  on(loadAssessmentConfigurationFail, (state, { error }) => ({
     ...state,
     ...errorBaseState,
     error
   })),
-  on(updateAssessmenConfiguration, state => ({
+  on(updateAssessmentConfiguration, state => ({
     ...state,
     updating: true,
     updated: false
   })),
-  on(updateAssessmentConfigurationSuccess, (state, { configuration }) => ({
+  on(updateAssessmentConfigurationSuccess, (state, { configuration }) =>
+    adapter.updateOne(configuration, {
+      ...state,
+      updated: true,
+      updating: false
+    })
+  ),
+  on(updateAssessmentConfigurationFail, (state, { error }) => ({
     ...state,
     updating: false,
-    updated: true,
-    configurations: configuration
+    ...errorBaseState,
+    error
   })),
-  on(updateAssessmenConfigurationFail, (state, { error }) => ({
+  on(deleteAssessmentConfiguration, (state, { id }) => ({
     ...state,
-    updating: false,
+    deleted: false,
+    deleting: false
+  })),
+  on(deleteAssessmentConfigurationSuccess, (state, { id }) =>
+    adapter.removeOne(id, { ...state, deleted: true, deleting: false })
+  ),
+  on(deleteAssessmentConfigurationFail, (state, { error }) => ({
+    ...state,
     ...errorBaseState,
     error
   }))

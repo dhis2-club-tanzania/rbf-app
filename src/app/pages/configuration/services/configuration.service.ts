@@ -3,8 +3,8 @@ import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import { switchMap, catchError, map } from 'rxjs/operators';
 import { throwError, Observable } from 'rxjs';
 import * as _ from 'lodash';
-import { Configuration } from '../models/configuration.model';
-
+import { VerificationConfiguration } from '../models/verification-configuration.model';
+import { AssessmentConfiguration } from '../models/assessment-configuration.model';
 @Injectable({
   providedIn: 'root'
 })
@@ -14,52 +14,58 @@ export class ConfigurationService {
     this.dataStoreUrl = 'dataStore/RBF';
   }
 
-  getConfiguration(configType: string): Observable<any> {
-    return this.httpService.get(this.dataStoreUrl).pipe(
-      switchMap(() =>
-        this.httpService.get(`${this.dataStoreUrl}/${configType}`)
-      ),
-      catchError(error => {
-        return throwError(error);
-      })
+  /**
+   *
+   * @param namespace datastore namespace
+   * @param createdConfigurations configuration object
+   */
+  createConfiguration(
+    namespace: string,
+    createdConfigurations: any
+  ): Observable<any> {
+    return this.httpService.post(
+      `${this.dataStoreUrl}/${namespace}`,
+      createdConfigurations
     );
-  }
-
-  createDefaultConfig(configType: string): Observable<any> {
-    const configObject = {
-      config: []
-    };
-
-    return this.httpService
-      .post(`${this.dataStoreUrl}/${configType}`, configObject)
-      .pipe(map(() => configObject));
   }
 
   /**
    *
-   * @param configurations updated configuration object
+   * @param namespace datastore namespace
+   */
+  getAllConfigurations(namespace: string): Observable<string[]> {
+    return this.httpService.get(`${this.dataStoreUrl}/${namespace}`);
+  }
+
+  /**
+   *
+   * @param namespace datastore namespace
+   * @param key datastore key
+   */
+  getConfiguration(namespace: string, key: string): Observable<any> {
+    return this.httpService.get(`${this.dataStoreUrl}/${namespace}`);
+  }
+
+  /**
+   *
+   * @param namespace datastore namespace
+   * @param key datstore key
+   * @param updatedConfigurations updated configurationObjec
    */
   updateConfiguration(
-    configType: string,
-    updatedConfigurations: Configuration
+    namespace: string,
+    key: string,
+    updatedConfigurations: VerificationConfiguration | AssessmentConfiguration
   ): Observable<any> {
     return this.httpService.put(
-      `${this.dataStoreUrl}/${configType}`,
+      `${this.dataStoreUrl}/${namespace}/${key}`,
       updatedConfigurations
     );
   }
 
-  /**
-   *
-   * @param configurations configuration object
-   */
-  createConfiguration(
-    configType: string,
-    createdConfigurations: Configuration
-  ): Observable<any> {
-    return this.httpService.post(
-      `${this.dataStoreUrl}/${configType}`,
-      createdConfigurations
-    );
+  generateRandoId(): Observable<any> {
+    return this.httpService
+      .get('system/id.json')
+      .pipe(switchMap((codes: any[]) => codes[0]));
   }
 }
