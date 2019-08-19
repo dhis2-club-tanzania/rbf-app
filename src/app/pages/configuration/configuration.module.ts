@@ -2,8 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RoutingModule } from './configuration.routes';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatMenuModule, MatIconModule } from '@angular/material';
 
 import * as fromConfiguration from './components';
 import { HttpClientModule } from '@angular/common/http';
@@ -20,8 +19,8 @@ import { VerificationListComponent } from './components/verification-list/verifi
     HttpClientModule,
     ReactiveFormsModule,
     NgxDhis2PeriodFilterModule,
-    MatButtonModule,
-    MatCheckboxModule,
+    MatMenuModule,
+    MatIconModule
   ]
 })
 export class ConfigurationModule {}

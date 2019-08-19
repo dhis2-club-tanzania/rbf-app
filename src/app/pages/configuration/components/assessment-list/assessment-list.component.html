@@ -21,10 +21,23 @@
               <td>{{ indicator.dataElement }}</td>
               <td>{{ indicator.possibleMaximumValue }}</td>
               <td>{{ sno | date}}</td>
-              <td><a href="#"> <i class="fa fa-ellipsis-v"></i> </a></td>
+              <td>
+                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu" class="menu-button">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                  <button mat-menu-item>
+                    <i class="fa fa-edit"></i>
+                    <span>  Edit</span>
+                  </button>
+                  <button mat-menu-item >
+                    <i class="fa fa-trash"></i>
+                    <span>  Delete</span>
+                  </button>
+                </mat-menu></td>
             </tr>
       </tbody>
     </table>
   </div>
-  <button class="add"><a [routerLink]="['/configuration/assessment_configurations']" routerLinkActive="router-link-active" ><i class="fa fa-plus-circle"></i></a></button>
+  <button class="add"><a [routerLink]="['/configuration/assessment_configurations']" routerLinkActive="router-link-active" ><i class="fa fa-plus"></i></a></button>
 </div>

@@ -1,10 +1,28 @@
+.tableContainer{
+  height: 80%;
+}
 .add{
+  height: 50px;
+  width: 50px;
   position: absolute;
   bottom: 8px;
   right: 8px;
-  background: none;
-  background-color: transparent;
+  background: rgb(39, 102, 150);
   border: none;
-  color:  rgb(39, 102, 150);
-  font-size: 50px;
+  font-size: 15px;
+  border-radius: 50%;
+}
+.adddiv{
+  display: flex;
+  position: relative;
+  right: 0.5cm;
+  top: 20%;
+
+}
+.menu-button{
+  background: none;
+  border: none;
+}
+.fa{
+  color: white;
 }
