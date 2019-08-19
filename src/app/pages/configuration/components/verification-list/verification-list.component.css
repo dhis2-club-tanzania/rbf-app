@@ -1,12 +1,14 @@
 .tableContainer{
-  height: 80%;
+  height: 350px;
+  overflow-y: scroll;
+  overflow: hidden;
 }
 .add{
   height: 50px;
   width: 50px;
   position: absolute;
   bottom: 8px;
-  right: 8px;
+  right: 12px;
   background: rgb(39, 102, 150);
   border: none;
   font-size: 15px;
@@ -23,6 +25,6 @@
   background: none;
   border: none;
 }
-.fa{
+.savage{
   color: white;
 }
