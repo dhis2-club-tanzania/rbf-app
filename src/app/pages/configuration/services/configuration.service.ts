@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import { switchMap, catchError, map } from 'rxjs/operators';
-import { throwError, Observable } from 'rxjs';
+import { throwError, Observable, forkJoin } from 'rxjs';
 import * as _ from 'lodash';
 import { VerificationConfiguration } from '../models/verification-configuration.model';
 import { AssessmentConfiguration } from '../models/assessment-configuration.model';
@@ -11,7 +11,7 @@ import { AssessmentConfiguration } from '../models/assessment-configuration.mode
 export class ConfigurationService {
   dataStoreUrl: string;
   constructor(private httpService: NgxDhis2HttpClientService) {
-    this.dataStoreUrl = 'dataStore/RBF';
+    this.dataStoreUrl = 'dataStore';
   }
 
   /**
@@ -42,8 +42,32 @@ export class ConfigurationService {
    * @param namespace datastore namespace
    * @param key datastore key
    */
-  getConfiguration(namespace: string, key: string): Observable<any> {
-    return this.httpService.get(`${this.dataStoreUrl}/${namespace}`);
+  getConfigurations(namespace: string) {
+    return this.httpService
+      .get(`${this.dataStoreUrl}/${namespace}`)
+      .pipe(
+        switchMap((configKeys: string[]) =>
+          forkJoin(
+            _.map(configKeys, (key: string) =>
+              this.httpService.get(`${this.dataStoreUrl}/${namespace}/${key}`)
+            )
+          )
+        )
+      );
+    // const configObs: Observable<any>[] = [];
+    // this.getAllConfigurations(namespace).subscribe(key => {
+    //   const value = new Observable(observer => {
+    //     this.httpService
+    //       .get(`${this.dataStoreUrl}/${namespace}/${key}`)
+    //       .subscribe(
+    //         configData => observer.next(configData),
+    //         error => observer.error(error),
+    //         () => observer.complete()
+    //       );
+    //   });
+    //   configObs.push(value);
+    // });
+    // return this.httpService.get(`${this.dataStoreUrl}/${namespace}/${key}`);
   }
 
   /**
@@ -63,6 +87,9 @@ export class ConfigurationService {
     );
   }
 
+  deleteConfiguration(namespace: string, key: string): Observable<any> {
+    return this.httpService.delete(`${this.dataStoreUrl}/${namespace}/${key}`);
+  }
   generateRandoId(): Observable<any> {
     return this.httpService
       .get('system/id.json')
