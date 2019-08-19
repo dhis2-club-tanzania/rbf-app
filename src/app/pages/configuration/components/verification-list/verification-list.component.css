@@ -7,19 +7,12 @@
   height: 50px;
   width: 50px;
   position: absolute;
-  bottom: 4%;
-  right: 3%;
+  bottom: 8%;
+  right: 2%;
   background: rgb(39, 102, 150);
   border: none;
   font-size: 15px;
   border-radius: 50%;
-}
-.adddiv{
-  display: flex;
-  position: relative;
-  right: 0.5cm;
-  top: 20%;
-
 }
 .menu-button{
   background: none;

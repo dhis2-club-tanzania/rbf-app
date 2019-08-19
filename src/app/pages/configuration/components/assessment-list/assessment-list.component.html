@@ -2,7 +2,7 @@
   <div class="card-header">
     Assessment Indicators
   </div>
-  <div *ngIf="assessmentIndicators$ | async" class="overflow-auto">
+  <div *ngIf="assessmentIndicators$ | async" class="overflow-auto tableContainer">
     <table class="table table-hover">
       <thead>
         <tr>
@@ -49,12 +49,12 @@
         </tr>
       </tbody>
     </table>
+    <button class="add">
+        <a
+          [routerLink]="['/configuration/assessment_configurations']"
+          routerLinkActive="router-link-active"
+          ><i class="savage fa fa-plus"></i
+        ></a>
+      </button>
   </div>
-  <button class="add">
-    <a
-      [routerLink]="['/configuration/assessment_configurations']"
-      routerLinkActive="router-link-active"
-      ><i class="savage fa fa-plus"></i
-    ></a>
-  </button>
 </div>
