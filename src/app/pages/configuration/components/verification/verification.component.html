@@ -48,22 +48,24 @@
     </div>
     <div class="row">
       <div class="form-group form-check col col-10">
-        <button
+        <a [routerLink]="['/configuration/verification']" routerLinkActive="router-link-active">
+          <button
           type="submit"
           class="btn btn-primary"
-          (click)="onClickDone(verificationForm.value)"
         >
-          Done
+          Cancel
         </button>
+        </a>
       </div>
       <div class="form-group form-check col col-2">
+        <a [routerLink]="['/configuration/verification']" routerLinkActive="router-link-active">
         <button
           type="submit"
           class="btn btn-primary"
-          (click)="onClickAdd(verificationForm.value)"
         >
-          Add
+          Save
         </button>
+        </a>
       </div>
     </div>
   </form>

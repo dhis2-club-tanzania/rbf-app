@@ -29,7 +29,7 @@ export const addVerificationConfigurationFail = createAction(
 );
 export const updateVerificationConfiguration = createAction(
   '[CONFIGURATION] Update Verification Configuration',
-  props<{ configuration: VerificationConfiguration }>()
+  props<{ configuration: any }>()
 );
 export const updateVerificationConfigurationSuccess = createAction(
   '[CONFIGURATION] Update Verification Configurations Success',

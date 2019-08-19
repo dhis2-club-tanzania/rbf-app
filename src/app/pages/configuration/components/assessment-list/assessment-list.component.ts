@@ -16,8 +16,6 @@ export class AssessmentListComponent implements OnInit {
 
   ngOnInit() {
   }
-
-
 }
 export interface AssessmentIndicators {
   indicator: string;

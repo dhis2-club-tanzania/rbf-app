@@ -6,7 +6,7 @@ import { State } from 'src/app/store/reducers';
 import { Observable } from 'rxjs';
 import { DataElementList } from '../../models/data-element.model';
 import { getAllDataElements } from 'src/app/store/selectors';
-import { updateVerificationConfigurations } from 'src/app/store/actions';
+import { updateVerificationConfiguration } from 'src/app/store/actions';
 
 @Component({
   selector: 'app-verification',
@@ -43,7 +43,7 @@ export class VerificationComponent implements OnInit {
       toleranceRate: data.toleranceRate
     });
     console.log(this.formDataArray);
-    this.store.dispatch(updateVerificationConfigurations({configuration: this.formDataArray}));
+    this.store.dispatch(updateVerificationConfiguration({ configuration: this.formDataArray}));
   }
 
   onClickAdd(data) {
