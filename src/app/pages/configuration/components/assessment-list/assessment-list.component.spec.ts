@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AssessmentListComponent } from './assessment-list.component';
+import { MatMenuModule, MatIconModule } from '@angular/material';
+import { RouterTestingModule } from '@angular/router/testing';
+import { StoreModule } from '@ngrx/store';
 
 describe('AssessmentListComponent', () => {
   let component: AssessmentListComponent;
@@ -8,9 +11,9 @@ describe('AssessmentListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AssessmentListComponent ]
-    })
-    .compileComponents();
+      imports: [MatMenuModule, MatIconModule, RouterTestingModule, StoreModule],
+      declarations: [AssessmentListComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

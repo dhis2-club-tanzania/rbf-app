@@ -4,6 +4,7 @@ import { AssessmentComponent } from './assessment.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from 'src/app/store/reducers';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('AssessmentComponent', () => {
   let component: AssessmentComponent;
@@ -14,6 +15,7 @@ describe('AssessmentComponent', () => {
       declarations: [AssessmentComponent],
       imports: [
         ReactiveFormsModule,
+        RouterTestingModule,
         StoreModule.forRoot(reducers, { metaReducers })
       ]
     }).compileComponents();

@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { VerificationListComponent } from './verification-list.component';
+import { MatMenuModule, MatIconModule } from '@angular/material';
+import { RouterTestingModule } from '@angular/router/testing';
+import { StoreModule } from '@ngrx/store';
 
 describe('VerificationListComponent', () => {
   let component: VerificationListComponent;
@@ -8,9 +11,10 @@ describe('VerificationListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ VerificationListComponent ]
-    })
-    .compileComponents();
+      imports: [MatMenuModule, MatIconModule, RouterTestingModule],
+      declarations: [VerificationListComponent],
+      providers: [StoreModule]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

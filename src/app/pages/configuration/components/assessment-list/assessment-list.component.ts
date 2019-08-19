@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { AssessmentConfiguration } from '../../models/assessment-configuration.model';
+import { Store } from '@ngrx/store';
+import { State } from 'src/app/store/reducers';
+import { getAssessmentConfigurations } from 'src/app/store/selectors';
 
 @Component({
   selector: 'app-assessment-list',
@@ -6,15 +11,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./assessment-list.component.css']
 })
 export class AssessmentListComponent implements OnInit {
-  assessmentIndicators: AssessmentIndicators[] = [
-    { indicator: 'OPD Malaria', dataElement: 'Itajulikana', possibleMaximumValue: 432},
-    { indicator: 'OPD Molej', dataElement: 'Itajkjdkulikana', possibleMaximumValue: 4352},
-    { indicator: 'kfhullfuD ', dataElement: 'Itajjkxcjulikana', possibleMaximumValue: 4332},
-    { indicator: 'nckj', dataElement: 'Itaj,mcxjulikana', possibleMaximumValue: 4342},
-  ];
-  constructor() { }
+  assessmentIndicators$: Observable<AssessmentConfiguration[]>;
+  constructor(private store: Store<State>) {}
 
   ngOnInit() {
+    this.assessmentIndicators$ = this.store.select(getAssessmentConfigurations);
   }
 }
 export interface AssessmentIndicators {

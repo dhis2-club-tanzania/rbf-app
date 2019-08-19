@@ -6,6 +6,7 @@ import { DataElementList } from '../../models/data-element.model';
 import { Observable } from 'rxjs';
 import { getAllDataElements } from 'src/app/store/selectors';
 import { State } from 'src/app/store/reducers';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-assessment',
@@ -21,7 +22,7 @@ export class AssessmentComponent implements OnInit {
   possibleMaximumValue = 'Enter the possible maximum value';
   formDataArray: any[] = [];
 
-  constructor(private store: Store<State>) {}
+  constructor(private store: Store<State>, private router: Router) {}
 
   ngOnInit() {
     this.dataElements$ = this.store.select(getAllDataElements);
@@ -32,20 +33,14 @@ export class AssessmentComponent implements OnInit {
     });
   }
 
-  onClickDone(data) {
-    this.formDataArray.push({
-      indicator: data.indicator,
-      dataElementId: data.dataElement,
-      possibleMaxValue: data.possibleMaxValue
-    });
-    console.log(this.formDataArray);
-  }
-  onClickAdd(data) {
-    this.formDataArray.push({
-      indicator: data.indicator,
-      dataElementId: data.dataElement,
-      possibleMaxValue: data.possibleMaxValue
-    });
-    console.log(data);
+  onClickDone() {
+    //   this.formDataArray.push({
+    //     indicator: data.indicator,
+    //     dataElementId: data.dataElement,
+    //     possibleMaxValue: data.possibleMaxValue
+    //   });
+    console.log('DONE!');
+
+    this.router.navigate(['/configuration/assessment']);
   }
 }
