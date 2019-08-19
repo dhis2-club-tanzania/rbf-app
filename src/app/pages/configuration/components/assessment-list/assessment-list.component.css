@@ -1,5 +1,5 @@
 .tableContainer{
-  height: 350px;
+  height: 400px;
   overflow-y: scroll;
   overflow: hidden;
 }
@@ -7,8 +7,8 @@
   height: 50px;
   width: 50px;
   position: absolute;
-  bottom: 15px;
-  right: 15px;
+  bottom: 4%;
+  right: 3%;
   background: rgb(39, 102, 150);
   border: none;
   font-size: 15px;
