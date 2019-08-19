@@ -21,17 +21,20 @@ import {
 
 @Injectable()
 export class VerificationConfigurationEffects {
+  datastoreNamespace: string;
   constructor(
     private configServices: ConfigurationService,
     private actions$: Actions
-  ) {}
+  ) {
+    this.datastoreNamespace = 'RBF-verification-config';
+  }
 
   loadConfigurations$ = createEffect(() =>
     this.actions$.pipe(
       ofType(addSystemInfo),
       mergeMap(() =>
         this.configServices
-          .getConfigurations('RBF-verification-config')
+          .getConfigurations(this.datastoreNamespace)
           .pipe(
             map(config =>
               loadVerificationConfigurationSuccess({ configurations: config })
@@ -49,7 +52,7 @@ export class VerificationConfigurationEffects {
       ofType(addVerificationConfiguration),
       mergeMap(action =>
         this.configServices
-          .createConfiguration('RBF-verification-config', action.configuration)
+          .createConfiguration(this.datastoreNamespace, action.configuration)
           .pipe(
             map(() =>
               addVerificationConfigurationSuccess({
@@ -69,7 +72,7 @@ export class VerificationConfigurationEffects {
       ofType(deleteVerificationConfiguration),
       mergeMap(action =>
         this.configServices
-          .deleteConfiguration('RBF-verification-config', action.id)
+          .deleteConfiguration(this.datastoreNamespace, action.id)
           .pipe(
             map(() => deleteVerificationConfigurationSuccess({ id: action.id }))
           )
@@ -85,7 +88,7 @@ export class VerificationConfigurationEffects {
   //     ofType(updateVerificationConfiguration),
   //     mergeMap(action =>
   //       this.configServices.updateConfiguration(
-  //         'RBF-verification-config',
+  //         this.datastoreNamespace,
   //         action.configuration.id,
   //         action.configuration
   //       ).pipe(map(()=> updateVerificationConfigurationSuccess({configuration: action.configuration})))
