@@ -28,8 +28,8 @@ export const reducer = createReducer(
     ...state,
     ...loadingBaseState
   })),
-  on(loadAssessmentConfigurationSuccess, (state, { configuration }) =>
-    adapter.addOne(configuration, { ...state, ...loadedBaseState })
+  on(loadAssessmentConfigurationSuccess, (state, { configurations }) =>
+    adapter.addMany(configurations, { ...state, ...loadedBaseState })
   ),
   on(loadAssessmentConfigurationFail, (state, { error }) => ({
     ...state,

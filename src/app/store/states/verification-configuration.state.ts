@@ -11,13 +11,6 @@ export interface VerificationConfigurationState
   deleted: boolean;
 }
 
-export function sortByIndicator(
-  config1: VerificationConfiguration,
-  config2: VerificationConfiguration
-): number {
-  return config1.indicator.localeCompare(config2.indicator);
-}
-
 export function selectConfigId(config: VerificationConfiguration): string {
   return config.id;
 }
@@ -26,7 +19,7 @@ export const adapter: EntityAdapter<
   VerificationConfiguration
 > = createEntityAdapter({
   selectId: selectConfigId,
-  sortComparer: sortByIndicator
+  sortComparer: false
 });
 export const initialConfigurationState: VerificationConfigurationState = adapter.getInitialState(
   {

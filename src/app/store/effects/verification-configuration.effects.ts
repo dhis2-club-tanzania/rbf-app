@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
-import { switchMap, map, catchError } from 'rxjs/operators';
+import { switchMap, map, catchError, mergeMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import { ConfigurationService } from 'src/app/pages/configuration/services/configuration.service';
@@ -10,7 +10,13 @@ import {
   loadVerificationConfigurationFail,
   updateVerificationConfiguration,
   updateVerificationConfigurationFail,
-  updateVerificationConfigurationSuccess
+  updateVerificationConfigurationSuccess,
+  deleteVerificationConfigurationFail,
+  deleteVerificationConfigurationSuccess,
+  deleteVerificationConfiguration,
+  addVerificationConfiguration,
+  addVerificationConfigurationSuccess,
+  addVerificationConfigurationFail
 } from '../actions';
 
 @Injectable()
@@ -20,63 +26,71 @@ export class VerificationConfigurationEffects {
     private actions$: Actions
   ) {}
 
-  // loadConfiguratons$ = createEffect(() =>
-  //   this.actions$.pipe(
-  //     ofType(addSystemInfo),
-  //     switchMap(() =>
-  //       this.configServices.getConfiguration('verification').pipe(
-  //         map(configurations =>
-  //           loadVerificationConfigurationsSuccess({
-  //             configuration: configurations
-  //           })
-  //         )
-  //       )
-  //     ),
-  //     catchError(error => {
-  //       if (error.status === 404) {
-  //         return of(addDefaultVerificationConfigurations());
-  //       } else {
-  //         of(loadVerificationConfigurationsFail({ error: error }));
-  //       }
-  //     })
-  //   )
-  // );
+  loadConfigurations$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(addSystemInfo),
+      mergeMap(() =>
+        this.configServices
+          .getConfigurations('RBF-verification-config')
+          .pipe(
+            map(config =>
+              loadVerificationConfigurationSuccess({ configurations: config })
+            )
+          )
+      ),
+      catchError(error =>
+        of(loadVerificationConfigurationFail({ error: error }))
+      )
+    )
+  );
+
+  addConfigurations$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(addVerificationConfiguration),
+      mergeMap(action =>
+        this.configServices
+          .createConfiguration('RBF-verification-config', action.configuration)
+          .pipe(
+            map(() =>
+              addVerificationConfigurationSuccess({
+                configuration: action.configuration
+              })
+            )
+          )
+      ),
+      catchError(error =>
+        of(addVerificationConfigurationFail({ error: error }))
+      )
+    )
+  );
+
+  deleteConfigurations$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(deleteVerificationConfiguration),
+      mergeMap(action =>
+        this.configServices
+          .deleteConfiguration('RBF-verification-config', action.id)
+          .pipe(
+            map(() => deleteVerificationConfigurationSuccess({ id: action.id }))
+          )
+      ),
+      catchError(error =>
+        of(deleteVerificationConfigurationFail({ error: error }))
+      )
+    )
+  );
 
   // updateConfigurations$ = createEffect(() =>
   //   this.actions$.pipe(
-  //     ofType(updateVerificationConfigurations),
-  //     switchMap((action: any) =>
-  //       this.configServices
-  //         .updateConfiguration('verification', action.configuration)
-  //         .pipe(
-  //           map(configurations =>
-  //             updateVerificationConfigurationsSuccess({
-  //               configuration: configurations
-  //             })
-  //           )
-  //         )
+  //     ofType(updateVerificationConfiguration),
+  //     mergeMap(action =>
+  //       this.configServices.updateConfiguration(
+  //         'RBF-verification-config',
+  //         action.configuration.id,
+  //         action.configuration
+  //       ).pipe(map(()=> updateVerificationConfigurationSuccess({configuration: action.configuration})))
   //     ),
-  //     catchError(error =>
-  //       of(updateVerificationConfigurationsFail({ error: error }))
-  //     )
-  //   )
-  // );
-
-  // addDefaultConfiguration$ = createEffect(() =>
-  //   this.actions$.pipe(
-  //     ofType(addDefaultVerificationConfigurations),
-  //     switchMap(() =>
-  //       this.configServices
-  //         .createDefaultConfig('verification')
-  //         .pipe(
-  //           map(config =>
-  //             loadVerificationConfigurationsSuccess({ configuration: config })
-  //           )
-  //         )
-  //     ),
-  //     catchError(error =>
-  //       of(loadVerificationConfigurationsFail({ error: error }))
-  //     )
+  //     catchError((error) => of(updateVerificationConfigurationFail(error)))
   //   )
   // );
 }

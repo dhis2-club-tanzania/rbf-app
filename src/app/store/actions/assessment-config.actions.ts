@@ -12,7 +12,7 @@ export const loadAssessmentConfigurationFail = createAction(
 );
 export const loadAssessmentConfigurationSuccess = createAction(
   '[CONFIGURATION] Load Assessment Configuration success',
-  props<{ configuration: AssessmentConfiguration }>()
+  props<{ configurations: AssessmentConfiguration[] }>()
 );
 
 export const addAssessmentConfiguration = createAction(
