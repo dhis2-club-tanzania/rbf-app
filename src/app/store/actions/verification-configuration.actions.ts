@@ -12,7 +12,7 @@ export const loadVerificationConfigurationFail = createAction(
 );
 export const loadVerificationConfigurationSuccess = createAction(
   '[CONFIGURATION] Load Verification Configuration success',
-  props<{ configuration: VerificationConfiguration }>()
+  props<{ configurations: any[] }>()
 );
 
 export const addVerificationConfiguration = createAction(

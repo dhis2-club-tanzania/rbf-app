@@ -11,13 +11,6 @@ export interface AssessmentConfigurationState
   deleted: boolean;
 }
 
-export function sortByIndicator(
-  config1: AssessmentConfiguration,
-  config2: AssessmentConfiguration
-): number {
-  return config1.indicator.localeCompare(config2.indicator);
-}
-
 export function selectConfigId(config: AssessmentConfiguration): string {
   return config.id;
 }
@@ -25,7 +18,7 @@ export function selectConfigId(config: AssessmentConfiguration): string {
 export const adapter: EntityAdapter<
   AssessmentConfiguration
 > = createEntityAdapter({
-  sortComparer: sortByIndicator,
+  sortComparer: false,
   selectId: selectConfigId
 });
 
