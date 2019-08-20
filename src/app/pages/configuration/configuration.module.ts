@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RoutingModule } from './configuration.routes';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatMenuModule, MatIconModule } from '@angular/material';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { MatMenuModule, MatIconModule, MatFormFieldModule, MatSelectModule } from '@angular/material';
 
 import * as fromConfiguration from './components';
 import { HttpClientModule } from '@angular/common/http';
@@ -20,7 +20,10 @@ import { VerificationListComponent } from './components/verification-list/verifi
     ReactiveFormsModule,
     NgxDhis2PeriodFilterModule,
     MatMenuModule,
-    MatIconModule
+    MatIconModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    FormsModule
   ]
 })
 export class ConfigurationModule {}

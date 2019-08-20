@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { PeriodFilterConfig } from '@iapps/ngx-dhis2-period-filter';
+import { ConfigurationService } from '../../services/configuration.service';
 
 @Component({
   selector: 'app-general',
@@ -8,23 +9,39 @@ import { PeriodFilterConfig } from '@iapps/ngx-dhis2-period-filter';
 })
 export class GeneralComponent implements OnInit {
 
-  periodObject: any;
-  action: string;
+  @Input() selectedPeriodType: string;
 
-  periodFilterConfig: PeriodFilterConfig = {
-    singleSelection: false,
-    emitOnSelection: false
-  };
-  selectedPeriodItems: any[] = [];
+  periodTypes: any[];
+  selectedYear: number;
+  currentYear: number;
 
-  onPeriodUpdate(periodObject, action) {
-    this.periodObject = periodObject;
-    this.action = action;
-  }
-
-  constructor() {}
+  constructor(private periodType: ConfigurationService) { }
 
   ngOnInit() {
+    this.periodType.getPeriodTypes()
+    .subscribe(arg => this.periodTypes = arg.periodTypes);
+    console.log(this.periodType);
   }
+
+  updatePeriodType() {
+    // if (this.periodFilterConfig.resetOnPeriodTypeChange) {
+    //   this.selectedPeriods = [];
+    // }
+
+  }
+
+  pushPeriodBackward(e) {
+      e.stopPropagation();
+      this.selectedYear--;
+      // this.periodInstance.setYear(this.selectedYear).get();
+      // this._setAvailablePeriods(this.selectedPeriodType);
+    }
+
+  pushPeriodForward(e) {
+      e.stopPropagation();
+      this.selectedYear++;
+      // this.periodInstance.setYear(this.selectedYear).get();
+      // this._setAvailablePeriods(this.selectedPeriodType);
+    }
 
 }

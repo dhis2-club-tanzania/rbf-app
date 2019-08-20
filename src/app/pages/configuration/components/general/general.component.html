@@ -4,14 +4,42 @@
   </div>
   <div class="card">
       <div class="card-body" style="padding: 5px;">
-        <ngx-dhis2-period-filter
-          [selectedPeriods]="selectedPeriodItems"
-          [periodFilterConfig]="periodFilterConfig"
-          [lowestPeriodType]="'Monthly'"
-          (update)="onPeriodUpdate($event, 'UPDATE')"
-          (change)="onPeriodUpdate($event, 'CHANGE')"
-          (close)="onPeriodUpdate($event, 'CLOSE')"
-        ></ngx-dhis2-period-filter>
+          <div class="form-group">
+            <label>Select Period Type</label>
+          </div>
+            <mat-form-field>
+              <mat-label>Period type</mat-label>
+              <mat-select
+                [(ngModel)]="selectedPeriodType"
+                (ngModelChange)="updatePeriodType()"
+                name="periodType"
+              >
+                <mat-option
+                  *ngFor="let periodType of periodTypes"
+                  [value]="periodType.id"
+                  >{{ periodType.name }}</mat-option
+                >
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
       </div>
-    </div>
-</div>
+      <div class="row">
+          <div class="form-group form-check  col col-10">
+            <a
+              [routerLink]="['/configuration/assessment']"
+              routerLinkActive="router-link-active"
+            >
+              <button type="submit" class="btn btn-primary">
+                Cancel
+              </button>
+            </a>
+          </div>
+          <div class="form-group form-check col col-2">
+            <button type="submit" class="btn btn-primary">
+              Save
+            </button>
+          </div>
+        </div>
+
+
