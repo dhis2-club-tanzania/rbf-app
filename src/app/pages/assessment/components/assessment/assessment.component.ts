@@ -17,24 +17,11 @@ export class AssessmentComponent implements OnInit {
     showOrgUnitGroupSection: true,
     showOrgUnitLevelSection: false
   };
-  selectedOrgUnitItems: any[] = [
-    { id: 'O6uvpzGd5pu', name: 'Bo', level: 3 },
-    {
-      id: 'OU_GROUP.AQQCxQqDxLe',
-      name: 'Konta CHP',
-      level: 4
-    },
-    {
-      id: 'LEVEL-1',
-      name: 'Kukuna CHP',
-      level: 4
-    }
-  ];
+  selectedOrgUnitItems: any[] = [];
 
   constructor() { }
 
-  ngOnInit() {
-  }
+  ngOnInit() {  }
 
   onOrgUnitUpdate(orgUnitObject, action) {
     this.orgUnitObject = orgUnitObject;
