@@ -2,11 +2,25 @@
   <div class="card-header">
     Verification Indicators
   </div>
-  <div
-    *ngIf="verificationIndicators$ | async"
-    class="overflow-auto tableContainer"
-  >
-    <table class="table table-hover">
+
+  <div>
+    <p
+      *ngIf="
+        (verificationConfigurationError$ | async) ||
+        !(verificationIndicators$ | async)
+      "
+      class="warning"
+    >
+      No Verification Configurations Available
+    </p>
+    <table
+      *ngIf="
+        (verificationIndicators$ | async) &&
+        !(verificationConfigurationError$ | async)
+      "
+      class="overflow-auto tableContainer"
+      class="table table-hover"
+    >
       <thead>
         <tr>
           <th scope="col">S/No</th>
@@ -27,10 +41,10 @@
         >
           <th scope="row">{{ sno + 1 }}</th>
           <td>{{ indicator.indicator }}</td>
-          <td>{{ indicator.dataElement }}</td>
+          <td>{{ indicator.dataElement | dataElement }}</td>
           <td>{{ indicator.unitFee }}</td>
           <td>{{ indicator.toleranceRate }}</td>
-          <td>{{ sno | date }}</td>
+          <td>{{ indicator.lastUpdate | date }}</td>
           <td>
             <button
               mat-icon-button
@@ -54,13 +68,13 @@
         </tr>
       </tbody>
     </table>
-    <a
-      [routerLink]="['/configuration/verification_configurations']"
-      routerLinkActive="router-link-active"
-    >
-      <button class="add">
-        <i class="savage fa fa-plus"></i>
-      </button>
-    </a>
   </div>
+  <a
+    [routerLink]="['/configuration/verification_configurations']"
+    routerLinkActive="router-link-active"
+  >
+    <button class="add">
+      <i class="savage fa fa-plus"></i>
+    </button>
+  </a>
 </div>

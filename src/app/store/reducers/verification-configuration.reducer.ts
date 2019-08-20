@@ -19,7 +19,10 @@ import {
   updateVerificationConfigurationFail,
   deleteVerificationConfiguration,
   deleteVerificationConfigurationSuccess,
-  deleteVerificationConfigurationFail
+  deleteVerificationConfigurationFail,
+  addVerificationConfiguration,
+  addVerificationConfigurationFail,
+  addVerificationConfigurationSuccess
 } from '../actions/verification-configuration.actions';
 
 export const reducer = createReducer(
@@ -45,7 +48,8 @@ export const reducer = createReducer(
     adapter.updateOne(configuration, {
       ...state,
       updated: true,
-      updating: false
+      updating: false,
+      error: null
     })
   ),
   on(updateVerificationConfigurationFail, (state, { error }) => ({
@@ -60,13 +64,38 @@ export const reducer = createReducer(
     deleted: false
   })),
   on(deleteVerificationConfigurationSuccess, (state, { id }) =>
-    adapter.removeOne(id, { ...state, deleted: true, deleting: false })
+    adapter.removeOne(id, {
+      ...state,
+      deleted: true,
+      deleting: false,
+      error: null
+    })
   ),
   on(deleteVerificationConfigurationFail, (state, { error }) => ({
     ...state,
     ...errorBaseState,
     error
-  }))
+  })),
+  on(addVerificationConfiguration, state => ({
+    ...state,
+    added: false,
+    adding: true
+  })),
+  on(addVerificationConfigurationFail, (state, { error }) => ({
+    ...state,
+    added: false,
+    adding: false,
+    ...errorBaseState,
+    error: error
+  })),
+  on(addVerificationConfigurationSuccess, (state, { configuration }) =>
+    adapter.addOne(configuration, {
+      ...state,
+      added: true,
+      error: null,
+      adding: false
+    })
+  )
 );
 
 export function verificationConfigurationReducer(

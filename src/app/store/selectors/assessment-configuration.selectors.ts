@@ -11,3 +11,8 @@ export const getAssessmentConfigurations = createSelector(
   getAssessmentConfigurationState,
   fromConfigState.selectAllAssessmentConfigurations
 );
+
+export const getAssessmentConfigErrorState = createSelector(
+  getAssessmentConfigurationState,
+  (state: fromConfigState.AssessmentConfigurationState) => state.error
+);

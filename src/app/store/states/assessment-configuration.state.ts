@@ -9,6 +9,8 @@ export interface AssessmentConfigurationState
   updated: boolean;
   deleting: boolean;
   deleted: boolean;
+  adding: boolean;
+  added: boolean;
 }
 
 export function selectConfigId(config: AssessmentConfiguration): string {
@@ -28,7 +30,9 @@ export const initialConfigurationState: AssessmentConfigurationState = adapter.g
     updated: false,
     updating: false,
     deleting: false,
-    deleted: false
+    deleted: false,
+    adding: false,
+    added: false
   }
 );
 
