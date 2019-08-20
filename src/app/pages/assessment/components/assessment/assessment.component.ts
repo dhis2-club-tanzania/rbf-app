@@ -13,7 +13,7 @@ export class AssessmentComponent implements OnInit {
   orgUnitFilterConfig: OrgUnitFilterConfig = {
     singleSelection: false,
     showUserOrgUnitSection: false,
-    showOrgUnitLevelGroupSection: true,
+    showOrgUnitLevelGroupSection: false,
     showOrgUnitGroupSection: true,
     showOrgUnitLevelSection: false
   };
