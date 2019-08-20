@@ -41,7 +41,7 @@
         >
           <th scope="row">{{ sno + 1 }}</th>
           <td>{{ indicator.indicator }}</td>
-          <td>{{ indicator.dataElement }}</td>
+          <td>{{ indicator.dataElement | dataElement }}</td>
           <td>{{ indicator.unitFee }}</td>
           <td>{{ indicator.toleranceRate }}</td>
           <td>{{ indicator.lastUpdate | date }}</td>
