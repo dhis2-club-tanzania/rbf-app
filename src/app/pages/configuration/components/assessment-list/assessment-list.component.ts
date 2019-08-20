@@ -4,6 +4,7 @@ import { AssessmentConfiguration } from '../../models/assessment-configuration.m
 import { Store } from '@ngrx/store';
 import { State } from 'src/app/store/reducers';
 import { getAssessmentConfigurations } from 'src/app/store/selectors';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-assessment-list',
@@ -12,10 +13,14 @@ import { getAssessmentConfigurations } from 'src/app/store/selectors';
 })
 export class AssessmentListComponent implements OnInit {
   assessmentIndicators$: Observable<AssessmentConfiguration[]>;
-  constructor(private store: Store<State>) {}
+  constructor(private store: Store<State>, private route: Router) {}
 
   ngOnInit() {
     this.assessmentIndicators$ = this.store.select(getAssessmentConfigurations);
+  }
+
+  onClickAdd() {
+    this.route.navigate(['/configuration/assessment_configurations']);
   }
 }
 export interface AssessmentIndicators {

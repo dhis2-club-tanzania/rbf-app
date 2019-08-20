@@ -54,13 +54,8 @@
         </tr>
       </tbody>
     </table>
-    <a
-      [routerLink]="['/configuration/verification_configurations']"
-      routerLinkActive="router-link-active"
-    >
-      <button class="add">
-        <i class="savage fa fa-plus"></i>
-      </button>
-    </a>
   </div>
+  <button class="add" (click)="onClickAdd()">
+    <i class="savage fa fa-plus"></i>
+  </button>
 </div>

@@ -49,12 +49,8 @@
         </tr>
       </tbody>
     </table>
-    <button class="add">
-        <a
-          [routerLink]="['/configuration/assessment_configurations']"
-          routerLinkActive="router-link-active"
-          ><i class="savage fa fa-plus"></i
-        ></a>
+    <button class="add" (click)="onClickAdd()">
+        <i class="savage fa fa-plus"></i>
       </button>
   </div>
 </div>
