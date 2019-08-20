@@ -45,13 +45,13 @@ export class VerificationComponent implements OnInit {
     const date = new Date();
     const configObject: VerificationConfiguration = {
       id: UUID(),
-      dataElement: this.dataElement,
-      indicator: this.indicator,
+      dataElement: this.verificationForm.value.dataElement,
+      indicator: this.verificationForm.value.indicator,
       user: { id: '', name: '' },
       lastUpdate: date,
       created: date,
-      unitFee: +this.unitFee,
-      toleranceRate: +this.toleranceRate
+      unitFee: +this.verificationForm.value.unitFee,
+      toleranceRate: +this.verificationForm.value.toleranceRate
     };
     this.store.dispatch(
       addVerificationConfiguration({ configuration: configObject })
