@@ -9,6 +9,8 @@ export interface VerificationConfigurationState
   updated: boolean;
   deleting: boolean;
   deleted: boolean;
+  adding: boolean;
+  added: boolean;
 }
 
 export function selectConfigId(config: VerificationConfiguration): string {
@@ -27,7 +29,9 @@ export const initialConfigurationState: VerificationConfigurationState = adapter
     updated: false,
     updating: false,
     deleted: false,
-    deleting: false
+    deleting: false,
+    adding: false,
+    added: false
   }
 );
 export const {
