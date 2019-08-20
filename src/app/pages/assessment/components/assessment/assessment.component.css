@@ -1,3 +1,17 @@
 .main{
   margin-top: 4px;
 }
+.main-container{
+  height: 400px;
+  overflow-y: scroll;
+  overflow: hidden;
+}
+.spinner{
+  position: absolute;
+  left: 40%;
+  top: 10%;
+}
+.alert{
+  margin-top: 25%;
+  text-align: center;
+}
