@@ -3,23 +3,24 @@
     Verification Indicators
   </div>
 
-  <p
-    *ngIf="
-      (verificationConfigurationError$ | async) ||
-      !(verificationIndicators$ | async)
-    "
-    class="warning"
-  >
-    No Verification Configurations Available
-  </p>
-  <div
-    *ngIf="
-      (verificationIndicators$ | async) &&
-      !(verificationConfigurationError$ | async)
-    "
-    class="overflow-auto tableContainer"
-  >
-    <table class="table table-hover">
+  <div>
+    <p
+      *ngIf="
+        (verificationConfigurationError$ | async) ||
+        !(verificationIndicators$ | async)
+      "
+      class="warning"
+    >
+      No Verification Configurations Available
+    </p>
+    <table
+      *ngIf="
+        (verificationIndicators$ | async) &&
+        !(verificationConfigurationError$ | async)
+      "
+      class="overflow-auto tableContainer"
+      class="table table-hover"
+    >
       <thead>
         <tr>
           <th scope="col">S/No</th>
@@ -67,13 +68,13 @@
         </tr>
       </tbody>
     </table>
-    <a
-      [routerLink]="['/configuration/verification_configurations']"
-      routerLinkActive="router-link-active"
-    >
-      <button class="add">
-        <i class="savage fa fa-plus"></i>
-      </button>
-    </a>
   </div>
+  <a
+    [routerLink]="['/configuration/verification_configurations']"
+    routerLinkActive="router-link-active"
+  >
+    <button class="add">
+      <i class="savage fa fa-plus"></i>
+    </button>
+  </a>
 </div>

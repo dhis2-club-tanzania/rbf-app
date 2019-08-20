@@ -2,23 +2,23 @@
   <div class="card-header">
     Assessment Indicators
   </div>
-  <p
-    class="warning"
-    *ngIf="
-      !(assessmentIndicators$ | async) ||
-      (assessmentConfigurationError$ | async)
-    "
-  >
-    No Assessment Configurations NotFound
-  </p>
-  <div
-    *ngIf="
-      (assessmentIndicators$ | async) &&
-      !(assessmentConfigurationError$ | async)
-    "
-    class="overflow-auto tableContainer"
-  >
-    <table class="table table-hover">
+  <div class="overflow-auto tableContainer">
+    <p
+      class="warning"
+      *ngIf="
+        !(assessmentIndicators$ | async) ||
+        (assessmentConfigurationError$ | async)
+      "
+    >
+      No Assessment Configurations Available
+    </p>
+    <table
+      *ngIf="
+        (assessmentIndicators$ | async) &&
+        !(assessmentConfigurationError$ | async)
+      "
+      class="table table-hover"
+    >
       <thead>
         <tr>
           <th scope="col">S/No</th>

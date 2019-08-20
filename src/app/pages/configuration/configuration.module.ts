@@ -10,15 +10,21 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgxDhis2PeriodFilterModule } from '@iapps/ngx-dhis2-period-filter';
 import { AssessmentListComponent } from './components/assessment-list/assessment-list.component';
 import { VerificationListComponent } from './components/verification-list/verification-list.component';
+import { NgxDhis2OrgUnitFilterModule } from '@iapps/ngx-dhis2-org-unit-filter';
 
 @NgModule({
-  declarations: [...fromConfiguration.components, AssessmentListComponent, VerificationListComponent],
+  declarations: [
+    ...fromConfiguration.components,
+    AssessmentListComponent,
+    VerificationListComponent
+  ],
   imports: [
     CommonModule,
     RoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
     NgxDhis2PeriodFilterModule,
+    NgxDhis2OrgUnitFilterModule,
     MatMenuModule,
     MatIconModule
   ]
