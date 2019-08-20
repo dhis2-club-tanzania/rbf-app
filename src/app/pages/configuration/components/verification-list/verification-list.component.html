@@ -2,8 +2,21 @@
   <div class="card-header">
     Verification Indicators
   </div>
+
+  <p
+    *ngIf="
+      (verificationConfigurationError$ | async) ||
+      !(verificationIndicators$ | async)
+    "
+    class="warning"
+  >
+    No Verification Configurations Available
+  </p>
   <div
-    *ngIf="verificationIndicators$ | async"
+    *ngIf="
+      (verificationIndicators$ | async) &&
+      !(verificationConfigurationError$ | async)
+    "
     class="overflow-auto tableContainer"
   >
     <table class="table table-hover">
