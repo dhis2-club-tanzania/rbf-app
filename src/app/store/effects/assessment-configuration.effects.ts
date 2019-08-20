@@ -79,17 +79,28 @@ export class AssessmentConfigurationEffects {
     )
   );
 
-  // updateConfigurations$ = createEffect(() =>
-  //   this.actions$.pipe(
-  //     ofType(updateAssessmentConfiguration),
-  //     mergeMap(action =>
-  //       this.configServices.updateConfiguration(
-  //         this.datastoreNamespace,
-  //         action.configuration.id,
-  //         action.configuration
-  //       ).pipe(map(()=> updateAssessmentConfigurationSuccess({configuration: action.configuration})))
-  //     ),
-  //     catchError((error) => of(updateAssessmentConfigurationFail(error)))
-  //   )
-  // );
+  updateConfigurations$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(updateAssessmentConfiguration),
+      mergeMap(action =>
+        this.configServices
+          .updateConfiguration(
+            this.datastoreNamespace,
+            action.configuration.id,
+            action.configuration
+          )
+          .pipe(
+            map(() =>
+              updateAssessmentConfigurationSuccess({
+                configuration: {
+                  id: action.configuration.id,
+                  changes: action.configuration
+                }
+              })
+            )
+          )
+      ),
+      catchError(error => of(updateAssessmentConfigurationFail(error)))
+    )
+  );
 }

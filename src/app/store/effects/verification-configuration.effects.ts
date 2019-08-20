@@ -83,17 +83,28 @@ export class VerificationConfigurationEffects {
     )
   );
 
-  // updateConfigurations$ = createEffect(() =>
-  //   this.actions$.pipe(
-  //     ofType(updateVerificationConfiguration),
-  //     mergeMap(action =>
-  //       this.configServices.updateConfiguration(
-  //         this.datastoreNamespace,
-  //         action.configuration.id,
-  //         action.configuration
-  //       ).pipe(map(()=> updateVerificationConfigurationSuccess({configuration: action.configuration})))
-  //     ),
-  //     catchError((error) => of(updateVerificationConfigurationFail(error)))
-  //   )
-  // );
+  updateConfigurations$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(updateVerificationConfiguration),
+      mergeMap(action =>
+        this.configServices
+          .updateConfiguration(
+            this.datastoreNamespace,
+            action.configuration.id,
+            action.configuration
+          )
+          .pipe(
+            map(() =>
+              updateVerificationConfigurationSuccess({
+                configuration: {
+                  id: action.configuration.id,
+                  changes: action.configuration
+                }
+              })
+            )
+          )
+      ),
+      catchError(error => of(updateVerificationConfigurationFail(error)))
+    )
+  );
 }
