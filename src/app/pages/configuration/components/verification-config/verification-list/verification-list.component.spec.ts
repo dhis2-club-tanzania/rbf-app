@@ -1,15 +1,15 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AssessmentListComponent } from './assessment-list.component';
+import { VerificationListComponent } from './verification-list.component';
 import { MatMenuModule, MatIconModule } from '@angular/material';
 import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule } from '@ngrx/store';
 import { metaReducers, reducers } from 'src/app/store/reducers';
-import { DataElementPipe } from '../../pipes/data-element.pipe';
+import { DataElementPipe } from '../../../pipes/data-element.pipe';
 
-describe('AssessmentListComponent', () => {
-  let component: AssessmentListComponent;
-  let fixture: ComponentFixture<AssessmentListComponent>;
+describe('VerificationListComponent', () => {
+  let component: VerificationListComponent;
+  let fixture: ComponentFixture<VerificationListComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -19,12 +19,12 @@ describe('AssessmentListComponent', () => {
         RouterTestingModule,
         StoreModule.forRoot(reducers, { metaReducers })
       ],
-      declarations: [AssessmentListComponent, DataElementPipe]
+      declarations: [VerificationListComponent, DataElementPipe]
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AssessmentListComponent);
+    fixture = TestBed.createComponent(VerificationListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

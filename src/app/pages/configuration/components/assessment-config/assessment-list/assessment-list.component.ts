@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AssessmentConfiguration } from '../../models/assessment-configuration.model';
+import { AssessmentConfiguration } from '../../../models/assessment-configuration.model';
 import { Store } from '@ngrx/store';
 import { State } from 'src/app/store/reducers';
 import {

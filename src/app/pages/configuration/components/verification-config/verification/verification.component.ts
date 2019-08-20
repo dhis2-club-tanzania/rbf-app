@@ -5,9 +5,9 @@ import { Observable } from 'rxjs';
 import { UUID } from '@iapps/utils';
 
 import { State } from 'src/app/store/reducers';
-import { DataElementList } from '../../models/data-element.model';
+import { DataElementList } from '../../../models/data-element.model';
 import { getAllDataElements } from 'src/app/store/selectors';
-import { VerificationConfiguration } from '../../models/verification-configuration.model';
+import { VerificationConfiguration } from '../../../models/verification-configuration.model';
 import { addVerificationConfiguration } from 'src/app/store/actions';
 import { Router } from '@angular/router';
 
