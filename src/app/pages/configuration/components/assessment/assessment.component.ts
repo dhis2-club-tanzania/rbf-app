@@ -1,12 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { AssessmentConfiguration } from '../../models/assessment-configuration.model';
 import { Store } from '@ngrx/store';
-import { DataElementList } from '../../models/data-element.model';
 import { Observable } from 'rxjs';
-import { getAllDataElements } from 'src/app/store/selectors';
-import { State } from 'src/app/store/reducers';
 import { Router } from '@angular/router';
+import { UUID } from '@iapps/utils';
+
+import { getAllDataElements, getCurrentUser } from 'src/app/store/selectors';
+import { State } from 'src/app/store/reducers';
+import { addAssessmentConfiguration } from 'src/app/store/actions';
+import { User } from 'src/app/core';
+import { AssessmentConfiguration } from '../../models/assessment-configuration.model';
+import { DataElementList } from '../../models/data-element.model';
 
 @Component({
   selector: 'app-assessment',
@@ -15,7 +19,7 @@ import { Router } from '@angular/router';
 })
 export class AssessmentComponent implements OnInit {
   dataElements$: Observable<DataElementList[]>;
-
+  currentUser$: Observable<User>;
   assessmentForm;
   indicator = 'Enter indicator';
   dataElement;
@@ -26,6 +30,7 @@ export class AssessmentComponent implements OnInit {
 
   ngOnInit() {
     this.dataElements$ = this.store.select(getAllDataElements);
+    this.currentUser$ = this.store.select(getCurrentUser);
     this.assessmentForm = new FormGroup({
       indicator: new FormControl(),
       dataElement: new FormControl('[Select Data Element]'),
@@ -34,13 +39,17 @@ export class AssessmentComponent implements OnInit {
   }
 
   onClickDone() {
-    //   this.formDataArray.push({
-    //     indicator: data.indicator,
-    //     dataElementId: data.dataElement,
-    //     possibleMaxValue: data.possibleMaxValue
-    //   });
-    console.log('DONE!');
-
+    const date = new Date();
+    const config: AssessmentConfiguration = {
+      id: UUID(),
+      indicator: this.assessmentForm.value.indicator,
+      dataElement: this.assessmentForm.value.dataElement,
+      created: date,
+      lastUpdate: date,
+      user: { id: this.currentUser$['id'], name: this.currentUser$['name'] },
+      possibleMaxValue: this.assessmentForm.value.possibleMaxValue
+    };
+    this.store.dispatch(addAssessmentConfiguration({ configuration: config }));
     this.router.navigate(['/configuration/assessment']);
   }
 }

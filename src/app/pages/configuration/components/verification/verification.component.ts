@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { VerificationConfiguration } from '../../models/verification-configuration.model';
 import { Store } from '@ngrx/store';
-import { State } from 'src/app/store/reducers';
 import { Observable } from 'rxjs';
+import { UUID } from '@iapps/utils';
+
+import { State } from 'src/app/store/reducers';
 import { DataElementList } from '../../models/data-element.model';
 import { getAllDataElements } from 'src/app/store/selectors';
-import { updateVerificationConfiguration } from 'src/app/store/actions';
+import { VerificationConfiguration } from '../../models/verification-configuration.model';
+import { addVerificationConfiguration } from 'src/app/store/actions';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-verification',
@@ -23,37 +26,37 @@ export class VerificationComponent implements OnInit {
   unitFee = 'Enter unit fee';
   formDataArray: any[] = [];
 
-  constructor(private store: Store<State>) {}
+  constructor(private store: Store<State>, private router: Router) {}
 
   ngOnInit() {
     this.dataElements$ = this.store.select(getAllDataElements);
     this.verificationForm = new FormGroup({
       indicator: new FormControl(),
-      dataElement: new FormControl('[Select Data Element]', Validators.required),
+      dataElement: new FormControl(
+        '[Select Data Element]',
+        Validators.required
+      ),
       unitFee: new FormControl(Validators.required),
       toleranceRate: new FormControl(Validators.required)
     });
   }
 
-  onClickDone(data) {
-    this.formDataArray.push({
-      indicator: data.indicator,
-      dataElement: data.dataElement,
-      unitFee: data.unitFee,
-      toleranceRate: data.toleranceRate
-    });
-    console.log(this.formDataArray);
-    this.store.dispatch(updateVerificationConfiguration({ configuration: this.formDataArray}));
-  }
+  onClickDone() {
+    const date = new Date();
+    const configObject: VerificationConfiguration = {
+      id: UUID(),
+      dataElement: this.dataElement,
+      indicator: this.indicator,
+      user: { id: '', name: '' },
+      lastUpdate: date,
+      created: date,
+      unitFee: +this.unitFee,
+      toleranceRate: +this.toleranceRate
+    };
+    this.store.dispatch(
+      addVerificationConfiguration({ configuration: configObject })
+    );
 
-  onClickAdd(data) {
-    this.formDataArray.push({
-      indicator: data.indicator,
-      dataElement: data.dataElement,
-      unitFee: data.unitFee,
-      toleranceRate: data.toleranceRate
-    });
-    console.log(data);
-    this.verificationForm.reset();
+    this.router.navigate(['/configuration/verification']);
   }
 }
