@@ -1,28 +1,57 @@
 import { createAction, props } from '@ngrx/store';
-import { AssessmentConfiguration } from 'src/app/pages/configuration/models/assessment-configuration.model';
+import { Update } from '@ngrx/entity';
 import { ErrorMessage } from 'src/app/core';
+import { AssessmentConfiguration } from 'src/app/pages/configuration/models/assessment-configuration.model';
 
-export const loadAssessmentConfigSuccess = createAction(
-  '[ASSESSMENT CONFIG] load Assessment configuration success',
-  props<{ assessmentConfig: AssessmentConfiguration }>()
+export const loadAssessmentConfigurations = createAction(
+  '[CONFIGURATION] Load Configuration'
+);
+export const loadAssessmentConfigurationFail = createAction(
+  '[CONFIGURATION] Load Assessment Configuration fail',
+  props<{ error: ErrorMessage }>()
+);
+export const loadAssessmentConfigurationSuccess = createAction(
+  '[CONFIGURATION] Load Assessment Configuration success',
+  props<{ configurations: any[] }>()
 );
 
-export const loadAssessmentConfigFail = createAction(
-  '[ASSESSMENT CONFIG] load Assessment configuration success',
-  props<{ assessmentConfig: AssessmentConfiguration }>()
+export const addAssessmentConfiguration = createAction(
+  '[CONFIGURATION] add Assessment Configuration',
+  props<{ configuration: AssessmentConfiguration }>()
+);
+export const addAssessmentConfigurationSuccess = createAction(
+  '[CONFIGURATION] add Assessment Configuration Success',
+  props<{ configuration: AssessmentConfiguration }>()
+);
+export const addAssessmentConfigurationFail = createAction(
+  '[CONFIGURATION] add Assessment Configuration Fail',
+  props<{ error: ErrorMessage }>()
 );
 
-export const AddAssessmentConfig = createAction(
-  '[ASSESSMENT CONFIG] add Assessment configuration',
-  props<{ config: AssessmentConfiguration[] }>()
+export const updateAssessmentConfiguration = createAction(
+  '[CONFIGURATION] Update Assessment Configurations',
+  props<{ configuration: AssessmentConfiguration }>()
+);
+export const updateAssessmentConfigurationSuccess = createAction(
+  '[CONFIGURATION] Update Assessment Configurations Success',
+  props<{ configuration: Update<AssessmentConfiguration> }>()
+);
+export const updateAssessmentConfigurationFail = createAction(
+  '[CONFIGURATION] Update Assessment Configurations Fail',
+  props<{ error: ErrorMessage }>()
 );
 
-export const AddAssessmentConfigSuccess = createAction(
-  '[ASSESSMENT CONFIG] add Assessment configuration success',
-  props<{ config: AssessmentConfiguration[] }>()
+export const deleteAssessmentConfiguration = createAction(
+  '[CONFIGURATION] Delete Assessment Configuration',
+  props<{ id: string }>()
 );
 
-export const AddAssessmentConfigFail = createAction(
-  '[ASSESSMENT CONFIG] add Assessment configuration',
+export const deleteAssessmentConfigurationSuccess = createAction(
+  '[CONFIGURATION] Delete Assessment Configuration',
+  props<{ id: string }>()
+);
+
+export const deleteAssessmentConfigurationFail = createAction(
+  '[CONFIGURATION] Delete Assessment Configuration',
   props<{ error: ErrorMessage }>()
 );

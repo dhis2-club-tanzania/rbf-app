@@ -1,0 +1,23 @@
+.tableContainer{
+  height: 400px;
+  overflow-y: scroll;
+  overflow: hidden;
+}
+.add{
+  height: 50px;
+  width: 50px;
+  position: absolute;
+  bottom: 8%;
+  right: 2%;
+  background: rgb(39, 102, 150);
+  border: none;
+  font-size: 15px;
+  border-radius: 50%;
+}
+.menu-button{
+  background: none;
+  border: none;
+}
+.savage{
+  color: white;
+}

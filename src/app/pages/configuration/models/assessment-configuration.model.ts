@@ -1,5 +1,5 @@
-export interface AssessmentConfiguration {
-  indicator: string;
-  dataElement: { id: string; name: string };
+import { BaseConfiguration } from './configuration.model';
+
+export interface AssessmentConfiguration extends BaseConfiguration {
   possibleMaxValue: number;
 }

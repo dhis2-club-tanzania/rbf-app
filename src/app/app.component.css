@@ -4,3 +4,16 @@
 a{
   color: black;
 }
+.btn{
+  float: right;
+}
+.page-link{
+  line-height: 1.5;
+  border: none;
+  background-color: transparent;
+}
+.router-link-active{
+  background-color: rgb(39, 102, 150);
+  color: white;
+  border-radius: 2px;
+}

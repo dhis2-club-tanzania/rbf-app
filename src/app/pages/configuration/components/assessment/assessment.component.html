@@ -1,8 +1,8 @@
 <div>
   <div class="card-header">
-    Assessment Configurations
+    Add Assessment Indicator
   </div>
-  <form [formGroup]="assessmentForm">
+  <form [formGroup]="assessmentForm" (ngSubmit)="onClickDone()">
     <div class="form-group">
       <label>Indicator</label>
       <input
@@ -33,22 +33,19 @@
       />
     </div>
     <div class="row">
-      <div class="form-group form-check col col-10">
-        <button
-          type="submit"
-          class="btn btn-primary"
-          (click)="onClickDone(assessmentForm.value)"
+      <div class="form-group form-check  col col-10">
+        <a
+          [routerLink]="['/configuration/assessment']"
+          routerLinkActive="router-link-active"
         >
-          Done
-        </button>
+          <button type="submit" class="btn btn-primary">
+            Cancel
+          </button>
+        </a>
       </div>
-      <div class="form-group form-check  col col-2">
-        <button
-          type="submit"
-          class="btn btn-primary"
-          (click)="onClickAdd(assessmentForm.value)"
-        >
-          Add
+      <div class="form-group form-check col col-2">
+        <button type="submit" class="btn btn-primary">
+          Save
         </button>
       </div>
     </div>

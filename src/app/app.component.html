@@ -1,24 +1,22 @@
 <div class="application-container">
   <ngx-dhis2-menu></ngx-dhis2-menu>
   <div class="application-content">
-      <nav class="navbar navbar-light bg-light">
-          <ul class="nav">
-            <li class="nav-item">
-              <a class="nav-link"  [routerLink]="'/assessment'">Assesment</a>
+      <nav class="navbar navbar-light bg-light" aria-label="...">
+          <ul class="nav pagination">
+            <li class="nav-item page-item">
+              <a class="nav-link page-link" [routerLink]="'/assessment'" routerLinkActive="router-link-active">Assesment</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" [routerLink]="['/verification']" routerLinkActive="router-link-active"  >Verification</a>
+            <li class="nav-item page-item">
+              <a class="nav-link page-link" [routerLink]="['/verification']" routerLinkActive="router-link-active" >Verification</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link"  [routerLink]="['/budget']" routerLinkActive="router-link-active" >Budget</a>
+            <li class="nav-item page-item">
+              <a class="nav-link page-link"  [routerLink]="['/budget']" routerLinkActive="router-link-active" >Budget</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" [routerLink]="['/report']" routerLinkActive="router-link-active"  >Report</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" [routerLink]="['/configuration']" routerLinkActive="router-link-active"  >Configuration</a>
+            <li class="nav-item page-item">
+              <a class="nav-link page-link" [routerLink]="['/report']" routerLinkActive="router-link-active"  >Report</a>
             </li>
           </ul>
+          <button class="btn btn-outline-primary my-2 my-sm-0" [routerLink]="['/configuration']" routerLinkActive="router-link-active">Configurations <i class="fa fa-cogs"></i></button>
         </nav>
     <router-outlet></router-outlet>
   </div>

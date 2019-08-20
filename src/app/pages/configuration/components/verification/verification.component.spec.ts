@@ -5,6 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { reducers, metaReducers } from 'src/app/store/reducers';
 import { StoreModule } from '@ngrx/store';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('VerificationComponent', () => {
   let component: VerificationComponent;
@@ -15,6 +16,7 @@ describe('VerificationComponent', () => {
       declarations: [VerificationComponent],
       imports: [
         ReactiveFormsModule,
+        RouterTestingModule,
         StoreModule.forRoot(reducers, { metaReducers })
       ]
     }).compileComponents();

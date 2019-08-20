@@ -1,0 +1,60 @@
+<div>
+  <div class="card-header">
+    Assessment Indicators
+  </div>
+  <div *ngIf="assessmentIndicators$ | async" class="overflow-auto tableContainer">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">S/No</th>
+          <th scope="col">Indicator</th>
+          <th scope="col">Data Element</th>
+          <th scope="col">Possible Maximum Value</th>
+          <th scope="col">Last Date Modified</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="
+            let indicator of assessmentIndicators$ | async;
+            let sno = index
+          "
+        >
+          <th scope="row">{{ sno + 1 }}</th>
+          <td>{{ indicator.indicator }}</td>
+          <td>{{ indicator.dataElement }}</td>
+          <td>{{ indicator.possibleMaxValue }}</td>
+          <td>{{ sno | date }}</td>
+          <td>
+            <button
+              mat-icon-button
+              [matMenuTriggerFor]="menu"
+              aria-label="Example icon-button with a menu"
+              class="menu-button"
+            >
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item>
+                <i class="fa fa-edit"></i>
+                <span> Edit</span>
+              </button>
+              <button mat-menu-item>
+                <i class="fa fa-trash"></i>
+                <span> Delete</span>
+              </button>
+            </mat-menu>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <button class="add">
+        <a
+          [routerLink]="['/configuration/assessment_configurations']"
+          routerLinkActive="router-link-active"
+          ><i class="savage fa fa-plus"></i
+        ></a>
+      </button>
+  </div>
+</div>
