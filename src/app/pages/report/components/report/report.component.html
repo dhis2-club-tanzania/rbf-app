@@ -1,18 +1,1 @@
-<div class="row">
-    <div class="col-8">
-      <mat-form-field>
-        <mat-label>Period type</mat-label>
-        <mat-select
-          [(ngModel)]="selectedPeriodType"
-          (ngModelChange)="updatePeriodType()"
-          name="periodType"
-        >
-          <mat-option
-            *ngFor="let periodType of periodTypes"
-            [value]="periodType.id"
-            >{{ periodType.name }}</mat-option
-          >
-        </mat-select>
-      </mat-form-field>
-    </div>
-  </div>
+
