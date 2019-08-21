@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PeriodFilterConfig } from '@iapps/ngx-dhis2-period-filter';
 
 @Component({
   selector: 'app-assessment',
@@ -7,8 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AssessmentComponent implements OnInit {
 
-  title = 'app';
   orgUnitObject: any;
+  periodObject: any;
+  periodFilterConfig: PeriodFilterConfig = {
+    singleSelection: false,
+    emitOnSelection: false
+  };
   action: string;
   orgUnitFilterConfig: OrgUnitFilterConfig = {
     singleSelection: false,
@@ -18,6 +23,7 @@ export class AssessmentComponent implements OnInit {
     showOrgUnitLevelSection: false
   };
   selectedOrgUnitItems: any[] = [];
+  selectedPeriodItems: any[] = [];
 
   constructor() { }
 
@@ -25,6 +31,10 @@ export class AssessmentComponent implements OnInit {
 
   onOrgUnitUpdate(orgUnitObject, action) {
     this.orgUnitObject = orgUnitObject;
+    this.action = action;
+  }
+  onPeriodUpdate(periodObject, action) {
+    this.periodObject = periodObject;
     this.action = action;
   }
 }

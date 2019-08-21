@@ -4,6 +4,7 @@ import { VerificationComponent } from './components/verification/verification.co
 import { RoutingModule } from './verification.routes';
 import { NgxDhis2OrgUnitFilterModule } from '@iapps/ngx-dhis2-org-unit-filter';
 import { MatProgressSpinnerModule } from '@angular/material';
+import { NgxDhis2PeriodFilterModule } from '@iapps/ngx-dhis2-period-filter';
 
 
 @NgModule({
@@ -12,6 +13,7 @@ import { MatProgressSpinnerModule } from '@angular/material';
     CommonModule,
     RoutingModule,
     NgxDhis2OrgUnitFilterModule,
+    NgxDhis2PeriodFilterModule,
     MatProgressSpinnerModule
   ]
 })
