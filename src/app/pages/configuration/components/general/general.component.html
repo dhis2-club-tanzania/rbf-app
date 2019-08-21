@@ -3,22 +3,34 @@
     General Configurations
   </div>
   <div class="card">
-    <div class="card-body" style="padding: 5px;">
+    <div class="card-body" style="padding: 5px">
       <form>
-        <mat-form-field>
-          <mat-label>Select Period Type</mat-label>
-          <mat-select
-          [(ngModel)]="selectedPeriodType"
-          (ngModelChange)="updatePeriodType()"
-          name="periodType"
-          >
-            <mat-option *ngFor="let periodType of periodTypes" [value]="periodType.name">
-              {{periodType.name}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+        <div class="form-group">
+          <label>Period Type</label>
+          <mat-form-field>
+              <mat-label>Select Period Type</mat-label>
+              <mat-select name="periodType">
+                <mat-option *ngFor="let periodType of periodTypes" [value]="periodType.name">
+                  {{periodType.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="form-group">
+            <label>Organisation Unit Level</label>
+                <mat-form-field>
+                    <mat-label>Select Organisation Unit Level</mat-label>
+                    <mat-select
+              name="OrgUnitLevel"
+              >
+                <mat-option *ngFor="let OrgUnitLevel of OrgUnitLevels" [value]="OrgUnitLevel.id">
+                  {{OrgUnitLevel.displayName}}
+                </mat-option>
+              </mat-select>
+                  </mat-form-field>
+                </div>
         <div class="row">
-          <div class="form-group form-check col col-12">
+          <div class="form-group col col-12">
             <button type="submit" class="btn btn-primary">
               Save
             </button>

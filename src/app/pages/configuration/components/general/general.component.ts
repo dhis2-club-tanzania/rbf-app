@@ -12,23 +12,16 @@ export class GeneralComponent implements OnInit {
   @Input() selectedPeriodType: string;
 
   periodTypes: any[];
-  selectedYear: number;
-  currentYear: number;
-  periodFilterConfig: any;
-  selectedPeriods: any[];
+  OrgUnitLevels: any[];
 
-  constructor(private periodType: ConfigurationService) { }
+  constructor(private periodType: ConfigurationService, private OrgUnitFetcher: ConfigurationService) { }
 
   ngOnInit() {
     this.periodType.getPeriodTypes()
     .subscribe(arg => this.periodTypes = arg.periodTypes);
     console.log(this.periodType);
-  }
-
-  updatePeriodType() {
-    if (this.periodFilterConfig.resetOnPeriodTypeChange) {
-      this.selectedPeriods = [];
-    }
+    this.OrgUnitFetcher.getOrgUnitsLevel()
+      .subscribe(arg => this.OrgUnitLevels = arg.organisationUnitLevels);
 
   }
 

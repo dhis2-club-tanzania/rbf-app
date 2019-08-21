@@ -4,3 +4,12 @@
 .col{
   text-align: right;
 }
+label{
+  width:40%;
+}
+mat-form-field{
+  width: 40%;
+}
+.col{
+  padding-right: 3px;
+}
