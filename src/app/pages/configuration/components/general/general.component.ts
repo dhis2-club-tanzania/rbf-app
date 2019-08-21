@@ -14,6 +14,8 @@ export class GeneralComponent implements OnInit {
   periodTypes: any[];
   selectedYear: number;
   currentYear: number;
+  periodFilterConfig: any;
+  selectedPeriods: any[];
 
   constructor(private periodType: ConfigurationService) { }
 
@@ -24,24 +26,10 @@ export class GeneralComponent implements OnInit {
   }
 
   updatePeriodType() {
-    // if (this.periodFilterConfig.resetOnPeriodTypeChange) {
-    //   this.selectedPeriods = [];
-    // }
+    if (this.periodFilterConfig.resetOnPeriodTypeChange) {
+      this.selectedPeriods = [];
+    }
 
   }
-
-  pushPeriodBackward(e) {
-      e.stopPropagation();
-      this.selectedYear--;
-      // this.periodInstance.setYear(this.selectedYear).get();
-      // this._setAvailablePeriods(this.selectedPeriodType);
-    }
-
-  pushPeriodForward(e) {
-      e.stopPropagation();
-      this.selectedYear++;
-      // this.periodInstance.setYear(this.selectedYear).get();
-      // this._setAvailablePeriods(this.selectedPeriodType);
-    }
 
 }
