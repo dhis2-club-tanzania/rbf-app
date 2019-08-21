@@ -2,7 +2,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { AssessmentComponent } from './components/assessment-config/assessment/assessment.component';
 import { VerificationComponent } from './components/verification-config/verification/verification.component';
-import { BudgetComponent } from './components/budget/budget.component';
+import { BudgetComponent } from './components/buget-config/budget/budget.component';
 import { GeneralComponent } from './components/general/general.component';
 import { ConfigurationComponent } from './components/configuration/configuration.component';
 import { AssessmentListComponent } from './components/assessment-config/assessment-list/assessment-list.component';

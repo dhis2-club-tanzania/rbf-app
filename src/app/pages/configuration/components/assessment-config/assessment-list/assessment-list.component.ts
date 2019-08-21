@@ -8,6 +8,8 @@ import {
   getAssessmentConfigErrorState
 } from 'src/app/store/selectors';
 import { ErrorMessage } from 'src/app/core';
+import { MatDialog } from '@angular/material';
+import { DeleteAssessmentComponent } from '../delete-assessment/delete-assessment.component';
 
 @Component({
   selector: 'app-assessment-list',
@@ -17,7 +19,7 @@ import { ErrorMessage } from 'src/app/core';
 export class AssessmentListComponent implements OnInit {
   assessmentIndicators$: Observable<AssessmentConfiguration[]>;
   assessmentConfigurationError$: Observable<ErrorMessage>;
-  constructor(private store: Store<State>) {}
+  constructor(private store: Store<State>, private dialog: MatDialog) {}
 
   ngOnInit() {
     this.assessmentIndicators$ = this.store.select(getAssessmentConfigurations);
@@ -25,9 +27,14 @@ export class AssessmentListComponent implements OnInit {
       getAssessmentConfigErrorState
     );
   }
-}
-export interface AssessmentIndicators {
-  indicator: string;
-  dataElement: string;
-  possibleMaximumValue: number;
+
+  onDeletConfig(id: string) {
+    const dialogRef = this.dialog.open(DeleteAssessmentComponent, {
+      width: '350px',
+      height: '200px',
+      data: id
+    });
+
+    dialogRef.afterClosed();
+  }
 }
