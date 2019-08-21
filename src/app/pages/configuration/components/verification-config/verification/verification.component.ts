@@ -22,7 +22,6 @@ export class VerificationComponent implements OnInit {
   verificationForm;
   indicator = 'Enter indicator';
   dataElement = '[Select Data Element]';
-  toleranceRate = 'Enter tolerance rate in percentage';
   unitFee = 'Enter unit fee';
   formDataArray: any[] = [];
 
@@ -36,8 +35,7 @@ export class VerificationComponent implements OnInit {
         '[Select Data Element]',
         Validators.required
       ),
-      unitFee: new FormControl(Validators.required),
-      toleranceRate: new FormControl(Validators.required)
+      unitFee: new FormControl(Validators.required)
     });
   }
 
@@ -50,8 +48,7 @@ export class VerificationComponent implements OnInit {
       user: { id: '', name: '' },
       lastUpdate: date,
       created: date,
-      unitFee: +this.verificationForm.value.unitFee,
-      toleranceRate: +this.verificationForm.value.toleranceRate
+      unitFee: +this.verificationForm.value.unitFee
     };
     this.store.dispatch(
       addVerificationConfiguration({ configuration: configObject })
