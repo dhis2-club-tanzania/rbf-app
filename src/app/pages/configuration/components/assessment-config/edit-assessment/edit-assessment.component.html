@@ -1,3 +1,41 @@
-<p>
-  edit-assessment works!
-</p>
+<div>
+  <div class="card-header">
+    Add Assessment Indicator
+  </div>
+  <form [formGroup]="assessmentForm" (ngSubmit)="onClickDone()">
+    <div class="form-group">
+      <label>Indicator</label>
+      <input type="text" formControlName="indicator" class="form-control" />
+    </div>
+    <div class="form-group">
+      <label>Data Element</label>
+      <select class="custom-select" formControlName="dataElement">
+        <option
+          *ngFor="let option of dataElements$ | async; let i = index"
+          value="{{ option.id }}"
+          >{{ option.name }}</option
+        >
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Possible Maximum Value</label>
+      <input
+        type="number"
+        formControlName="possibleMaxValue"
+        class="form-control"
+      />
+    </div>
+    <div class="row">
+      <div class="form-group form-check  col col-10">
+        <button type="submit" class="btn btn-primary" (click)="onCancel()">
+          Cancel
+        </button>
+      </div>
+      <div class="form-group form-check col col-2">
+        <button type="submit" class="btn btn-primary">
+          Save
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

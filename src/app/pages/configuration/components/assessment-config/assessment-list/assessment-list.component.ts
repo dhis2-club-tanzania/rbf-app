@@ -10,6 +10,7 @@ import {
 import { ErrorMessage } from 'src/app/core';
 import { MatDialog } from '@angular/material';
 import { DeleteAssessmentComponent } from '../delete-assessment/delete-assessment.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-assessment-list',
@@ -19,7 +20,11 @@ import { DeleteAssessmentComponent } from '../delete-assessment/delete-assessmen
 export class AssessmentListComponent implements OnInit {
   assessmentIndicators$: Observable<AssessmentConfiguration[]>;
   assessmentConfigurationError$: Observable<ErrorMessage>;
-  constructor(private store: Store<State>, private dialog: MatDialog) {}
+  constructor(
+    private store: Store<State>,
+    private dialog: MatDialog,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.assessmentIndicators$ = this.store.select(getAssessmentConfigurations);
@@ -37,5 +42,10 @@ export class AssessmentListComponent implements OnInit {
     });
 
     dialogRef.afterClosed();
+  }
+
+  onEdit(e, id: string) {
+    e.stopPropagation();
+    this.router.navigate([`/configuration/assessment_edit/${id}`]);
   }
 }
