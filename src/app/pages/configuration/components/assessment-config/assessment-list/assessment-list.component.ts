@@ -28,7 +28,8 @@ export class AssessmentListComponent implements OnInit {
     );
   }
 
-  onDeletConfig(id: string) {
+  onDeleteConfig(e, id: string) {
+    e.stopPropagation();
     const dialogRef = this.dialog.open(DeleteAssessmentComponent, {
       width: '350px',
       height: '200px',

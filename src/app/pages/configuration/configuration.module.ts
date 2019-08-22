@@ -16,8 +16,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgxDhis2PeriodFilterModule } from '@iapps/ngx-dhis2-period-filter';
 import { NgxDhis2OrgUnitFilterModule } from '@iapps/ngx-dhis2-org-unit-filter';
 import { DataElementPipe } from './pipes/data-element.pipe';
-import { AssessmentListComponent } from './components/assessment-config/assessment-list/assessment-list.component';
 import { DeleteAssessmentComponent } from './components/assessment-config/delete-assessment/delete-assessment.component';
+import { DeleteVerificationComponent } from './components/verification-config/delete-verification/delete-verification.component';
 
 @NgModule({
   declarations: [...fromConfiguration.components, DataElementPipe],
@@ -34,6 +34,6 @@ import { DeleteAssessmentComponent } from './components/assessment-config/delete
     MatInputModule,
     MatButtonModule
   ],
-  entryComponents: [DeleteAssessmentComponent]
+  entryComponents: [DeleteAssessmentComponent, DeleteVerificationComponent]
 })
 export class ConfigurationModule {}
