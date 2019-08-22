@@ -14,7 +14,10 @@
       (orgUnitClose)="onOrgUnitUpdate($event, 'CLOSE')">
    </ngx-dhis2-org-unit-filter>
   </div>
-  <div class="main-container col-9">
+  <div class="main col-9">
+      <div class="card-header">
+          Select Period
+        </div>
       <ngx-dhis2-period-filter
       [selectedPeriods]="selectedPeriodItems"
       [periodFilterConfig]="periodFilterConfig"

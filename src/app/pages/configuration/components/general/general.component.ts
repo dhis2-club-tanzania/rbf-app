@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { PeriodFilterConfig } from '@iapps/ngx-dhis2-period-filter';
 import { ConfigurationService } from '../../services/configuration.service';
 
 @Component({
