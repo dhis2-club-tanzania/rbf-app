@@ -26,7 +26,7 @@ export class AssessmentConfigurationEffects {
     private configServices: ConfigurationService,
     private actions$: Actions
   ) {
-    this.datastoreNamespace = 'RBF-assessment-config';
+    this.datastoreNamespace = 'rbf-assessment-config';
   }
 
   loadConfigurations$ = createEffect(() =>

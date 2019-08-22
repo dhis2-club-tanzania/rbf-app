@@ -19,6 +19,7 @@ import { NgxDhis2PeriodFilterModule } from '@iapps/ngx-dhis2-period-filter';
 import { NgxDhis2OrgUnitFilterModule } from '@iapps/ngx-dhis2-org-unit-filter';
 import { DataElementPipe } from './pipes/data-element.pipe';
 import { DeleteAssessmentComponent } from './components/assessment-config/delete-assessment/delete-assessment.component';
+import { DeleteVerificationComponent } from './components/verification-config/delete-verification/delete-verification.component';
 
 @NgModule({
   declarations: [...fromConfiguration.components, DataElementPipe],
@@ -37,6 +38,6 @@ import { DeleteAssessmentComponent } from './components/assessment-config/delete
     MatOptionModule,
     MatSelectModule
   ],
-  entryComponents: [DeleteAssessmentComponent]
+  entryComponents: [DeleteAssessmentComponent, DeleteVerificationComponent]
 })
 export class ConfigurationModule {}

@@ -58,7 +58,10 @@
                 <i class="fa fa-edit"></i>
                 <span> Edit</span>
               </button>
-              <button mat-menu-item>
+              <button
+                mat-menu-item
+                (click)="onDeleteConfig($event, indicator.id)"
+              >
                 <i class="fa fa-trash"></i>
                 <span> Delete</span>
               </button>

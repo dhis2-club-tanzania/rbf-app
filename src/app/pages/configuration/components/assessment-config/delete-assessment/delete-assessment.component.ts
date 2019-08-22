@@ -16,7 +16,7 @@ export class DeleteAssessmentComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: string
   ) {}
 
-  onDismiss(): void {
+  onDismiss() {
     this.dialogRef.close();
   }
 
