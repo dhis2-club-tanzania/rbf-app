@@ -8,7 +8,7 @@
         <div class="form-group">
           <mat-form-field>
               <mat-label>Select Period Type</mat-label>
-              <mat-select name="periodType">
+              <mat-select formControlName="periodType">
                 <mat-option *ngFor="let periodType of periodTypes" [value]="periodType.name">
                   {{periodType.name}}
                 </mat-option>
@@ -18,7 +18,7 @@
         <div class="form-group">
                 <mat-form-field>
                     <mat-label>Select Organisation Unit Level</mat-label>
-                    <mat-select name="OrgUnitLevel">
+                    <mat-select formControlName="OrgUnitLevel">
                 <mat-option *ngFor="let OrgUnitLevel of OrgUnitLevels" [value]="OrgUnitLevel.id">
                   {{OrgUnitLevel.displayName}}
                 </mat-option>
