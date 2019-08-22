@@ -26,7 +26,7 @@ export class VerificationConfigurationEffects {
     private configServices: ConfigurationService,
     private actions$: Actions
   ) {
-    this.datastoreNamespace = 'RBF-verification-config';
+    this.datastoreNamespace = 'rbf-verification-config';
   }
 
   loadConfigurations$ = createEffect(() =>
