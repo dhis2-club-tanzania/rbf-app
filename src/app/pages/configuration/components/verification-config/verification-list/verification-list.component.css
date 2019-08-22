@@ -1,9 +1,13 @@
-.tableContainer{
+.warning {
+  text-align: center;
+}
+
+.tableContainer {
   height: 400px;
   overflow-y: scroll;
   overflow: hidden;
 }
-.add{
+.add {
   height: 50px;
   width: 50px;
   position: absolute;
@@ -14,10 +18,10 @@
   font-size: 15px;
   border-radius: 50%;
 }
-.menu-button{
+.menu-button {
   background: none;
   border: none;
 }
-.savage{
+.savage {
   color: white;
 }

@@ -11,3 +11,8 @@ export const getVerificationConfigurations = createSelector(
   getVerificationConfigurationState,
   fromConfigState.selectAllVerificationConfigurations
 );
+
+export const getVerificationConfigErrorState = createSelector(
+  getVerificationConfigurationState,
+  (state: fromConfigState.VerificationConfigurationState) => state.error
+);

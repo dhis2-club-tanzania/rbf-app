@@ -1,7 +1,7 @@
  import { Injectable } from '@angular/core';
 import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
-import { switchMap, catchError, map } from 'rxjs/operators';
-import { throwError, Observable, forkJoin } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+import { Observable, forkJoin } from 'rxjs';
 import * as _ from 'lodash';
 import { VerificationConfiguration } from '../models/verification-configuration.model';
 import { AssessmentConfiguration } from '../models/assessment-configuration.model';
@@ -24,10 +24,10 @@ export class ConfigurationService {
    */
   createConfiguration(
     namespace: string,
-    createdConfigurations: any
+    createdConfigurations: VerificationConfiguration | AssessmentConfiguration
   ): Observable<any> {
     return this.httpService.post(
-      `${this.dataStoreUrl}/${namespace}`,
+      `${this.dataStoreUrl}/${namespace}/${createdConfigurations.id}`,
       createdConfigurations
     );
   }
@@ -57,20 +57,6 @@ export class ConfigurationService {
           )
         )
       );
-    // const configObs: Observable<any>[] = [];
-    // this.getAllConfigurations(namespace).subscribe(key => {
-    //   const value = new Observable(observer => {
-    //     this.httpService
-    //       .get(`${this.dataStoreUrl}/${namespace}/${key}`)
-    //       .subscribe(
-    //         configData => observer.next(configData),
-    //         error => observer.error(error),
-    //         () => observer.complete()
-    //       );
-    //   });
-    //   configObs.push(value);
-    // });
-    // return this.httpService.get(`${this.dataStoreUrl}/${namespace}/${key}`);
   }
 
   /**
@@ -93,7 +79,7 @@ export class ConfigurationService {
   deleteConfiguration(namespace: string, key: string): Observable<any> {
     return this.httpService.delete(`${this.dataStoreUrl}/${namespace}/${key}`);
   }
-  generateRandoId(): Observable<any> {
+  generateRandomId(): Observable<any> {
     return this.httpService
       .get('system/id.json')
       .pipe(switchMap((codes: any[]) => codes[0]));

@@ -19,7 +19,10 @@ import {
   updateAssessmentConfigurationFail,
   deleteAssessmentConfiguration,
   deleteAssessmentConfigurationSuccess,
-  deleteAssessmentConfigurationFail
+  deleteAssessmentConfigurationFail,
+  addAssessmentConfiguration,
+  addAssessmentConfigurationFail,
+  addAssessmentConfigurationSuccess
 } from '../actions/assessment-config.actions';
 
 export const reducer = createReducer(
@@ -41,11 +44,32 @@ export const reducer = createReducer(
     updating: true,
     updated: false
   })),
+  on(addAssessmentConfiguration, state => ({
+    ...state,
+    added: false,
+    adding: true
+  })),
+  on(addAssessmentConfigurationFail, (state, { error }) => ({
+    ...state,
+    added: false,
+    adding: false,
+    ...errorBaseState,
+    error
+  })),
+  on(addAssessmentConfigurationSuccess, (state, { configuration }) =>
+    adapter.addOne(configuration, {
+      ...state,
+      added: true,
+      adding: false,
+      error: null
+    })
+  ),
   on(updateAssessmentConfigurationSuccess, (state, { configuration }) =>
     adapter.updateOne(configuration, {
       ...state,
       updated: true,
-      updating: false
+      updating: false,
+      error: null
     })
   ),
   on(updateAssessmentConfigurationFail, (state, { error }) => ({
@@ -60,7 +84,12 @@ export const reducer = createReducer(
     deleting: false
   })),
   on(deleteAssessmentConfigurationSuccess, (state, { id }) =>
-    adapter.removeOne(id, { ...state, deleted: true, deleting: false })
+    adapter.removeOne(id, {
+      ...state,
+      deleted: true,
+      deleting: false,
+      error: null
+    })
   ),
   on(deleteAssessmentConfigurationFail, (state, { error }) => ({
     ...state,

@@ -4,7 +4,7 @@
   </div>
   <div class="card">
     <div class="card-body" style="padding: 5px">
-      <form>
+      <form [formGroup]="generalConfigForm" (click)="onClickSave(generalConfigForm.value)">
         <div class="form-group">
           <mat-form-field>
               <mat-label>Select Period Type</mat-label>
@@ -18,9 +18,7 @@
         <div class="form-group">
                 <mat-form-field>
                     <mat-label>Select Organisation Unit Level</mat-label>
-                    <mat-select
-              name="OrgUnitLevel"
-              >
+                    <mat-select name="OrgUnitLevel">
                 <mat-option *ngFor="let OrgUnitLevel of OrgUnitLevels" [value]="OrgUnitLevel.id">
                   {{OrgUnitLevel.displayName}}
                 </mat-option>

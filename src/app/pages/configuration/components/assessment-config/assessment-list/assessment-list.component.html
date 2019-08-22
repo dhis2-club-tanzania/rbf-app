@@ -2,8 +2,23 @@
   <div class="card-header">
     Assessment Indicators
   </div>
-  <div *ngIf="assessmentIndicators$ | async" class="overflow-auto tableContainer">
-    <table class="table table-hover">
+  <div class="overflow-auto tableContainer">
+    <p
+      class="warning"
+      *ngIf="
+        !(assessmentIndicators$ | async) ||
+        (assessmentConfigurationError$ | async)
+      "
+    >
+      No Assessment Configurations Available
+    </p>
+    <table
+      *ngIf="
+        (assessmentIndicators$ | async) &&
+        !(assessmentConfigurationError$ | async)
+      "
+      class="table table-hover"
+    >
       <thead>
         <tr>
           <th scope="col">S/No</th>
@@ -23,9 +38,9 @@
         >
           <th scope="row">{{ sno + 1 }}</th>
           <td>{{ indicator.indicator }}</td>
-          <td>{{ indicator.dataElement }}</td>
+          <td>{{ indicator.dataElement | dataElement }}</td>
           <td>{{ indicator.possibleMaxValue }}</td>
-          <td>{{ sno | date }}</td>
+          <td>{{ indicator.lastUpdate | date }}</td>
           <td>
             <button
               mat-icon-button
@@ -40,7 +55,7 @@
                 <i class="fa fa-edit"></i>
                 <span> Edit</span>
               </button>
-              <button mat-menu-item>
+              <button mat-menu-item (click)="onDeletConfig(indicator.id)">
                 <i class="fa fa-trash"></i>
                 <span> Delete</span>
               </button>

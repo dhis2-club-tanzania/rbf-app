@@ -5,6 +5,7 @@ import { MatMenuModule, MatIconModule } from '@angular/material';
 import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule } from '@ngrx/store';
 import { metaReducers, reducers } from 'src/app/store/reducers';
+import { DataElementPipe } from '../../../pipes/data-element.pipe';
 
 describe('VerificationListComponent', () => {
   let component: VerificationListComponent;
@@ -18,7 +19,7 @@ describe('VerificationListComponent', () => {
         RouterTestingModule,
         StoreModule.forRoot(reducers, { metaReducers })
       ],
-      declarations: [VerificationListComponent]
+      declarations: [VerificationListComponent, DataElementPipe]
     }).compileComponents();
   }));
 

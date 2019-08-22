@@ -1,10 +1,15 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AssessmentListComponent } from './assessment-list.component';
-import { MatMenuModule, MatIconModule } from '@angular/material';
+import {
+  MatMenuModule,
+  MatIconModule,
+  MatDialogModule
+} from '@angular/material';
 import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule } from '@ngrx/store';
 import { metaReducers, reducers } from 'src/app/store/reducers';
+import { DataElementPipe } from '../../../pipes/data-element.pipe';
 
 describe('AssessmentListComponent', () => {
   let component: AssessmentListComponent;
@@ -15,10 +20,11 @@ describe('AssessmentListComponent', () => {
       imports: [
         MatMenuModule,
         MatIconModule,
+        MatDialogModule,
         RouterTestingModule,
         StoreModule.forRoot(reducers, { metaReducers })
       ],
-      declarations: [AssessmentListComponent]
+      declarations: [AssessmentListComponent, DataElementPipe]
     }).compileComponents();
   }));
 
