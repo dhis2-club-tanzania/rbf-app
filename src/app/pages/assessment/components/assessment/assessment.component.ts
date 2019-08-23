@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PeriodFilterConfig } from '@iapps/ngx-dhis2-period-filter';
 import { Observable } from 'rxjs';
-import { AssessmentConfiguration  } from '../../../configuration/models/assessment-configuration.model';
+import { AssessmentConfiguration } from '../../../configuration/models/assessment-configuration.model';
 import { State } from 'src/app/store/reducers';
 import { Store } from '@ngrx/store';
 import { getAssessmentConfigurations } from 'src/app/store/selectors';
@@ -12,6 +12,8 @@ import { getAssessmentConfigurations } from 'src/app/store/selectors';
   styleUrls: ['./assessment.component.css']
 })
 export class AssessmentComponent implements OnInit {
+  showPeriodFilter = false;
+  showOrgUnitFilter = false;
 
   assessmentIndicators$: Observable<AssessmentConfiguration[]>;
 
@@ -32,25 +34,35 @@ export class AssessmentComponent implements OnInit {
   selectedOrgUnitItems: any[] = [];
   selectedPeriodItems: any[] = [];
 
-  constructor(private store: Store<State>) { }
+  constructor(private store: Store<State>) {}
 
   ngOnInit() {
     this.assessmentIndicators$ = this.store.select(getAssessmentConfigurations);
-   }
+  }
+
+  onPeriodFilterToggle() {
+    this.showPeriodFilter = !this.showPeriodFilter;
+  }
+
+  onOrgUnitFilterToggle() {
+    this.showOrgUnitFilter = !this.showOrgUnitFilter;
+  }
 
   onOrgUnitUpdate(orgUnitObject, action) {
     this.orgUnitObject = orgUnitObject;
     this.action = action;
+    this.onOrgUnitFilterToggle();
   }
   onPeriodUpdate(periodObject, action) {
     this.periodObject = periodObject;
     this.action = action;
+    this.onPeriodFilterToggle();
   }
 }
 export interface OrgUnitFilterConfig {
   singleSelection: boolean;
-    showUserOrgUnitSection: boolean;
-    showOrgUnitLevelGroupSection: boolean;
-    showOrgUnitGroupSection: boolean;
-    showOrgUnitLevelSection: boolean;
+  showUserOrgUnitSection: boolean;
+  showOrgUnitLevelGroupSection: boolean;
+  showOrgUnitGroupSection: boolean;
+  showOrgUnitLevelSection: boolean;
 }

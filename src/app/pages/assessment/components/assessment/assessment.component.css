@@ -1,19 +1,23 @@
-.main{
+.main {
   margin-top: 4px;
 }
-.spinner{
+.spinner {
   position: absolute;
   left: 40%;
   top: 10%;
 }
-.alert{
+.alert {
   margin-top: 25%;
   text-align: center;
 }
-.form{
+.form {
   margin: 5px;
   width: 100%;
 }
-.small{
+.small {
   width: 70px;
+}
+.select {
+  background-color: rgb(39, 102, 150);
+  color: white;
 }
