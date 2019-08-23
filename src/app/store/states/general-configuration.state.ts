@@ -31,12 +31,14 @@ export const {
   selectTotal: selectAssessmntConfigCount
 } = adapter.getSelectors();
 
-export const initialState: GeneralConfigurationState = adapter.getInitialState({
-  ...initialBaseState,
-  updating: false,
-  updated: false,
-  deleting: false,
-  deleted: false,
-  added: false,
-  adding: false
-});
+export const initialGeneralConfigurationState: GeneralConfigurationState = adapter.getInitialState(
+  {
+    ...initialBaseState,
+    updating: false,
+    updated: false,
+    deleting: false,
+    deleted: false,
+    added: false,
+    adding: false
+  }
+);
