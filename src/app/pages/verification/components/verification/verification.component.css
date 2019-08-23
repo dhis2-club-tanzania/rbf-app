@@ -1,7 +1,10 @@
-.main{
+.main {
   margin-top: 4px;
 }
-.alert{
+.alert {
   margin-top: 25%;
   text-align: center;
+}
+.card-header {
+  width: 100%;
 }
