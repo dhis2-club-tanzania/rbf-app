@@ -1,7 +1,7 @@
 export interface BaseConfiguration {
   id?: string;
-  indicator: string;
-  dataElement: string;
+  indicator?: string;
+  dataElement?: string;
   created: Date;
   lastUpdate: Date;
   user: {
