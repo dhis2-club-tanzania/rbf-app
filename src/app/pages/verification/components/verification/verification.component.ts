@@ -13,7 +13,7 @@ export class VerificationComponent implements OnInit {
   periodObject: any;
   orgUnitObject: any;
   periodFilterConfig: PeriodFilterConfig = {
-    singleSelection: false,
+    singleSelection: true,
     emitOnSelection: false
   };
   action: string;
@@ -48,6 +48,7 @@ export class VerificationComponent implements OnInit {
     this.periodObject = periodObject;
     this.action = action;
     this.onPeriodToggle();
+    console.log(periodObject);
   }
 }
 export interface OrgUnitFilterConfig {

@@ -4,11 +4,8 @@
   </div>
   <div class="row">
     <div class="main col-6">
-      <button
-        class="card-header btn-group dropdown-toggle"
-        (click)="onOrgUnitToggle()"
-      >
-        Select Organisation
+      <button class="card-header btn-group-sm" (click)="onOrgUnitToggle()">
+        Select Organisation <i class="fa fa-caret-down"></i>
       </button>
       <ngx-dhis2-org-unit-filter
         *ngIf="showOrgUnitFilter"
@@ -20,11 +17,8 @@
       </ngx-dhis2-org-unit-filter>
     </div>
     <div class="main col-6">
-      <button
-        class="card-header btn-group dropdown-toggle"
-        (click)="onPeriodToggle()"
-      >
-        Select Period
+      <button class="card-header btn-group-sm" (click)="onPeriodToggle()">
+        Select Period <i class="fa fa-caret-down"></i>
       </button>
       <ngx-dhis2-period-filter
         *ngIf="showPeriodFilter"
@@ -37,16 +31,39 @@
       ></ngx-dhis2-period-filter>
     </div>
   </div>
-  <div>
+  <div class="form">
+    <!-- Main Form display ground -->
     <form>
-      <h3>Period Type? OrgUnit? Data Verification Form</h3>
-      <table class="table table-bordered">
+      <!-- Period Type and OrgUnitLevel are needed here -->
+      <h3>Period Type? OrgUnitLevel? Data Verification Form</h3>
+      <!-- OrgUnitName will be plugged here -->
+      <br />OrgUnit Name?
+      <table class="table table-bordered table-hover">
         <thead>
           <tr>
-            <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
+            <th scope="col" rowspan="2">S/No</th>
+            <th scope="col" rowspan="2">Indicator</th>
+            <th scope="col" colspan="2">Period Loop</th>
+            <th scope="col">Total Declared (Rep.#)</th>
+            <th scope="col">Total Verified (Ver.#)</th>
+            <th scope="col">Difference</th>
+            <th scope="col">% Error</th>
+            <th scope="col" rowspan="2">Unit Fee (Tsh)</th>
+            <!-- Period Type is needed here -->
+            <th scope="col" rowspan="2">Quarterly Provisional Total Amount</th>
+            <!-- Tolerance rate percentage is needed here -->
+            <th scope="col" rowspan="2">
+              Loss Due to above ToleranceRate%? & Above Error
+            </th>
+            <th scope="col" rowspan="2">Actual Quantity Amount</th>
+          </tr>
+          <tr>
+            <th scope="col">Rep. #1</th>
+            <th scope="col">Rep. #2</th>
+            <th scope="col">(Rep.#1 +Rep.#2 +Rep.#3)</th>
+            <th scope="col">(Ver.#1 +Ver.#2 +Ver.#3)</th>
+            <th scope="col">(Rep.#-Ver.#)</th>
+            <th scope="col">%(Rep.#-Ver.#) / Rep.#</th>
           </tr>
         </thead>
         <tbody>
@@ -55,9 +72,20 @@
             <td>Mark</td>
             <td>Otto</td>
             <td>@mdo</td>
+            <td>@mdo</td>
+            <td>@mdo</td>
+            <td>@mdo</td>
+            <td>@mdo</td>
+            <td>@mdo</td>
+            <td>@mdo</td>
+            <td>@mdo</td>
+            <td>@mdo</td>
           </tr>
         </tbody>
       </table>
+      <button class="btn btn-group btn-primary btn-form">Complete</button>
+      <button class="btn btn-group btn-primary btn-form">Incomplete</button>
+      <button class="btn btn-group btn-primary btn-form">Run Validation</button>
     </form>
   </div>
 </div>

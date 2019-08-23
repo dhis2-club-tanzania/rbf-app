@@ -8,3 +8,11 @@
 .card-header {
   width: 100%;
 }
+.form {
+  margin: 5px;
+  text-align: center;
+}
+.btn-form {
+  width: 32%;
+  margin: 3px;
+}
