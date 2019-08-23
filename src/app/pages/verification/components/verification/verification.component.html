@@ -35,9 +35,15 @@
     <!-- Main Form display ground -->
     <form>
       <!-- Period Type and OrgUnitLevel are needed here -->
-      <h3>Period Type? OrgUnitLevel? Data Verification Form</h3>
-      <!-- OrgUnitName will be plugged here -->
-      <br />OrgUnit Name?
+      <h3>
+        {{ periodObject.items[0].type | titlecase }}
+        {{ orgUnitLevel }} Data Verification Form
+      </h3>
+      <br />
+      <h5>
+        Organization Name: <u>{{ orgUnitObject.items[0].name }}</u>
+      </h5>
+      <br />
       <table class="table table-bordered table-hover">
         <thead class="card-header">
           <tr>

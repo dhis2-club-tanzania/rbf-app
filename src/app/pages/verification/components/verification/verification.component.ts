@@ -27,6 +27,8 @@ export class VerificationComponent implements OnInit {
   selectedOrgUnitItems: any[] = [];
   selectedPeriodItems: any[] = [];
 
+  orgUnitLevel: any;
+
   constructor() {}
 
   ngOnInit() {}
@@ -39,10 +41,28 @@ export class VerificationComponent implements OnInit {
     this.showPeriodFilter = !this.showPeriodFilter;
   }
 
+  setOrgUnitLevel() {
+    switch (this.orgUnitObject.items[0].level) {
+      case 1:
+        this.orgUnitLevel = 'National';
+        break;
+      case 2:
+        this.orgUnitLevel = 'District';
+        break;
+      case 3:
+        this.orgUnitLevel = 'Chiefdom';
+        break;
+      case 4:
+        this.orgUnitLevel = 'Facility';
+        break;
+    }
+  }
+
   onOrgUnitUpdate(orgUnitObject, action) {
     this.orgUnitObject = orgUnitObject;
     this.action = action;
     this.onOrgUnitToggle();
+    this.setOrgUnitLevel();
   }
   onPeriodUpdate(periodObject, action) {
     this.periodObject = periodObject;
