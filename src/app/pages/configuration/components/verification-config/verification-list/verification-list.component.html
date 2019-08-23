@@ -53,7 +53,7 @@
               <mat-icon>more_vert</mat-icon>
             </button>
             <mat-menu #menu="matMenu">
-              <button mat-menu-item>
+              <button mat-menu-item (click)="onEdit($event, indicator.id)">
                 <i class="fa fa-edit"></i>
                 <span> Edit</span>
               </button>

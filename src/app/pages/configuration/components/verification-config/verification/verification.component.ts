@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { UUID } from '@iapps/utils';
 
+import { addVerificationConfiguration } from 'src/app/store/actions';
 import { State } from 'src/app/store/reducers';
 import { DataElementList } from '../../../models/data-element.model';
 import { getAllDataElements, getCurrentUser } from 'src/app/store/selectors';
 import { VerificationConfiguration } from '../../../models/verification-configuration.model';
-import { addVerificationConfiguration } from 'src/app/store/actions';
-import { Router } from '@angular/router';
 import { User } from 'src/app/core';
 
 @Component({

@@ -10,10 +10,7 @@ import {
   getSelectedAssessmentConfig
 } from 'src/app/store/selectors';
 import { State } from 'src/app/store/reducers';
-import {
-  updateVerificationConfiguration,
-  updateAssessmentConfiguration
-} from 'src/app/store/actions';
+import { updateAssessmentConfiguration } from 'src/app/store/actions';
 import { User } from 'src/app/core';
 import { AssessmentConfiguration } from '../../../models/assessment-configuration.model';
 import { DataElementList } from '../../../models/data-element.model';

@@ -10,6 +10,7 @@ import {
 import { ErrorMessage } from 'src/app/core';
 import { MatDialog } from '@angular/material';
 import { DeleteVerificationComponent } from '../delete-verification/delete-verification.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-verification-list',
@@ -19,7 +20,11 @@ import { DeleteVerificationComponent } from '../delete-verification/delete-verif
 export class VerificationListComponent implements OnInit {
   verificationIndicators$: Observable<VerificationConfiguration[]>;
   verificationConfigurationError$: Observable<ErrorMessage>;
-  constructor(private store: Store<State>, private dialog: MatDialog) {}
+  constructor(
+    private store: Store<State>,
+    private dialog: MatDialog,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.verificationIndicators$ = this.store.select(
@@ -39,5 +44,10 @@ export class VerificationListComponent implements OnInit {
     });
 
     dialogRef.afterClosed();
+  }
+
+  onEdit(e, id: string) {
+    e.stopPropagation();
+    this.router.navigate([`configuration/verification_edit/${id}`]);
   }
 }
