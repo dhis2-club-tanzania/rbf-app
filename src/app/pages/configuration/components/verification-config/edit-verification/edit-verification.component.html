@@ -1,3 +1,42 @@
-<p>
-  edit-verification works!
-</p>
+<div>
+  <div class="card-header">
+    Verification Configurations
+  </div>
+  <form [formGroup]="verificationForm" (ngSubmit)="onClickDone()">
+    <div class="form-group">
+      <label>Indicator</label>
+      <input type="text" formControlName="indicator" class="form-control" />
+    </div>
+    <div class="form-group">
+      <label>Data Element</label>
+      <select class="custom-select" formControlName="dataElement">
+        <option selected>[Select Data Element]</option>
+        <option
+          *ngFor="let option of dataElements$ | async"
+          value="{{ option.id }}"
+          >{{ option.name }}</option
+        >
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Unit Fee</label>
+      <input type="number" formControlName="unitFee" class="form-control" />
+    </div>
+    <div class="row">
+      <div class="form-group form-check col col-10">
+        <button
+          type="submit"
+          class="btn btn-primary"
+          (click)="onCancel($event)"
+        >
+          Cancel
+        </button>
+      </div>
+      <div class="form-group form-check col col-2">
+        <button type="submit" class="btn btn-primary">
+          Save
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

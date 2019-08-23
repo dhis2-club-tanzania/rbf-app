@@ -7,6 +7,8 @@ import { GeneralComponent } from './components/general/general.component';
 import { ConfigurationComponent } from './components/configuration/configuration.component';
 import { AssessmentListComponent } from './components/assessment-config/assessment-list/assessment-list.component';
 import { VerificationListComponent } from './components/verification-config/verification-list/verification-list.component';
+import { EditAssessmentComponent } from './components/assessment-config/edit-assessment/edit-assessment.component';
+import { EditVerificationComponent } from './components/verification-config/edit-verification/edit-verification.component';
 
 export const routes: Routes = [
   {
@@ -26,12 +28,20 @@ export const routes: Routes = [
         component: AssessmentComponent
       },
       {
+        path: 'assessment_edit/:id',
+        component: EditAssessmentComponent
+      },
+      {
         path: 'verification',
         component: VerificationListComponent
       },
       {
         path: 'verification_configurations',
         component: VerificationComponent
+      },
+      {
+        path: 'verification_edit/:id',
+        component: EditVerificationComponent
       },
       {
         path: 'budget',

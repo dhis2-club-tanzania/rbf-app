@@ -20,7 +20,11 @@ import { Router } from '@angular/router';
 export class AssessmentListComponent implements OnInit {
   assessmentIndicators$: Observable<AssessmentConfiguration[]>;
   assessmentConfigurationError$: Observable<ErrorMessage>;
-  constructor(private store: Store<State>, private dialog: MatDialog, private route: Router) {}
+  constructor(
+    private store: Store<State>,
+    private dialog: MatDialog,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.assessmentIndicators$ = this.store.select(getAssessmentConfigurations);
@@ -40,7 +44,8 @@ export class AssessmentListComponent implements OnInit {
     dialogRef.afterClosed();
   }
 
-  onClickAdd() {
-    this.route.navigate(['/configuration/assessment_configurations']);
+  onEdit(e, id: string) {
+    e.stopPropagation();
+    this.router.navigate([`/configuration/assessment_edit/${id}`]);
   }
 }

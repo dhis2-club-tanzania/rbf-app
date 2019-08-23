@@ -22,7 +22,6 @@ export class AssessmentComponent implements OnInit {
   currentUser$: Observable<User>;
   assessmentForm;
   indicator = 'Enter indicator';
-  dataElement;
   possibleMaximumValue = 'Enter the possible maximum value';
   formDataArray: any[] = [];
 

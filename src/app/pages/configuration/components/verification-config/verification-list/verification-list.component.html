@@ -27,7 +27,6 @@
           <th scope="col">Indicator</th>
           <th scope="col">Data Element</th>
           <th scope="col">Unit Fee</th>
-          <th scope="col">Tolerance Rate</th>
           <th scope="col">Last Date Modified</th>
           <th></th>
         </tr>
@@ -54,7 +53,7 @@
               <mat-icon>more_vert</mat-icon>
             </button>
             <mat-menu #menu="matMenu">
-              <button mat-menu-item>
+              <button mat-menu-item (click)="onEdit($event, indicator.id)">
                 <i class="fa fa-edit"></i>
                 <span> Edit</span>
               </button>
