@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
+import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { defer, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
 import { getSanitizedSystemInfo } from '../../core';
 import { addSystemInfo, loadSystemInfo, loadSystemInfoFail } from '../actions';
-import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 
 @Injectable()
 export class SystemInfoEffects {

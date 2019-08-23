@@ -1,30 +1,91 @@
 <div class="main">
-    <div class="card-header">
-      Verfication Form
-    </div>
-    <div class="row">
-    <div class="main col-3">
-      <div class="card-header">
-        Select Organisation
-      </div>
+  <div class="card-header">
+    Verfication Form
+  </div>
+  <div class="row">
+    <div class="main col-6">
+      <button class="card-header btn-group-sm" (click)="onOrgUnitToggle()">
+        Select Organisation <i class="fa fa-caret-down"></i>
+      </button>
       <ngx-dhis2-org-unit-filter
+        *ngIf="showOrgUnitFilter"
         [orgUnitFilterConfig]="orgUnitFilterConfig"
         [selectedOrgUnitItems]="selectedOrgUnitItems"
         (orgUnitUpdate)="onOrgUnitUpdate($event, 'UPDATE')"
-        (orgUnitClose)="onOrgUnitUpdate($event, 'CLOSE')">
-     </ngx-dhis2-org-unit-filter>
+        (orgUnitClose)="onOrgUnitUpdate($event, 'CLOSE')"
+      >
+      </ngx-dhis2-org-unit-filter>
     </div>
-    <div class="main col-9">
-        <div class="card-header">
-            Select Period
-          </div>
-        <ngx-dhis2-period-filter
-      [selectedPeriods]="selectedPeriodItems"
-      [periodFilterConfig]="periodFilterConfig"
-      [lowestPeriodType]="'Monthly'"
-      (update)="onPeriodUpdate($event, 'UPDATE')"
-      (change)="onPeriodUpdate($event, 'CHANGE')"
-      (close)="onPeriodUpdate($event, 'CLOSE')"
-    ></ngx-dhis2-period-filter>
+    <div class="main col-6">
+      <button class="card-header btn-group-sm" (click)="onPeriodToggle()">
+        Select Period <i class="fa fa-caret-down"></i>
+      </button>
+      <ngx-dhis2-period-filter
+        *ngIf="showPeriodFilter"
+        [selectedPeriods]="selectedPeriodItems"
+        [periodFilterConfig]="periodFilterConfig"
+        [lowestPeriodType]="'Monthly'"
+        (update)="onPeriodUpdate($event, 'UPDATE')"
+        (change)="onPeriodUpdate($event, 'CHANGE')"
+        (close)="onPeriodUpdate($event, 'CLOSE')"
+      ></ngx-dhis2-period-filter>
     </div>
   </div>
+  <div class="form">
+    <!-- Main Form display ground -->
+    <form>
+      <!-- Period Type and OrgUnitLevel are needed here -->
+      <h3>Period Type? OrgUnitLevel? Data Verification Form</h3>
+      <!-- OrgUnitName will be plugged here -->
+      <br />OrgUnit Name?
+      <table class="table table-bordered table-hover">
+        <thead class="card-header">
+          <tr>
+            <th scope="col" rowspan="2">S/No</th>
+            <th scope="col" rowspan="2">Indicator</th>
+            <th scope="col" colspan="2">Period Loop</th>
+            <th scope="col">Total Declared (Rep.#)</th>
+            <th scope="col">Total Verified (Ver.#)</th>
+            <th scope="col">Difference</th>
+            <th scope="col">% Error</th>
+            <th scope="col" rowspan="2">Unit Fee (Tsh)</th>
+            <!-- Period Type is needed here -->
+            <th scope="col" rowspan="2">Quarterly Provisional Total Amount</th>
+            <!-- Tolerance rate percentage is needed here -->
+            <th scope="col" rowspan="2">
+              Loss Due to above ToleranceRate%? & Above Error
+            </th>
+            <th scope="col" rowspan="2">Actual Quantity Amount</th>
+          </tr>
+          <tr>
+            <th scope="col">Rep. #1</th>
+            <th scope="col">Rep. #2</th>
+            <th scope="col">(Rep.#1 +Rep.#2 +Rep.#3)</th>
+            <th scope="col">(Ver.#1 +Ver.#2 +Ver.#3)</th>
+            <th scope="col">(Rep.#-Ver.#)</th>
+            <th scope="col">%(Rep.#-Ver.#) / Rep.#</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+            <td>@mdo</td>
+            <td>@mdo</td>
+            <td>@mdo</td>
+            <td>@mdo</td>
+            <td>@mdo</td>
+            <td>@mdo</td>
+            <td>@mdo</td>
+            <td>@mdo</td>
+          </tr>
+        </tbody>
+      </table>
+      <button class="btn btn-group btn-primary btn-form">Complete</button>
+      <button class="btn btn-group btn-primary btn-form">Incomplete</button>
+      <button class="btn btn-group btn-primary btn-form">Run Validation</button>
+    </form>
+  </div>
+</div>

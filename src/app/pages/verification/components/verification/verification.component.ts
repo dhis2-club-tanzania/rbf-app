@@ -7,11 +7,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./verification.component.css']
 })
 export class VerificationComponent implements OnInit {
+  showOrgUnitFilter = false;
+  showPeriodFilter = false;
 
   periodObject: any;
   orgUnitObject: any;
   periodFilterConfig: PeriodFilterConfig = {
-    singleSelection: false,
+    singleSelection: true,
     emitOnSelection: false
   };
   action: string;
@@ -25,25 +27,34 @@ export class VerificationComponent implements OnInit {
   selectedOrgUnitItems: any[] = [];
   selectedPeriodItems: any[] = [];
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  onOrgUnitToggle() {
+    this.showOrgUnitFilter = !this.showOrgUnitFilter;
+  }
+
+  onPeriodToggle() {
+    this.showPeriodFilter = !this.showPeriodFilter;
   }
 
   onOrgUnitUpdate(orgUnitObject, action) {
     this.orgUnitObject = orgUnitObject;
     this.action = action;
+    this.onOrgUnitToggle();
   }
   onPeriodUpdate(periodObject, action) {
     this.periodObject = periodObject;
     this.action = action;
+    this.onPeriodToggle();
+    console.log(periodObject);
   }
 }
 export interface OrgUnitFilterConfig {
   singleSelection: boolean;
-    showUserOrgUnitSection: boolean;
-    showOrgUnitLevelGroupSection: boolean;
-    showOrgUnitGroupSection: boolean;
-    showOrgUnitLevelSection: boolean;
+  showUserOrgUnitSection: boolean;
+  showOrgUnitLevelGroupSection: boolean;
+  showOrgUnitGroupSection: boolean;
+  showOrgUnitLevelSection: boolean;
 }
-
