@@ -1,15 +1,6 @@
 .main {
   margin-top: 4px;
 }
-.spinner {
-  position: absolute;
-  left: 40%;
-  top: 10%;
-}
-.alert {
-  margin-top: 25%;
-  text-align: center;
-}
 .form {
   margin: 5px;
   width: 100%;
@@ -20,4 +11,8 @@
 .select {
   background-color: rgb(39, 102, 150);
   color: white;
+}
+.btn {
+  margin: 3px;
+  width: 32%;
 }
