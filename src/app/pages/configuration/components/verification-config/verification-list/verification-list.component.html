@@ -18,7 +18,7 @@
         (verificationIndicators$ | async) &&
         !(verificationConfigurationError$ | async)
       "
-      class="overflow-auto tableContainer"
+      class="overflow-auto tableContainer table-bordered"
       class="table table-hover"
     >
       <thead>
@@ -70,12 +70,7 @@
       </tbody>
     </table>
   </div>
-  <a
-    [routerLink]="['/configuration/verification_configurations']"
-    routerLinkActive="router-link-active"
-  >
-    <button class="add">
-      <i class="savage fa fa-plus"></i>
-    </button>
-  </a>
+  <button class="add" (click)="onClickAdd()">
+    <i class="savage fa fa-plus"></i>
+  </button>
 </div>

@@ -1,3 +1,4 @@
+import { PeriodFilterConfig } from '@iapps/ngx-dhis2-period-filter';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,30 +8,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class VerificationComponent implements OnInit {
 
-
-  title = 'app';
+  periodObject: any;
   orgUnitObject: any;
+  periodFilterConfig: PeriodFilterConfig = {
+    singleSelection: false,
+    emitOnSelection: false
+  };
   action: string;
   orgUnitFilterConfig: OrgUnitFilterConfig = {
     singleSelection: false,
     showUserOrgUnitSection: false,
-    showOrgUnitLevelGroupSection: true,
+    showOrgUnitLevelGroupSection: false,
     showOrgUnitGroupSection: true,
     showOrgUnitLevelSection: false
   };
-  selectedOrgUnitItems: any[] = [
-    { id: 'O6uvpzGd5pu', name: 'Bo', level: 3 },
-    {
-      id: 'OU_GROUP.AQQCxQqDxLe',
-      name: 'Konta CHP',
-      level: 4
-    },
-    {
-      id: 'LEVEL-1',
-      name: 'Kukuna CHP',
-      level: 4
-    }
-  ];
+  selectedOrgUnitItems: any[] = [];
+  selectedPeriodItems: any[] = [];
 
   constructor() { }
 
@@ -39,6 +32,10 @@ export class VerificationComponent implements OnInit {
 
   onOrgUnitUpdate(orgUnitObject, action) {
     this.orgUnitObject = orgUnitObject;
+    this.action = action;
+  }
+  onPeriodUpdate(periodObject, action) {
+    this.periodObject = periodObject;
     this.action = action;
   }
 }

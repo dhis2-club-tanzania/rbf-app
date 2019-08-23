@@ -1,4 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { PeriodFilterConfig } from '@iapps/ngx-dhis2-period-filter';
+import { Observable } from 'rxjs';
+import { AssessmentConfiguration  } from '../../../configuration/models/assessment-configuration.model';
+import { State } from 'src/app/store/reducers';
+import { Store } from '@ngrx/store';
+import { getAssessmentConfigurations } from 'src/app/store/selectors';
 
 @Component({
   selector: 'app-assessment',
@@ -7,37 +13,37 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AssessmentComponent implements OnInit {
 
-  title = 'app';
+  assessmentIndicators$: Observable<AssessmentConfiguration[]>;
+
   orgUnitObject: any;
+  periodObject: any;
+  periodFilterConfig: PeriodFilterConfig = {
+    singleSelection: false,
+    emitOnSelection: false
+  };
   action: string;
   orgUnitFilterConfig: OrgUnitFilterConfig = {
     singleSelection: false,
     showUserOrgUnitSection: false,
-    showOrgUnitLevelGroupSection: true,
+    showOrgUnitLevelGroupSection: false,
     showOrgUnitGroupSection: true,
     showOrgUnitLevelSection: false
   };
-  selectedOrgUnitItems: any[] = [
-    { id: 'O6uvpzGd5pu', name: 'Bo', level: 3 },
-    {
-      id: 'OU_GROUP.AQQCxQqDxLe',
-      name: 'Konta CHP',
-      level: 4
-    },
-    {
-      id: 'LEVEL-1',
-      name: 'Kukuna CHP',
-      level: 4
-    }
-  ];
+  selectedOrgUnitItems: any[] = [];
+  selectedPeriodItems: any[] = [];
 
-  constructor() { }
+  constructor(private store: Store<State>) { }
 
   ngOnInit() {
-  }
+    this.assessmentIndicators$ = this.store.select(getAssessmentConfigurations);
+   }
 
   onOrgUnitUpdate(orgUnitObject, action) {
     this.orgUnitObject = orgUnitObject;
+    this.action = action;
+  }
+  onPeriodUpdate(periodObject, action) {
+    this.periodObject = periodObject;
     this.action = action;
   }
 }

@@ -1,6 +1,30 @@
-<ngx-dhis2-org-unit-filter
-    [orgUnitFilterConfig]="orgUnitFilterConfig"
-    [selectedOrgUnitItems]="selectedOrgUnitItems"
-    (orgUnitUpdate)="onOrgUnitUpdate($event, 'UPDATE')"
-    (orgUnitClose)="onOrgUnitUpdate($event, 'CLOSE')">
-</ngx-dhis2-org-unit-filter>
+<div class="main">
+    <div class="card-header">
+      Verfication Form
+    </div>
+    <div class="row">
+    <div class="main col-3">
+      <div class="card-header">
+        Select Organisation
+      </div>
+      <ngx-dhis2-org-unit-filter
+        [orgUnitFilterConfig]="orgUnitFilterConfig"
+        [selectedOrgUnitItems]="selectedOrgUnitItems"
+        (orgUnitUpdate)="onOrgUnitUpdate($event, 'UPDATE')"
+        (orgUnitClose)="onOrgUnitUpdate($event, 'CLOSE')">
+     </ngx-dhis2-org-unit-filter>
+    </div>
+    <div class="main col-9">
+        <div class="card-header">
+            Select Period
+          </div>
+        <ngx-dhis2-period-filter
+      [selectedPeriods]="selectedPeriodItems"
+      [periodFilterConfig]="periodFilterConfig"
+      [lowestPeriodType]="'Monthly'"
+      (update)="onPeriodUpdate($event, 'UPDATE')"
+      (change)="onPeriodUpdate($event, 'CHANGE')"
+      (close)="onPeriodUpdate($event, 'CLOSE')"
+    ></ngx-dhis2-period-filter>
+    </div>
+  </div>

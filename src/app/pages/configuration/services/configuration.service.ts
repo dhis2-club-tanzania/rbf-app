@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+ import { Injectable } from '@angular/core';
 import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import { switchMap } from 'rxjs/operators';
 import { Observable, forkJoin } from 'rxjs';
@@ -10,7 +10,10 @@ import { AssessmentConfiguration } from '../models/assessment-configuration.mode
 })
 export class ConfigurationService {
   dataStoreUrl: string;
-  constructor(private httpService: NgxDhis2HttpClientService) {
+  periodTypeUrl = 'periodTypes.json';
+  constructor(private httpService: NgxDhis2HttpClientService,
+    private httpService2: NgxDhis2HttpClientService,
+    private httpService3: NgxDhis2HttpClientService) {
     this.dataStoreUrl = 'dataStore';
   }
 
@@ -81,4 +84,11 @@ export class ConfigurationService {
       .get('system/id.json')
       .pipe(switchMap((codes: any[]) => codes[0]));
   }
+  getPeriodTypes(): Observable<any> {
+    return this.httpService2.get(this.periodTypeUrl);
+  }
+  getOrgUnitsLevel(): Observable<any> {
+    return this.httpService3.get('organisationUnitLevels.json');
+  }
 }
+

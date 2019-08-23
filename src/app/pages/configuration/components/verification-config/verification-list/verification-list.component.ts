@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { VerificationConfiguration } from '../../../models/verification-configuration.model';
 import { Store } from '@ngrx/store';
 import { State } from 'src/app/store/reducers';
+import { Router } from '@angular/router';
 import {
   getVerificationConfigurations,
   getVerificationConfigErrorState
@@ -10,7 +11,6 @@ import {
 import { ErrorMessage } from 'src/app/core';
 import { MatDialog } from '@angular/material';
 import { DeleteVerificationComponent } from '../delete-verification/delete-verification.component';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-verification-list',
@@ -35,6 +35,9 @@ export class VerificationListComponent implements OnInit {
     );
   }
 
+  onClickAdd() {
+    this.router.navigate(['/configuration/verification_configurations']);
+  }
   onDeleteConfig(e, id: string) {
     e.stopPropagation();
     const dialogRef = this.dialog.open(DeleteVerificationComponent, {

@@ -7,7 +7,9 @@ import {
   MatIconModule,
   MatDialogModule,
   MatInputModule,
-  MatButtonModule
+  MatButtonModule,
+  MatOptionModule,
+  MatSelectModule
 } from '@angular/material';
 
 import * as fromConfiguration from './components';
@@ -32,7 +34,9 @@ import { DeleteVerificationComponent } from './components/verification-config/de
     MatMenuModule,
     MatIconModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,
+    MatOptionModule,
+    MatSelectModule
   ],
   entryComponents: [DeleteAssessmentComponent, DeleteVerificationComponent]
 })

@@ -1,0 +1,19 @@
+.main{
+  margin-top: 4px;
+}
+.spinner{
+  position: absolute;
+  left: 40%;
+  top: 10%;
+}
+.alert{
+  margin-top: 25%;
+  text-align: center;
+}
+.form{
+  margin: 5px;
+  width: 100%;
+}
+.small{
+  width: 70px;
+}
