@@ -25,10 +25,10 @@ export const adapter: EntityAdapter<GeneralConfiguration> = createEntityAdapter(
 );
 
 export const {
-  selectIds: seletcAssessmentIds,
-  selectEntities: selectAssessmentConfigEntities,
-  selectAll: selectAllAssessmentConfigurations,
-  selectTotal: selectAssessmntConfigCount
+  selectIds: seletcGeneralIds,
+  selectEntities: selectGeneralConfigEntities,
+  selectAll: selectAllGeneralConfigurations,
+  selectTotal: selectGeneralConfigCount
 } = adapter.getSelectors();
 
 export const initialGeneralConfigurationState: GeneralConfigurationState = adapter.getInitialState(
