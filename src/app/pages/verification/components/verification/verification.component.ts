@@ -29,6 +29,10 @@ export class VerificationComponent implements OnInit {
 
   orgUnitLevel: any;
 
+  periodLooper = [];
+
+  // Form Properties are deckared below
+
   constructor() {}
 
   ngOnInit() {}
@@ -68,7 +72,14 @@ export class VerificationComponent implements OnInit {
     this.periodObject = periodObject;
     this.action = action;
     this.onPeriodToggle();
+    this.setPeriodLooper();
     console.log(periodObject);
+  }
+
+  setPeriodLooper() {
+    if (this.periodObject.items[0].type === 'Monthly') {
+      this.periodLooper.push(this.periodObject.items[0].name);
+    }
   }
 }
 export interface OrgUnitFilterConfig {

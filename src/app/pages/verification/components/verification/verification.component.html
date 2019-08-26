@@ -33,6 +33,7 @@
   </div>
   <div class="form">
     <!-- Main Form display ground -->
+    {{ periodLooper | json }}
     <form>
       <!-- Period Type and OrgUnitLevel are needed here -->
       <h3>
@@ -41,7 +42,7 @@
       </h3>
       <br />
       <h5>
-        Organization Name: <u>{{ orgUnitObject.items[0].name }}</u>
+        Organization Unit Name: <u>{{ orgUnitObject.items[0].name }}</u>
       </h5>
       <br />
       <table class="table table-bordered table-hover">
@@ -49,9 +50,15 @@
           <tr>
             <th scope="col" rowspan="2">S/No</th>
             <th scope="col" rowspan="2">Indicator</th>
-            <th scope="col" colspan="2">Period Loop</th>
-            <th scope="col">Total Declared (Rep.#)</th>
-            <th scope="col">Total Verified (Ver.#)</th>
+            <th scope="col" *ngFor="let iteration of periodLooper">
+              {{ iteration }}
+            </th>
+            <th scope="col">
+              Total Declared (Rep.#)
+            </th>
+            <th scope="col">
+              Total Verified (Ver.#)
+            </th>
             <th scope="col">Difference</th>
             <th scope="col">% Error</th>
             <th scope="col" rowspan="2">Unit Fee (Tsh)</th>
@@ -64,8 +71,17 @@
             <th scope="col" rowspan="2">Actual Quantity Amount</th>
           </tr>
           <tr>
-            <th scope="col">Rep. #1</th>
-            <th scope="col">Rep. #2</th>
+            <!-- The following th loops with the parent th above -->
+            <th
+              scope="col"
+              *ngFor="let iteration of periodLooper; let i = index"
+            >
+              <tr>
+                <td class="tdwithin">Rep. #{{ i + 1 }}</td>
+                <td class="tdwithin">Ver. #{{ i + 1 }}</td>
+              </tr>
+            </th>
+
             <th scope="col">(Rep.#1 +Rep.#2 +Rep.#3)</th>
             <th scope="col">(Ver.#1 +Ver.#2 +Ver.#3)</th>
             <th scope="col">(Rep.#-Ver.#)</th>
@@ -75,17 +91,23 @@
         <tbody>
           <tr>
             <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-            <td>@mdo</td>
-            <td>@mdo</td>
-            <td>@mdo</td>
-            <td>@mdo</td>
-            <td>@mdo</td>
-            <td>@mdo</td>
-            <td>@mdo</td>
-            <td>@mdo</td>
+            <td>Indicator name</td>
+            <td *ngFor="let iteration of periodLooper">
+              <!-- Iterating datas are listed are rendered here -->
+              <tr>
+                <td><input value="0" disabled /></td>
+                <td><input /></td>
+              </tr>
+            </td>
+
+            <td><input value="0" /></td>
+            <td><input value="0" /></td>
+            <td><input value="0" /></td>
+            <td><input value="0" /></td>
+            <td>unitFee?</td>
+            <td><input value="0" /></td>
+            <td><input value="0" /></td>
+            <td><input value="0" /></td>
           </tr>
         </tbody>
       </table>
