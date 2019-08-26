@@ -1,19 +1,22 @@
- import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import { switchMap } from 'rxjs/operators';
 import { Observable, forkJoin } from 'rxjs';
 import * as _ from 'lodash';
 import { VerificationConfiguration } from '../models/verification-configuration.model';
 import { AssessmentConfiguration } from '../models/assessment-configuration.model';
+import { GeneralConfiguration } from '../models/general-configuration.model';
 @Injectable({
   providedIn: 'root'
 })
 export class ConfigurationService {
   dataStoreUrl: string;
   periodTypeUrl = 'periodTypes.json';
-  constructor(private httpService: NgxDhis2HttpClientService,
+  constructor(
+    private httpService: NgxDhis2HttpClientService,
     private httpService2: NgxDhis2HttpClientService,
-    private httpService3: NgxDhis2HttpClientService) {
+    private httpService3: NgxDhis2HttpClientService
+  ) {
     this.dataStoreUrl = 'dataStore';
   }
 
@@ -24,7 +27,10 @@ export class ConfigurationService {
    */
   createConfiguration(
     namespace: string,
-    createdConfigurations: VerificationConfiguration | AssessmentConfiguration
+    createdConfigurations:
+      | VerificationConfiguration
+      | AssessmentConfiguration
+      | GeneralConfiguration
   ): Observable<any> {
     return this.httpService.post(
       `${this.dataStoreUrl}/${namespace}/${createdConfigurations.id}`,
@@ -45,7 +51,7 @@ export class ConfigurationService {
    * @param namespace datastore namespace
    * @param key datastore key
    */
-  getConfigurations(namespace: string) {
+  getConfigurations(namespace: string): Observable<any> {
     return this.httpService
       .get(`${this.dataStoreUrl}/${namespace}`)
       .pipe(
@@ -68,7 +74,10 @@ export class ConfigurationService {
   updateConfiguration(
     namespace: string,
     key: string,
-    updatedConfigurations: VerificationConfiguration | AssessmentConfiguration
+    updatedConfigurations:
+      | VerificationConfiguration
+      | AssessmentConfiguration
+      | GeneralConfiguration
   ): Observable<any> {
     return this.httpService.put(
       `${this.dataStoreUrl}/${namespace}/${key}`,
@@ -91,4 +100,3 @@ export class ConfigurationService {
     return this.httpService3.get('organisationUnitLevels.json');
   }
 }
-

@@ -9,7 +9,7 @@ export const loadGeneralConfigurations = createAction(
 
 export const loadGeneralConfigurationsSucess = createAction(
   '[CONFIGURATIONS] Load general configuration Success',
-  props<{ configurations: GeneralConfiguration }>()
+  props<{ configurations: any }>()
 );
 
 export const loadGeneralConfigurationsFail = createAction(

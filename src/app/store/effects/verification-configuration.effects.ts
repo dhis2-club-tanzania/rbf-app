@@ -32,7 +32,7 @@ export class VerificationConfigurationEffects {
   loadConfigurations$ = createEffect(() =>
     this.actions$.pipe(
       ofType(addSystemInfo),
-      mergeMap(() =>
+      switchMap(() =>
         this.configServices
           .getConfigurations(this.datastoreNamespace)
           .pipe(
