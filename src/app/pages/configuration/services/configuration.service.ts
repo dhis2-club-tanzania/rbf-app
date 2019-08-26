@@ -88,15 +88,20 @@ export class ConfigurationService {
   deleteConfiguration(namespace: string, key: string): Observable<any> {
     return this.httpService.delete(`${this.dataStoreUrl}/${namespace}/${key}`);
   }
+
   generateRandomId(): Observable<any> {
     return this.httpService
       .get('system/id.json')
       .pipe(switchMap((codes: any[]) => codes[0]));
   }
+
   getPeriodTypes(): Observable<any> {
     return this.httpService2.get(this.periodTypeUrl);
   }
+
   getOrgUnitsLevel(): Observable<any> {
-    return this.httpService3.get('organisationUnitLevels.json');
+    return this.httpService3.get(
+      'organisationUnitLevels.json?fields=level,displayName,id'
+    );
   }
 }

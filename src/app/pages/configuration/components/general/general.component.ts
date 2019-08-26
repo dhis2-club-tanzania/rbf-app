@@ -8,7 +8,6 @@ import { FormGroup, FormControl } from '@angular/forms';
   styleUrls: ['./general.component.css']
 })
 export class GeneralComponent implements OnInit {
-
   @Input() selectedPeriodType: string;
 
   periodTypes: any[];
@@ -16,24 +15,25 @@ export class GeneralComponent implements OnInit {
 
   generalConfigForm;
 
-
-  constructor(private periodType: ConfigurationService, private OrgUnitFetcher: ConfigurationService) { }
+  constructor(
+    private periodType: ConfigurationService,
+    private OrgUnitFetcher: ConfigurationService
+  ) {}
 
   ngOnInit() {
-    this.periodType.getPeriodTypes()
-    .subscribe(arg => this.periodTypes = arg.periodTypes);
-    console.log(this.periodType);
-    this.OrgUnitFetcher.getOrgUnitsLevel()
-      .subscribe(arg => this.OrgUnitLevels = arg.organisationUnitLevels);
+    this.periodType
+      .getPeriodTypes()
+      .subscribe(arg => (this.periodTypes = arg.periodTypes));
+    this.OrgUnitFetcher.getOrgUnitsLevel().subscribe(
+      arg => (this.OrgUnitLevels = arg.organisationUnitLevels)
+    );
 
-    this.generalConfigForm = new FormGroup ({
+    this.generalConfigForm = new FormGroup({
       periodType: new FormControl(),
-      OrgUnitLevel: new FormControl(),
+      OrgUnitLevel: new FormControl()
     });
-
   }
   onClickSave(formData) {
     console.log(formData);
   }
-
 }

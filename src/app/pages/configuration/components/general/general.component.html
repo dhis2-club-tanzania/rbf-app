@@ -4,27 +4,36 @@
   </div>
   <div class="card">
     <div class="card-body" style="padding: 5px">
-      <form [formGroup]="generalConfigForm" (click)="onClickSave(generalConfigForm.value)">
+      <form
+        [formGroup]="generalConfigForm"
+        (click)="onClickSave(generalConfigForm.value)"
+      >
         <div class="form-group">
           <mat-form-field>
-              <mat-label>Select Period Type</mat-label>
-              <mat-select formControlName="periodType">
-                <mat-option *ngFor="let periodType of periodTypes" [value]="periodType.name">
-                  {{periodType.name}}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
+            <mat-label>Select Period Type</mat-label>
+            <mat-select formControlName="periodType">
+              <mat-option
+                *ngFor="let periodType of periodTypes"
+                [value]="periodType.name"
+              >
+                {{ periodType.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
         <div class="form-group">
-                <mat-form-field>
-                    <mat-label>Select Organisation Unit Level</mat-label>
-                    <mat-select formControlName="OrgUnitLevel">
-                <mat-option *ngFor="let OrgUnitLevel of OrgUnitLevels" [value]="OrgUnitLevel.id">
-                  {{OrgUnitLevel.displayName}}
-                </mat-option>
-              </mat-select>
-                  </mat-form-field>
-                </div>
+          <mat-form-field>
+            <mat-label>Select Organisation Unit Level</mat-label>
+            <mat-select formControlName="OrgUnitLevel">
+              <mat-option
+                *ngFor="let OrgUnitLevel of OrgUnitLevels"
+                [value]="{ id: OrgUnitLevel.id, level: OrgUnitLevel.level }"
+              >
+                {{ OrgUnitLevel.displayName }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
         <div class="row">
           <div class="form-group col col-12">
             <button type="submit" class="btn btn-primary">
@@ -36,5 +45,3 @@
     </div>
   </div>
 </div>
-
-
