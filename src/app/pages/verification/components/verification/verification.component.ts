@@ -1,5 +1,6 @@
 import { PeriodFilterConfig } from '@iapps/ngx-dhis2-period-filter';
 import { Component, OnInit } from '@angular/core';
+import { OrgUnitFilterConfig } from '@iapps/ngx-dhis2-org-unit-filter';
 
 @Component({
   selector: 'app-verification',
@@ -30,6 +31,7 @@ export class VerificationComponent implements OnInit {
   orgUnitLevel: any;
 
   periodLooper = [];
+  testLooper = '';
 
   // Form Properties are deckared below
 
@@ -78,7 +80,110 @@ export class VerificationComponent implements OnInit {
 
   setPeriodLooper() {
     if (this.periodObject.items[0].type === 'Monthly') {
-      this.periodLooper.push(this.periodObject.items[0].name);
+      this.periodLooper = [this.periodObject.items[0].name];
+    }
+    if (this.periodObject.items[0].type === 'BiMonthly') {
+      this.testLooper = this.periodObject.items[0];
+      switch (this.periodObject.items[0].id.charAt(5)) {
+        case '1':
+          {
+            this.periodLooper = ['January', 'February'];
+          }
+          break;
+        case '2':
+          {
+            this.periodLooper = ['March', 'April'];
+          }
+          break;
+        case '3':
+          {
+            this.periodLooper = ['May', 'June'];
+          }
+          break;
+        case '4':
+          {
+            this.periodLooper = ['July', 'August'];
+          }
+          break;
+        case '5':
+          {
+            this.periodLooper = ['September', 'October'];
+          }
+          break;
+        case '6':
+          {
+            this.periodLooper = ['November', 'December'];
+          }
+          break;
+      }
+    }
+    if (this.periodObject.items[0].type === 'Quarterly') {
+      switch (this.periodObject.items[0].id.charAt(5)) {
+        case '1':
+          {
+            this.periodLooper = ['January', 'February', 'March'];
+          }
+          break;
+        case '2':
+          {
+            this.periodLooper = ['April', 'May', 'June'];
+          }
+          break;
+        case '3':
+          {
+            this.periodLooper = ['July', 'August', 'September'];
+          }
+          break;
+        case '4':
+          {
+            this.periodLooper = ['October', 'November', 'December'];
+          }
+          break;
+      }
+    }
+    if (this.periodObject.items[0].type === 'SixMonthly') {
+      switch (this.periodObject.items[0].id.charAt(5)) {
+        case '1':
+          {
+            this.periodLooper = [
+              'January',
+              'February',
+              'March',
+              'April',
+              'May',
+              'June'
+            ];
+          }
+          break;
+        case '2':
+          {
+            this.periodLooper = [
+              'July',
+              'August',
+              'September',
+              'October',
+              'November',
+              'December'
+            ];
+          }
+          break;
+      }
+    }
+    if (this.periodObject.items[0].type === 'Yearly') {
+      this.periodLooper = [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December'
+      ];
     }
   }
 }

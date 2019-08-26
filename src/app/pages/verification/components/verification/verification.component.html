@@ -26,16 +26,12 @@
         [periodFilterConfig]="periodFilterConfig"
         [lowestPeriodType]="'Monthly'"
         (update)="onPeriodUpdate($event, 'UPDATE')"
-        (change)="onPeriodUpdate($event, 'CHANGE')"
-        (close)="onPeriodUpdate($event, 'CLOSE')"
       ></ngx-dhis2-period-filter>
     </div>
   </div>
   <div class="form">
     <!-- Main Form display ground -->
-    {{ periodLooper | json }}
     <form>
-      <!-- Period Type and OrgUnitLevel are needed here -->
       <h3>
         {{ periodObject.items[0].type | titlecase }}
         {{ orgUnitLevel }} Data Verification Form
@@ -71,7 +67,6 @@
             <th scope="col" rowspan="2">Actual Quantity Amount</th>
           </tr>
           <tr>
-            <!-- The following th loops with the parent th above -->
             <th
               scope="col"
               *ngFor="let iteration of periodLooper; let i = index"
@@ -93,7 +88,6 @@
             <th scope="row">1</th>
             <td>Indicator name</td>
             <td *ngFor="let iteration of periodLooper">
-              <!-- Iterating datas are listed are rendered here -->
               <tr>
                 <td><input value="0" disabled /></td>
                 <td><input /></td>
