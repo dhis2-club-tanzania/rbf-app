@@ -49,8 +49,9 @@ export class AssessmentListComponent implements OnInit {
     this.router.navigate([`/configuration/assessment_edit/${id}`]);
   }
 
+  // TODO check the functionality of this button
   onClickAdd(e) {
     e.stopPropagation();
-    this.router.navigate([`/configuration/assessment`]);
+    this.router.navigate([`/configuration/assessment_configurations`]);
   }
 }
