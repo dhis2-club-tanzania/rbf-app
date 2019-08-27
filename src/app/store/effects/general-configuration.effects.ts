@@ -4,12 +4,12 @@ import { ConfigurationService } from 'src/app/pages/configuration/services/confi
 import {
   addSystemInfo,
   loadGeneralConfigurationsSucess,
-  loadAssessmentConfigurationFail,
   addGeneralConfigurations,
   addGeneralConfigurationsSuccess,
   addGeneralConfigurationsFail,
   updateGeneralConfigurations,
-  updateGeneralConfigurationsFail
+  updateGeneralConfigurationsFail,
+  loadGeneralConfigurationsFail
 } from '../actions';
 import { switchMap, map, catchError, mergeMap } from 'rxjs/operators';
 import { of } from 'rxjs';
@@ -36,7 +36,7 @@ export class GeneralConfigurationEffects {
             )
           )
       ),
-      catchError(error => of(loadAssessmentConfigurationFail({ error: error })))
+      catchError(error => of(loadGeneralConfigurationsFail({ error: error })))
     )
   );
 

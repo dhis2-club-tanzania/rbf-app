@@ -4,7 +4,7 @@ import { ErrorMessage } from 'src/app/core';
 import { AssessmentConfiguration } from 'src/app/pages/configuration/models/assessment-configuration.model';
 
 export const loadAssessmentConfigurations = createAction(
-  '[CONFIGURATION] Load Configuration'
+  '[CONFIGURATION] Load Assessment Configuration'
 );
 export const loadAssessmentConfigurationFail = createAction(
   '[CONFIGURATION] Load Assessment Configuration fail',
