@@ -3,42 +3,27 @@
     Verfication Form
   </div>
   <div class="row">
-    <div class="main col-6">
-      <button class="card-header btn-group-sm" (click)="onOrgUnitToggle()">
-        Select Organisation <i class="fa fa-caret-down"></i>
-      </button>
-      <ngx-dhis2-org-unit-filter
-        *ngIf="showOrgUnitFilter"
-        [orgUnitFilterConfig]="orgUnitFilterConfig"
-        [selectedOrgUnitItems]="selectedOrgUnitItems"
-        (orgUnitUpdate)="onOrgUnitUpdate($event, 'UPDATE')"
-        (orgUnitClose)="onOrgUnitUpdate($event, 'CLOSE')"
-      >
-      </ngx-dhis2-org-unit-filter>
-    </div>
-    <div class="main col-6">
-      <button class="card-header btn-group-sm" (click)="onPeriodToggle()">
-        Select Period <i class="fa fa-caret-down"></i>
-      </button>
-      <ngx-dhis2-period-filter
-        *ngIf="showPeriodFilter"
-        [selectedPeriods]="selectedPeriodItems"
-        [periodFilterConfig]="periodFilterConfig"
-        [lowestPeriodType]="'Monthly'"
-        (update)="onPeriodUpdate($event, 'UPDATE')"
-      ></ngx-dhis2-period-filter>
-    </div>
+    <ngx-dhis2-selection-filters
+      (filterUpdate)="onFilterUpdateAction($event)"
+      [dataSelections]="dataSelections"
+      [selectionFilterConfig]="selectionFilterConfig"
+      (update)="onFilterUpdateAction($event)"
+      class="filter"
+    >
+    </ngx-dhis2-selection-filters>
   </div>
-  <div class="form">
+  <div class="form" *ngIf="showForm">
     <!-- Main Form display ground -->
+    {{ dataSelections | json }}
     <form>
       <h3>
-        {{ periodObject.items[0].type | titlecase }}
-        {{ orgUnitLevel }} Data Verification Form
+        {{ dataSelections[0].items[0].type | titlecase }}
+        {{ orgUnitLevel | titlecase }}
+        Data Verification Form
       </h3>
       <br />
       <h5>
-        Organization Unit Name: <u>{{ orgUnitObject.items[0].name }}</u>
+        Organization Unit Name: <u>{{ dataSelections[1].items[0].name }}</u>
       </h5>
       <br />
       <table class="table table-bordered table-hover">
@@ -58,11 +43,13 @@
             <th scope="col">Difference</th>
             <th scope="col">% Error</th>
             <th scope="col" rowspan="2">Unit Fee (Tsh)</th>
-            <!-- Period Type is needed here -->
-            <th scope="col" rowspan="2">Quarterly Provisional Total Amount</th>
+            <th scope="col" rowspan="2">
+              {{ dataSelections[0].items[0].type | titlecase }}
+              Provisional Total Amount
+            </th>
             <!-- Tolerance rate percentage is needed here -->
             <th scope="col" rowspan="2">
-              Loss Due to above ToleranceRate%? & Above Error
+              Loss Due to above <em>ToleranceRate%?</em> & Above Error
             </th>
             <th scope="col" rowspan="2">Actual Quantity Amount</th>
           </tr>
@@ -98,7 +85,7 @@
             <td><input value="0" /></td>
             <td><input value="0" /></td>
             <td><input value="0" /></td>
-            <td>unitFee?</td>
+            <td><em>unitFee?</em></td>
             <td><input value="0" /></td>
             <td><input value="0" /></td>
             <td><input value="0" /></td>

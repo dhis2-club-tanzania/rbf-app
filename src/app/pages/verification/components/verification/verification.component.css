@@ -22,3 +22,9 @@ input {
 .tdwithin {
   width: 6rem;
 }
+em {
+  color: red;
+}
+.filter {
+  margin-left: 44%;
+}
