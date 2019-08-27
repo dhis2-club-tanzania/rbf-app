@@ -42,8 +42,6 @@ export class VerificationComponent implements OnInit {
   onFilterUpdateAction(dataSelections) {
     this.dataSelections = dataSelections;
     this.setShowForm();
-    this.setOrgUnitLevel();
-    this.setPeriodLooper();
   }
 
   setOrgUnitLevel() {
@@ -222,6 +220,8 @@ export class VerificationComponent implements OnInit {
   setShowForm() {
     if (this.dataSelections[1].items[0].level) {
       this.showForm = true;
+      this.setOrgUnitLevel();
+      this.setPeriodLooper();
     }
   }
 }
