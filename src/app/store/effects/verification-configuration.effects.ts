@@ -18,13 +18,15 @@ import {
   addVerificationConfigurationSuccess,
   addVerificationConfigurationFail
 } from '../actions';
+import { MatSnackBar } from '@angular/material';
 
 @Injectable()
 export class VerificationConfigurationEffects {
   datastoreNamespace: string;
   constructor(
     private configServices: ConfigurationService,
-    private actions$: Actions
+    private actions$: Actions,
+    private _snackBar: MatSnackBar
   ) {
     this.datastoreNamespace = 'rbf-verification-config';
   }
@@ -41,70 +43,118 @@ export class VerificationConfigurationEffects {
             )
           )
       ),
-      catchError(error =>
-        of(loadVerificationConfigurationFail({ error: error }))
-      )
+      catchError(error => {
+        this._snackBar.open('Loading Verification Configuration', 'FAIL', {
+          duration: 1000
+        });
+        return of(loadVerificationConfigurationFail({ error: error }));
+      })
     )
   );
 
   addConfigurations$ = createEffect(() =>
     this.actions$.pipe(
       ofType(addVerificationConfiguration),
-      mergeMap(action =>
-        this.configServices
+      mergeMap(action => {
+        this._snackBar.open('Adding Verification Configuration', '', {
+          duration: 1000
+        });
+        return this.configServices
           .createConfiguration(this.datastoreNamespace, action.configuration)
           .pipe(
-            map(() =>
-              addVerificationConfigurationSuccess({
+            map(() => {
+              this._snackBar.open(
+                'Adding Verification Configuration',
+                'SUCCESS',
+                {
+                  duration: 1000
+                }
+              );
+              return addVerificationConfigurationSuccess({
                 configuration: action.configuration
-              })
-            )
-          )
-      ),
-      catchError(error =>
-        of(addVerificationConfigurationFail({ error: error }))
-      )
+              });
+            })
+          );
+      }),
+      catchError(error => {
+        this._snackBar.open('Adding Verification Configuration', 'FAIL', {
+          duration: 1000
+        });
+        return of(addVerificationConfigurationFail({ error: error }));
+      })
     )
   );
 
   deleteConfigurations$ = createEffect(() =>
     this.actions$.pipe(
       ofType(deleteVerificationConfiguration),
-      mergeMap(action =>
-        this.configServices
+      mergeMap(action => {
+        this._snackBar.open('Deleting Verification Configuration', '', {
+          duration: 1000
+        });
+        return this.configServices
           .deleteConfiguration(this.datastoreNamespace, action.id)
           .pipe(
-            map(() => deleteVerificationConfigurationSuccess({ id: action.id }))
-          )
-      ),
-      catchError(error =>
-        of(deleteVerificationConfigurationFail({ error: error }))
-      )
+            map(() => {
+              this._snackBar.open(
+                'Deleting Verification Configuration',
+                'SUCCESS',
+                {
+                  duration: 1000
+                }
+              );
+              return deleteVerificationConfigurationSuccess({ id: action.id });
+            })
+          );
+      }),
+      catchError(error => {
+        this._snackBar.open('Deleting Verification Configuration', 'FAIL', {
+          duration: 1000
+        });
+        return of(deleteVerificationConfigurationFail({ error: error }));
+      })
     )
   );
 
   updateConfigurations$ = createEffect(() =>
     this.actions$.pipe(
       ofType(updateVerificationConfiguration),
-      mergeMap(action =>
-        this.configServices
+      mergeMap(action => {
+        this._snackBar.open('Updating Verification Configuration', '', {
+          duration: 1000
+        });
+        return this.configServices
           .updateConfiguration(
             this.datastoreNamespace,
             action.configuration.id,
             action.configuration
           )
           .pipe(
-            map(() =>
-              updateVerificationConfigurationSuccess({
+            map(() => {
+              this._snackBar.open(
+                'Updating Verification Configuration',
+                'SUCCESS',
+                {
+                  duration: 1000
+                }
+              );
+              return updateVerificationConfigurationSuccess({
                 configuration: {
                   id: action.configuration.id,
                   changes: action.configuration
                 }
-              })
-            )
-          )
-      ),
-      catchError(error => of(updateVerificationConfigurationFail(error)))
+              });
+            })
+          );
+      }),
+      catchError(error => {
+        {
+          this._snackBar.open('Updating Verification Configuration', 'FAIL', {
+            duration: 1000
+          });
+          return of(updateVerificationConfigurationFail(error));
+        }
+      })
     )
   );
 }

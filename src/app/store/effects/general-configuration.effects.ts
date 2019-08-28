@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { ConfigurationService } from 'src/app/pages/configuration/services/configuration.service';
+import { switchMap, map, catchError, mergeMap } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { MatSnackBar } from '@angular/material';
 import {
   addSystemInfo,
   loadGeneralConfigurationsSucess,
@@ -9,17 +11,18 @@ import {
   addGeneralConfigurationsFail,
   updateGeneralConfigurations,
   updateGeneralConfigurationsFail,
-  loadGeneralConfigurationsFail
+  loadGeneralConfigurationsFail,
+  updateGeneralConfigurationsSuccess
 } from '../actions';
-import { switchMap, map, catchError, mergeMap } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { ConfigurationService } from 'src/app/pages/configuration/services/configuration.service';
 
 @Injectable()
 export class GeneralConfigurationEffects {
   dataStoreNamespace: string;
   constructor(
     private actions$: Actions,
-    private configService: ConfigurationService
+    private configService: ConfigurationService,
+    private _snackBar: MatSnackBar
   ) {
     this.dataStoreNamespace = 'rbf-general-config';
   }
@@ -36,39 +39,77 @@ export class GeneralConfigurationEffects {
             )
           )
       ),
-      catchError(error => of(loadGeneralConfigurationsFail({ error: error })))
+      catchError(error => {
+        this._snackBar.open('Loading General Configuration', 'FAIL', {
+          duration: 1000
+        });
+        return of(loadGeneralConfigurationsFail({ error: error }));
+      })
     )
   );
 
   addConfigurations$ = createEffect(() =>
     this.actions$.pipe(
       ofType(addGeneralConfigurations),
-      mergeMap(action =>
-        this.configService
+      mergeMap(action => {
+        this._snackBar.open('Adding General Configuration', '', {
+          duration: 1000
+        });
+        return this.configService
           .createConfiguration(this.dataStoreNamespace, action.configuration)
           .pipe(
-            map(() =>
-              addGeneralConfigurationsSuccess({
+            map(() => {
+              this._snackBar.open('Adding General Configuration', 'SUCCESS', {
+                duration: 1000
+              });
+              return addGeneralConfigurationsSuccess({
                 configuration: action.configuration
-              })
-            )
-          )
-      ),
-      catchError(error => of(addGeneralConfigurationsFail({ error: error })))
+              });
+            })
+          );
+      }),
+      catchError(error => {
+        this._snackBar.open('Adding General Configuration', 'FAIL', {
+          duration: 1000
+        });
+        return of(addGeneralConfigurationsFail({ error: error }));
+      })
     )
   );
 
   updateConfigurations$ = createEffect(() =>
     this.actions$.pipe(
       ofType(updateGeneralConfigurations),
-      mergeMap(action =>
-        this.configService.updateConfiguration(
-          this.dataStoreNamespace,
-          action.configuration.id,
-          action.configuration
-        )
-      ),
-      catchError(error => of(updateGeneralConfigurationsFail({ error: error })))
+      mergeMap(action => {
+        this._snackBar.open('Updating General Configuration', '', {
+          duration: 1000
+        });
+        return this.configService
+          .updateConfiguration(
+            this.dataStoreNamespace,
+            action.configuration.id,
+            action.configuration
+          )
+          .pipe(
+            map(() => {
+              this._snackBar.open('Updating General Configuration', 'SUCCESS', {
+                duration: 1000
+              });
+              return updateGeneralConfigurationsSuccess({
+                configuration: {
+                  id: action.configuration.id,
+                  changes: action.configuration
+                }
+              });
+            })
+          );
+      }),
+      catchError(error => {
+        this._snackBar.open('Updating General Configuration', 'FAIL', {
+          duration: 1000
+        });
+        return of(updateGeneralConfigurationsFail({ error: error }));
+      })
     )
   );
 }
