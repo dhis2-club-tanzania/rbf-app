@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ConfigurationService } from '../../../configuration/services/configuration.service';
+import { SelectionFilterConfig } from '@iapps/ngx-dhis2-selection-filters';
 
 @Component({
   selector: 'app-report',
@@ -7,9 +8,26 @@ import { ConfigurationService } from '../../../configuration/services/configurat
   styleUrls: ['./report.component.css']
 })
 export class ReportComponent implements OnInit {
+  dataSelections;
+  selectionFilterConfig: SelectionFilterConfig = {
+    allowStepSelection: true,
+    stepSelections: ['pe', 'ou', 'dx', 'vrg'],
+    dataFilterConfig: {
+      singleSelection: true,
+      enabledSelections: []
+    },
+    periodFilterConfig: {
+      singleSelection: true
+    }
+  };
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() { }
+  ngOnInit() {}
 
+  onFilterUpdateAction(dataSelections) {
+    this.dataSelections = dataSelections;
+    console.log(dataSelections);
+    console.log(this.dataSelections);
+  }
 }

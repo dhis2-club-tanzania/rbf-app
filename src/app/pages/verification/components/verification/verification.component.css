@@ -1,7 +1,30 @@
-.main{
+.main {
   margin-top: 4px;
 }
-.alert{
+.alert {
   margin-top: 25%;
   text-align: center;
+}
+.card-header {
+  width: 100%;
+}
+.form {
+  margin: 5px;
+  text-align: center;
+}
+.btn-form {
+  width: 32%;
+  margin: 3px;
+}
+input {
+  width: 4.5rem;
+}
+.tdwithin {
+  width: 6rem;
+}
+em {
+  color: red;
+}
+.filter {
+  margin-left: 44%;
 }

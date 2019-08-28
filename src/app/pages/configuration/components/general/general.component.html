@@ -27,11 +27,23 @@
             <mat-select formControlName="OrgUnitLevel">
               <mat-option
                 *ngFor="let OrgUnitLevel of OrgUnitLevels"
-                [value]="{ id: OrgUnitLevel.id, level: OrgUnitLevel.level }"
+                [value]="OrgUnitLevel.id"
               >
                 {{ OrgUnitLevel.displayName }}
               </mat-option>
             </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field>
+            <input
+              matInput
+              placeholder="Error Rate (to the nearest percentage)"
+              type="number"
+              class="example-right-align"
+              formControlName="errorRate"
+            />
+            <span matSuffix> % </span>
           </mat-form-field>
         </div>
         <div class="row">

@@ -30,7 +30,8 @@ export class GeneralComponent implements OnInit {
 
     this.generalConfigForm = new FormGroup({
       periodType: new FormControl(),
-      OrgUnitLevel: new FormControl()
+      OrgUnitLevel: new FormControl(),
+      errorRate: new FormControl()
     });
   }
   onClickSave(formData) {

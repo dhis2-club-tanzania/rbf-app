@@ -3,7 +3,7 @@
     Verification Indicators
   </div>
 
-  <div>
+  <div class="overflow-auto tableContainer">
     <p
       *ngIf="
         (verificationConfigurationError$ | async) ||
@@ -69,8 +69,8 @@
         </tr>
       </tbody>
     </table>
+    <button class="add" (click)="onClickAdd()">
+      <i class="savage fa fa-plus"></i>
+    </button>
   </div>
-  <button class="add" (click)="onClickAdd()">
-    <i class="savage fa fa-plus"></i>
-  </button>
 </div>
