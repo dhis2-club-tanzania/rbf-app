@@ -70,7 +70,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
+          <!-- <tr>
             <th scope="row">1</th>
             <td>Indicator name</td>
             <td *ngFor="let iteration of periodLooper">
@@ -88,7 +88,11 @@
             <td><input value="0" /></td>
             <td><input value="0" /></td>
             <td><input value="0" /></td>
-          </tr>
+          </tr> -->
+
+          {{
+            verificationConfig$ | async | json
+          }}
         </tbody>
       </table>
       <button class="btn btn-group btn-primary btn-form">Complete</button>

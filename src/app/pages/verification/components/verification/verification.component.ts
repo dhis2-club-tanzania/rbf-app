@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { SelectionFilterConfig } from '@iapps/ngx-dhis2-selection-filters';
+import { Observable } from 'rxjs';
+import { VerificationConfiguration } from 'src/app/pages/configuration/models/verification-configuration.model';
+import { Store } from '@ngrx/store';
+import { State } from 'src/app/store/reducers';
+import { getVerificationConfigurations } from 'src/app/store/selectors';
 
 @Component({
   selector: 'app-verification',
@@ -9,6 +14,7 @@ import { SelectionFilterConfig } from '@iapps/ngx-dhis2-selection-filters';
 export class VerificationComponent implements OnInit {
   dataSelections: any;
   showForm = false;
+  verificationConfig$: Observable<VerificationConfiguration[]>;
   selectionFilterConfig: SelectionFilterConfig = {
     allowStepSelection: true,
     showDynamicDimension: false,
@@ -31,9 +37,11 @@ export class VerificationComponent implements OnInit {
 
   // Form Properties are deckared below
 
-  constructor() {}
+  constructor(private store: Store<State>) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.verificationConfig$ = this.store.select(getVerificationConfigurations);
+  }
 
   onFilterUpdateAction(dataSelections) {
     this.dataSelections = dataSelections;
