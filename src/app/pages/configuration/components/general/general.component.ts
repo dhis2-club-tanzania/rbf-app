@@ -1,6 +1,15 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ConfigurationService } from '../../services/configuration.service';
 import { FormGroup, FormControl } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { UUID } from '@iapps/utils';
+import * as _ from 'lodash';
+
+import { ConfigurationService } from '../../services/configuration.service';
+import { State } from 'src/app/store/reducers';
+import { addGeneralConfigurations } from 'src/app/store/actions';
+import { GeneralConfiguration } from '../../models/general-configuration.model';
+import { Observable } from 'rxjs';
+import { User } from 'src/app/core';
 
 @Component({
   selector: 'app-general',
@@ -14,10 +23,12 @@ export class GeneralComponent implements OnInit {
   OrgUnitLevels: any[];
 
   generalConfigForm;
+  currentUser$: Observable<any>;
 
   constructor(
     private periodType: ConfigurationService,
-    private OrgUnitFetcher: ConfigurationService
+    private OrgUnitFetcher: ConfigurationService,
+    private store: Store<State>
   ) {}
 
   ngOnInit() {
@@ -35,6 +46,28 @@ export class GeneralComponent implements OnInit {
     });
   }
   onClickSave(formData) {
-    console.log(formData);
+    const level = _.find(
+      this.OrgUnitLevels,
+      orgunit => orgunit.id === formData.OrgUnitLevel
+    );
+
+    let userObject: User = null;
+    this.currentUser$.subscribe(user => {
+      userObject = user;
+    });
+    const date = new Date();
+
+    const generalConfig: GeneralConfiguration = {
+      id: UUID(),
+      created: date,
+      lastUpdate: date,
+      organisationUnitLevel: level,
+      errorRate: formData.errorRate,
+      periodType: formData.periodType,
+      user: { id: userObject.id, name: userObject.displayName }
+    };
+    this.store.dispatch(
+      addGeneralConfigurations({ configuration: generalConfig })
+    );
   }
 }
