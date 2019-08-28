@@ -3,63 +3,66 @@
     Verfication Form
   </div>
   <div class="row">
-    <div class="main col-6">
-      <button class="card-header btn-group-sm" (click)="onOrgUnitToggle()">
-        Select Organisation <i class="fa fa-caret-down"></i>
-      </button>
-      <ngx-dhis2-org-unit-filter
-        *ngIf="showOrgUnitFilter"
-        [orgUnitFilterConfig]="orgUnitFilterConfig"
-        [selectedOrgUnitItems]="selectedOrgUnitItems"
-        (orgUnitUpdate)="onOrgUnitUpdate($event, 'UPDATE')"
-        (orgUnitClose)="onOrgUnitUpdate($event, 'CLOSE')"
-      >
-      </ngx-dhis2-org-unit-filter>
-    </div>
-    <div class="main col-6">
-      <button class="card-header btn-group-sm" (click)="onPeriodToggle()">
-        Select Period <i class="fa fa-caret-down"></i>
-      </button>
-      <ngx-dhis2-period-filter
-        *ngIf="showPeriodFilter"
-        [selectedPeriods]="selectedPeriodItems"
-        [periodFilterConfig]="periodFilterConfig"
-        [lowestPeriodType]="'Monthly'"
-        (update)="onPeriodUpdate($event, 'UPDATE')"
-        (change)="onPeriodUpdate($event, 'CHANGE')"
-        (close)="onPeriodUpdate($event, 'CLOSE')"
-      ></ngx-dhis2-period-filter>
-    </div>
+    <ngx-dhis2-selection-filters
+      (filterUpdate)="onFilterUpdateAction($event)"
+      [dataSelections]="dataSelections"
+      [selectionFilterConfig]="selectionFilterConfig"
+      (update)="onFilterUpdateAction($event)"
+      class="filter"
+    >
+    </ngx-dhis2-selection-filters>
   </div>
-  <div class="form">
+  <div class="form" *ngIf="showForm">
     <!-- Main Form display ground -->
     <form>
-      <!-- Period Type and OrgUnitLevel are needed here -->
-      <h3>Period Type? OrgUnitLevel? Data Verification Form</h3>
-      <!-- OrgUnitName will be plugged here -->
-      <br />OrgUnit Name?
+      <h3>
+        {{ dataSelections[0].items[0].type | titlecase }}
+        {{ orgUnitLevel | titlecase }}
+        Data Verification Form
+      </h3>
+      <br />
+      <h5>
+        Organization Unit Name: <u>{{ dataSelections[1].items[0].name }}</u>
+      </h5>
+      <br />
       <table class="table table-bordered table-hover">
         <thead class="card-header">
           <tr>
             <th scope="col" rowspan="2">S/No</th>
             <th scope="col" rowspan="2">Indicator</th>
-            <th scope="col" colspan="2">Period Loop</th>
-            <th scope="col">Total Declared (Rep.#)</th>
-            <th scope="col">Total Verified (Ver.#)</th>
+            <th scope="col" *ngFor="let iteration of periodLooper">
+              {{ iteration }}
+            </th>
+            <th scope="col">
+              Total Declared (Rep.#)
+            </th>
+            <th scope="col">
+              Total Verified (Ver.#)
+            </th>
             <th scope="col">Difference</th>
             <th scope="col">% Error</th>
             <th scope="col" rowspan="2">Unit Fee (Tsh)</th>
-            <!-- Period Type is needed here -->
-            <th scope="col" rowspan="2">Quarterly Provisional Total Amount</th>
+            <th scope="col" rowspan="2">
+              {{ dataSelections[0].items[0].type | titlecase }}
+              Provisional Total Amount
+            </th>
             <!-- Tolerance rate percentage is needed here -->
             <th scope="col" rowspan="2">
-              Loss Due to above ToleranceRate%? & Above Error
+              Loss Due to above <em>ToleranceRate%?</em> & Above Error
             </th>
             <th scope="col" rowspan="2">Actual Quantity Amount</th>
           </tr>
           <tr>
-            <th scope="col">Rep. #1</th>
-            <th scope="col">Rep. #2</th>
+            <th
+              scope="col"
+              *ngFor="let iteration of periodLooper; let i = index"
+            >
+              <tr>
+                <td class="tdwithin">Rep. #{{ i + 1 }}</td>
+                <td class="tdwithin">Ver. #{{ i + 1 }}</td>
+              </tr>
+            </th>
+
             <th scope="col">(Rep.#1 +Rep.#2 +Rep.#3)</th>
             <th scope="col">(Ver.#1 +Ver.#2 +Ver.#3)</th>
             <th scope="col">(Rep.#-Ver.#)</th>
@@ -69,17 +72,22 @@
         <tbody>
           <tr>
             <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-            <td>@mdo</td>
-            <td>@mdo</td>
-            <td>@mdo</td>
-            <td>@mdo</td>
-            <td>@mdo</td>
-            <td>@mdo</td>
-            <td>@mdo</td>
-            <td>@mdo</td>
+            <td>Indicator name</td>
+            <td *ngFor="let iteration of periodLooper">
+              <tr>
+                <td><input value="0" disabled /></td>
+                <td><input /></td>
+              </tr>
+            </td>
+
+            <td><input value="0" /></td>
+            <td><input value="0" /></td>
+            <td><input value="0" /></td>
+            <td><input value="0" /></td>
+            <td><em>unitFee?</em></td>
+            <td><input value="0" /></td>
+            <td><input value="0" /></td>
+            <td><input value="0" /></td>
           </tr>
         </tbody>
       </table>

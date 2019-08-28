@@ -11,10 +11,13 @@ describe('VerificationComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ VerificationComponent ],
-      imports: [NgxDhis2OrgUnitFilterModule, MatProgressSpinnerModule, NgxDhis2PeriodFilterModule]
-    })
-    .compileComponents();
+      declarations: [VerificationComponent],
+      imports: [
+        NgxDhis2OrgUnitFilterModule,
+        MatProgressSpinnerModule,
+        NgxDhis2PeriodFilterModule
+      ]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

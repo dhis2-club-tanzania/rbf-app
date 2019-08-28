@@ -1,5 +1,8 @@
 <ngx-dhis2-selection-filters
   (filterUpdate)="onFilterUpdateAction($event)"
   [dataSelections]="dataSelections"
-  [selectionFilterConfig]="selectionFilterConfig">
+  [selectionFilterConfig]="selectionFilterConfig"
+  (update)="onFilterUpdateAction($event)"
+>
 </ngx-dhis2-selection-filters>
+{{ dataSelections | json }}
