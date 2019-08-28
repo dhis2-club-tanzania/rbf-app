@@ -1,8 +1,5 @@
-import { PeriodFilterConfig } from '@iapps/ngx-dhis2-period-filter';
 import { Component, OnInit } from '@angular/core';
-import { OrgUnitFilterConfig } from '@iapps/ngx-dhis2-org-unit-filter';
 import { SelectionFilterConfig } from '@iapps/ngx-dhis2-selection-filters';
-import { AngularWaitBarrier } from 'blocking-proxy/built/lib/angular_wait_barrier';
 
 @Component({
   selector: 'app-verification',
@@ -27,7 +24,6 @@ export class VerificationComponent implements OnInit {
     }
   };
 
-  orgUnitObject: any;
   periodObject: any;
   orgUnitLevel: string;
   action;
@@ -224,11 +220,4 @@ export class VerificationComponent implements OnInit {
       this.setPeriodLooper();
     }
   }
-}
-export interface OrgUnitFilterConfig {
-  singleSelection: boolean;
-  showUserOrgUnitSection: boolean;
-  showOrgUnitLevelGroupSection: boolean;
-  showOrgUnitGroupSection: boolean;
-  showOrgUnitLevelSection: boolean;
 }
