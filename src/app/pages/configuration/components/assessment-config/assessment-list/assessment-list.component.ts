@@ -41,7 +41,7 @@ export class AssessmentListComponent implements OnInit {
       data: id
     });
 
-    dialogRef.afterClosed();
+    // dialogRef.afterClosed();
   }
 
   onEdit(e, id: string) {

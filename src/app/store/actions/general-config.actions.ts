@@ -23,12 +23,12 @@ export const addGeneralConfigurations = createAction(
 );
 
 export const addGeneralConfigurationsFail = createAction(
-  '[CONFIGURATION] Add General Configuration',
+  '[CONFIGURATION] Add General Configurationn Fail',
   props<{ error: ErrorMessage }>()
 );
 
 export const addGeneralConfigurationsSuccess = createAction(
-  '[CONFIGURATION] Add General Configuration',
+  '[CONFIGURATION] Add General Configuration Success',
   props<{ configuration: GeneralConfiguration }>()
 );
 
@@ -37,10 +37,10 @@ export const updateGeneralConfigurations = createAction(
   props<{ configuration: GeneralConfiguration }>()
 );
 export const updateGeneralConfigurationsFail = createAction(
-  '[CONFIGURATION] update Configurations',
+  '[CONFIGURATION] update Configurations Fail',
   props<{ error: ErrorMessage }>()
 );
 export const updateGeneralConfigurationsSuccess = createAction(
-  '[CONFIGURATION] update Configurations',
+  '[CONFIGURATION] update Configurations Success',
   props<{ configuration: Update<GeneralConfiguration> }>()
 );

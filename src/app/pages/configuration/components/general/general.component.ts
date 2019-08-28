@@ -10,6 +10,7 @@ import { addGeneralConfigurations } from 'src/app/store/actions';
 import { GeneralConfiguration } from '../../models/general-configuration.model';
 import { Observable } from 'rxjs';
 import { User } from 'src/app/core';
+import { getCurrentUser } from 'src/app/store/selectors';
 
 @Component({
   selector: 'app-general',
@@ -32,6 +33,7 @@ export class GeneralComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.currentUser$ = this.store.select(getCurrentUser);
     this.periodType
       .getPeriodTypes()
       .subscribe(arg => (this.periodTypes = arg.periodTypes));

@@ -47,11 +47,11 @@ export const deleteAssessmentConfiguration = createAction(
 );
 
 export const deleteAssessmentConfigurationSuccess = createAction(
-  '[CONFIGURATION] Delete Assessment Configuration',
+  '[CONFIGURATION] Delete Assessment Configuration Success',
   props<{ id: string }>()
 );
 
 export const deleteAssessmentConfigurationFail = createAction(
-  '[CONFIGURATION] Delete Assessment Configuration',
+  '[CONFIGURATION] Delete Assessment Configuration Fail',
   props<{ error: ErrorMessage }>()
 );
