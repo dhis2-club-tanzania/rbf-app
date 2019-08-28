@@ -33,6 +33,10 @@ export class AssessmentListComponent implements OnInit {
     );
   }
 
+  onClickAdd() {
+    this.router.navigate(['/configuration/assessment_configurations']);
+  }
+
   onDeleteConfig(e, id: string) {
     e.stopPropagation();
     const dialogRef = this.dialog.open(DeleteAssessmentComponent, {
