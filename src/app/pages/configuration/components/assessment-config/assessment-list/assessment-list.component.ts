@@ -33,10 +33,6 @@ export class AssessmentListComponent implements OnInit {
     );
   }
 
-  onClickAdd() {
-    this.router.navigate(['/configuration/assessment_configurations']);
-  }
-
   onDeleteConfig(e, id: string) {
     e.stopPropagation();
     const dialogRef = this.dialog.open(DeleteAssessmentComponent, {
@@ -53,7 +49,6 @@ export class AssessmentListComponent implements OnInit {
     this.router.navigate([`/configuration/assessment_edit/${id}`]);
   }
 
-  // TODO check the functionality of this button
   onClickAdd(e) {
     e.stopPropagation();
     this.router.navigate([`/configuration/assessment_configurations`]);
