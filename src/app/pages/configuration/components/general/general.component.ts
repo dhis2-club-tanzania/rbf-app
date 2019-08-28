@@ -24,7 +24,6 @@ export class GeneralComponent implements OnInit {
     this.periodType
       .getPeriodTypes()
       .subscribe(arg => (this.periodTypes = arg.periodTypes));
-    console.log(this.periodType);
     this.OrgUnitFetcher.getOrgUnitsLevel().subscribe(
       arg => (this.OrgUnitLevels = arg.organisationUnitLevels)
     );

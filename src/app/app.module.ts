@@ -28,6 +28,7 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { NgxDhis2MenuModule } from '@iapps/ngx-dhis2-menu';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NgxDhis2HttpClientModule } from '@iapps/ngx-dhis2-http-client';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -62,6 +63,15 @@ export function HttpLoaderFactory(http: HttpClient) {
     NgxDhis2MenuModule,
 
     /**
+     * DHIS2 Http Module
+     */
+    NgxDhis2HttpClientModule.forRoot({
+      namespace: 'iapps',
+      version: 1,
+      models: {}
+    }),
+
+    /**
      * Translation module
      */
     TranslateModule.forRoot({
@@ -72,7 +82,8 @@ export function HttpLoaderFactory(http: HttpClient) {
       }
     }),
 
-    /**
+    /**ons, state => ({
+    ...state,
      * @ngrx/router-store keeps router state up-to-date in the store
      */
     StoreRouterConnectingModule.forRoot(),

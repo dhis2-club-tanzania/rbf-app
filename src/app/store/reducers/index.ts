@@ -13,6 +13,8 @@ import { VerificationConfigurationState } from '../states/verification-configura
 import { AssessmentConfigurationState } from '../states/assessment-configuration.state';
 import { assessmentConfigurationReducer } from './assessment-configuration.reducer';
 import { verificationConfigurationReducer } from './verification-configuration.reducer';
+import { GeneralConfigurationState } from '../states/general-configuration.state';
+import { generalConfigurationReducer } from './general-configuration.reducers';
 
 export interface State {
   user: UserState;
@@ -21,6 +23,7 @@ export interface State {
   dataElements: DataElementsState;
   verificationConfiguration: VerificationConfigurationState;
   assessmentConfiguration: AssessmentConfigurationState;
+  generalConfiguration: GeneralConfigurationState;
 }
 
 export const reducers: ActionReducerMap<State> = {
@@ -29,7 +32,8 @@ export const reducers: ActionReducerMap<State> = {
   router: routerReducer,
   dataElements: dataElementsReducer,
   assessmentConfiguration: assessmentConfigurationReducer,
-  verificationConfiguration: verificationConfigurationReducer
+  verificationConfiguration: verificationConfigurationReducer,
+  generalConfiguration: generalConfigurationReducer
 };
 
 export const metaReducers: MetaReducer<State>[] = !environment.production

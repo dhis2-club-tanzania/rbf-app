@@ -52,4 +52,10 @@ export class AssessmentListComponent implements OnInit {
     e.stopPropagation();
     this.router.navigate([`/configuration/assessment_edit/${id}`]);
   }
+
+  // TODO check the functionality of this button
+  onClickAdd(e) {
+    e.stopPropagation();
+    this.router.navigate([`/configuration/assessment_configurations`]);
+  }
 }

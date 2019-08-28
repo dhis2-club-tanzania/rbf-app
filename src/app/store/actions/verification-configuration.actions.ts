@@ -4,7 +4,7 @@ import { ErrorMessage } from 'src/app/core';
 import { VerificationConfiguration } from 'src/app/pages/configuration/models/verification-configuration.model';
 
 export const loadVerificationConfigurations = createAction(
-  '[CONFIGURATION] Load Configuration'
+  '[CONFIGURATION] Load Verification Configuration'
 );
 export const loadVerificationConfigurationFail = createAction(
   '[CONFIGURATION] Load Verification Configuration fail',
