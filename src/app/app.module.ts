@@ -6,8 +6,6 @@ import { AppComponent } from './app.component';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
-import { NgxDhis2HttpClientModule } from '@iapps/ngx-dhis2-http-client';
-
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 
@@ -48,11 +46,6 @@ export function HttpLoaderFactory(http: HttpClient) {
       models: {
         users: 'id'
       }
-    }),
-    NgxDhis2HttpClientModule.forRoot({
-      namespace: 'iapps',
-      version: 1,
-      models: {}
     }),
     BrowserAnimationsModule,
     StoreModule.forRoot(reducers, { metaReducers }),

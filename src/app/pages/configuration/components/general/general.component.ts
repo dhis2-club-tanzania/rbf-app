@@ -12,6 +12,9 @@ export class GeneralComponent implements OnInit {
 
   periodTypes: any[];
   OrgUnitLevels: any[];
+  showForm = true;
+
+  formData: any;
 
   generalConfigForm;
 
@@ -35,6 +38,11 @@ export class GeneralComponent implements OnInit {
     });
   }
   onClickSave(formData) {
-    console.log(formData);
+    this.formData = formData;
+    this.showFormControl();
+  }
+
+  showFormControl() {
+    this.showForm = !this.showForm;
   }
 }
