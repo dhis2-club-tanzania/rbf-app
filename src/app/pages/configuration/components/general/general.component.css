@@ -1,12 +1,12 @@
-.row{
+.row {
   padding: 4px;
 }
-.col{
+.col {
   text-align: right;
 }
-mat-form-field{
+mat-form-field {
   width: 70%;
 }
-.col{
+.col {
   padding-right: 20px;
 }
