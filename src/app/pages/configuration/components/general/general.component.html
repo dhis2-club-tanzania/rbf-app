@@ -6,7 +6,7 @@
     <div class="card-body" style="padding: 5px">
       <form
         [formGroup]="generalConfigForm"
-        (click)="onClickSave(generalConfigForm.value)"
+        (ngSubmit)="onClickSave(generalConfigForm.value)"
       >
         <div class="form-group">
           <mat-form-field>
