@@ -29,7 +29,7 @@
         <thead class="card-header">
           <tr>
             <th scope="col" rowspan="2">S/No</th>
-            <th scope="col" rowspan="2">Indicator</th>
+            <th scope="col" rowspan="2" width="12%">Indicator</th>
             <th scope="col" *ngFor="let iteration of periodLooper">
               {{ iteration }}
             </th>
@@ -70,9 +70,14 @@
           </tr>
         </thead>
         <tbody>
-          <!-- <tr>
-            <th scope="row">1</th>
-            <td>Indicator name</td>
+          <tr
+            *ngFor="
+              let indicatior of verificationConfig$ | async;
+              let sno = index
+            "
+          >
+            <th scope="row">{{ sno + 1 }}</th>
+            <td>{{ indicatior.indicator }}</td>
             <td *ngFor="let iteration of periodLooper">
               <tr>
                 <td><input value="0" disabled /></td>
@@ -84,15 +89,11 @@
             <td><input value="0" /></td>
             <td><input value="0" /></td>
             <td><input value="0" /></td>
-            <td><em>unitFee?</em></td>
+            <td>{{ indicatior.unitFee }}</td>
             <td><input value="0" /></td>
             <td><input value="0" /></td>
             <td><input value="0" /></td>
-          </tr> -->
-
-          {{
-            verificationConfig$ | async | json
-          }}
+          </tr>
         </tbody>
       </table>
       <button class="btn btn-group btn-primary btn-form">Complete</button>

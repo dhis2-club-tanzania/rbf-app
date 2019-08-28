@@ -28,3 +28,12 @@ em {
 .filter {
   margin-left: 44%;
 }
+table td {
+  text-align: left;
+}
+table input {
+  text-align: center;
+}
+table thead {
+  font-size: -5px;
+}
