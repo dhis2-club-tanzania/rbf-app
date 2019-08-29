@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { VerificationComponent } from './components/verification/verification.component';
 import { RoutingModule } from './verification.routes';
 import { NgxDhis2OrgUnitFilterModule } from '@iapps/ngx-dhis2-org-unit-filter';
-import { MatProgressSpinnerModule } from '@angular/material';
+import { MatProgressSpinnerModule, MatSnackBarModule } from '@angular/material';
 import { NgxDhis2PeriodFilterModule } from '@iapps/ngx-dhis2-period-filter';
 import { NgxDhis2SelectionFiltersModule } from '@iapps/ngx-dhis2-selection-filters';
 import { FormsModule } from '@angular/forms';
@@ -17,7 +17,8 @@ import { FormsModule } from '@angular/forms';
     NgxDhis2PeriodFilterModule,
     MatProgressSpinnerModule,
     NgxDhis2SelectionFiltersModule,
-    FormsModule
+    FormsModule,
+    MatSnackBarModule
   ]
 })
 export class VerificationModule {}

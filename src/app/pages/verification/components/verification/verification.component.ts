@@ -4,8 +4,11 @@ import { Observable } from 'rxjs';
 import { VerificationConfiguration } from 'src/app/pages/configuration/models/verification-configuration.model';
 import { Store } from '@ngrx/store';
 import { State } from 'src/app/store/reducers';
-import { getVerificationConfigurations } from 'src/app/store/selectors';
-import { NgModel } from '@angular/forms';
+import {
+  getVerificationConfigurations,
+  getVerificationConfigurationsCount
+} from 'src/app/store/selectors';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-verification',
@@ -40,17 +43,43 @@ export class VerificationComponent implements OnInit {
   periodLooper = [];
 
   // Form Properties are deckared below
-  totalRep;
+  verificationConfigCount: number;
+  totalRep = [];
+  totalVer = [];
+  difference = [];
+  verArray = [];
+  error = [];
+  provisionalAmount = [];
+  loss = [];
+  actualAmount = [];
+  totalAmount = 0;
 
-  constructor(private store: Store<State>) {}
+  constructor(private store: Store<State>, private snackbar: MatSnackBar) {}
 
   ngOnInit() {
     this.verificationConfig$ = this.store.select(getVerificationConfigurations);
+    this.store
+      .select(getVerificationConfigurationsCount)
+      .subscribe(count => (this.verificationConfigCount = count));
   }
 
   onFilterUpdateAction(dataSelections) {
     this.dataSelections = dataSelections;
     this.setShowForm();
+  }
+
+  setFormProperties(index) {
+    for (let a = 0; a < index; a++) {
+      this.totalRep.push(0);
+      this.totalVer.push(0);
+      this.verArray.push(0);
+      this.difference.push(0);
+      this.error.push(0);
+      this.provisionalAmount.push(0);
+      this.loss.push(0);
+      this.actualAmount.push(0);
+      this.snackbar.open('Arrays Created', 'SUCCESSFUL', { duration: 1000 });
+    }
   }
 
   setOrgUnitLevel() {
@@ -231,9 +260,30 @@ export class VerificationComponent implements OnInit {
       this.showForm = true;
       this.setOrgUnitLevel();
       this.setPeriodLooper();
+      this.setFormProperties(this.verificationConfigCount);
     }
   }
-  onBlur(input) {
-    this.totalRep += input;
+  onVerBlur(index) {
+    this.totalVer[index] = this.verArray[index];
+    this.difference[index] = Math.abs(
+      this.totalRep[index] - this.totalVer[index]
+    );
+    if (this.totalRep[index] === 0) {
+      this.error[index] = 100;
+    } else {
+      this.error[index] = this.difference[index] / this.totalRep[index];
+    }
+    this.provisionalAmount[index] =
+      this.totalVer[index] * this.verificationConfig$[index].unitFee;
+    if (this.error[index] > 10) {
+      const excess = this.error[index] - 10;
+      this.loss[index] =
+        excess * this.totalVer[index] * this.verificationConfig$[index].unitFee;
+    }
+    this.actualAmount[index] = this.provisionalAmount[index] - this.loss[index];
+    for (let a = 0; a < index; a++) {
+      this.totalAmount += this.actualAmount[index];
+    }
+    this.snackbar.open('update field', 'SUCCESSFUL', { duration: 1000 });
   }
 }

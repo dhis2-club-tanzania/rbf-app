@@ -14,7 +14,7 @@
   </div>
   <div class="form" *ngIf="showForm">
     <!-- Main Form display ground -->
-    <form>
+    <form name="verificationForm">
       <h3>
         {{ dataSelections[0].items[0].type | titlecase }}
         {{ orgUnitLevel | titlecase }}
@@ -28,9 +28,13 @@
       <table class="table table-bordered table-hover">
         <thead class="card-header">
           <tr>
-            <th scope="col" rowspan="2">S/No</th>
-            <th scope="col" rowspan="2" width="12%">Indicator</th>
-            <th scope="col" *ngFor="let iteration of periodLooper">
+            <th scope="col" rowspan="2" class="sno">S/No</th>
+            <th scope="col" rowspan="2" class="indicator">Indicator</th>
+            <th
+              scope="col"
+              class="iteration"
+              *ngFor="let iteration of periodLooper"
+            >
               {{ iteration }}
             </th>
             <th scope="col">
@@ -56,10 +60,11 @@
             <th
               scope="col"
               *ngFor="let iteration of periodLooper; let i = index"
+              class="iteration"
             >
-              <tr>
-                <td class="tdwithin">Rep. #{{ i + 1 }}</td>
-                <td class="tdwithin">Ver. #{{ i + 1 }}</td>
+              <tr class="trwithin">
+                <td class="tdwithinplus">Rep. #{{ i + 1 }}</td>
+                <td class="tdwithinplus">Ver. #{{ i + 1 }}</td>
               </tr>
             </th>
 
@@ -76,23 +81,92 @@
               let sno = index
             "
           >
-            <th scope="row">{{ sno + 1 }}</th>
-            <td>{{ indicatior.indicator }}</td>
-            <td *ngFor="let iteration of periodLooper">
-              <tr>
-                <td><input value="0" disabled /></td>
-                <td><input /></td>
+            <th scope="row" class="sno">{{ sno + 1 }}</th>
+            <td class="indicator">{{ indicatior.indicator }}</td>
+            <td *ngFor="let iteration of periodLooper" class="iteration">
+              <tr class="trwithin">
+                <td class="tdwithin"><input value="0" disabled /></td>
+                <td class="tdwithin">
+                  <input
+                    type="number"
+                    [(ngModel)]="verArray[sno]"
+                    [ngModelOptions]="{ standalone: true }"
+                    (blur)="onVerBlur(sno)"
+                  />
+                </td>
               </tr>
             </td>
 
-            <td><input value="0" /></td>
-            <td><input value="0" /></td>
-            <td><input value="0" /></td>
-            <td><input value="0" /></td>
+            <td>
+              <input
+                name="totalRep"
+                [(ngModel)]="totalRep[sno]"
+                [ngModelOptions]="{ standalone: true }"
+                readonly="readonly"
+              />
+            </td>
+            <td>
+              <input
+                [(ngModel)]="totalVer[sno]"
+                [ngModelOptions]="{ standalone: true }"
+                name="totalVer"
+                readonly="readonly"
+              />
+            </td>
+            <td>
+              <input
+                [(ngModel)]="difference[sno]"
+                [ngModelOptions]="{ standalone: true }"
+                name="difference"
+                readonly="readonly"
+              /><br />
+            </td>
+            <td>
+              <input
+                [(ngModel)]="error[sno]"
+                [ngModelOptions]="{ standalone: true }"
+                name="%error"
+                readonly="readonly"
+              />
+            </td>
             <td>{{ indicatior.unitFee }}</td>
-            <td><input value="0" /></td>
-            <td><input value="0" /></td>
-            <td><input value="0" /></td>
+            <td>
+              <input
+                [(ngModel)]="provisionalAmount[sno]"
+                [ngModelOptions]="{ standalone: true }"
+                name="totalProvisionalAmount"
+                readonly="readonly"
+              />
+            </td>
+            <td>
+              <input
+                [(ngModel)]="loss[sno]"
+                [ngModelOptions]="{ standalone: true }"
+                name="loss"
+                readonly="readonly"
+              />
+            </td>
+            <td>
+              <input
+                [(ngModel)]="actualAmount[sno]"
+                [ngModelOptions]="{ standalone: true }"
+                name="actualAmount"
+                readonly="readonly"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td colspan="11" class="total">
+              Total
+              {{ dataSelections[0].items[0].type | titlecase }} Provisional
+              Amount for {{ orgUnitLevel | titlecase }}
+            </td>
+            <td>
+              <input
+                [(ngModel)]="totalAmount"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </td>
           </tr>
         </tbody>
       </table>
@@ -100,5 +174,6 @@
       <button class="btn btn-group btn-primary btn-form">Incomplete</button>
       <button class="btn btn-group btn-primary btn-form">Run Validation</button>
     </form>
+    {{ verificationConfig$ | async | json }}
   </div>
 </div>
