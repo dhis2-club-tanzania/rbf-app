@@ -5,6 +5,7 @@ import { AssessmentConfiguration } from '../../../configuration/models/assessmen
 import { State } from 'src/app/store/reducers';
 import { Store } from '@ngrx/store';
 import { getAssessmentConfigurations } from 'src/app/store/selectors';
+import { SelectionFilterConfig } from '@iapps/ngx-dhis2-selection-filters';
 
 @Component({
   selector: 'app-assessment',
@@ -12,6 +13,22 @@ import { getAssessmentConfigurations } from 'src/app/store/selectors';
   styleUrls: ['./assessment.component.css']
 })
 export class AssessmentComponent implements OnInit {
+  dataSelections: any;
+  selectionFilterConfig: SelectionFilterConfig = {
+    allowStepSelection: true,
+    showDynamicDimension: false,
+    showDataFilter: false,
+    showValidationRuleGroupFilter: false,
+    stepSelections: ['pe', 'ou', 'dx', 'vrg'],
+    dataFilterConfig: {
+      singleSelection: true,
+      enabledSelections: []
+    },
+    periodFilterConfig: {
+      singleSelection: true
+    }
+  };
+
   showPeriodFilter = false;
   showOrgUnitFilter = false;
 
@@ -58,6 +75,8 @@ export class AssessmentComponent implements OnInit {
     this.action = action;
     this.onPeriodFilterToggle();
   }
+
+  onFilterUpdateAction(dataSelections) {}
 }
 export interface OrgUnitFilterConfig {
   singleSelection: boolean;

@@ -2,34 +2,15 @@
   <div class="card-header">
     Assessment Form
   </div>
-  <div class=" row">
-    <div class="main col-6">
-      <div class="card-header select" (click)="onOrgUnitFilterToggle()">
-        Select Organization <i class="fa fa-caret-down"></i>
-      </div>
-      <ngx-dhis2-org-unit-filter
-        *ngIf="showOrgUnitFilter"
-        [orgUnitFilterConfig]="orgUnitFilterConfig"
-        [selectedOrgUnitItems]="selectedOrgUnitItems"
-        (orgUnitUpdate)="onOrgUnitUpdate($event, 'UPDATE')"
-        (orgUnitClose)="onOrgUnitUpdate($event, 'CLOSE')"
-      >
-      </ngx-dhis2-org-unit-filter>
-    </div>
-    <div class="main col-6">
-      <div class="card-header select" (click)="onPeriodFilterToggle()">
-        Select Period <i class="fa fa-caret-down"></i>
-      </div>
-      <ngx-dhis2-period-filter
-        *ngIf="showPeriodFilter"
-        [selectedPeriods]="selectedPeriodItems"
-        [periodFilterConfig]="periodFilterConfig"
-        [lowestPeriodType]="'Monthly'"
-        (update)="onPeriodUpdate($event, 'UPDATE')"
-        (change)="onPeriodUpdate($event, 'CHANGE')"
-        (close)="onPeriodUpdate($event, 'CLOSE')"
-      ></ngx-dhis2-period-filter>
-    </div>
+  <div class=" row filter">
+    <ngx-dhis2-selection-filters
+      (filterUpdate)="onFilterUpdateAction($event)"
+      [dataSelections]="dataSelections"
+      [selectionFilterConfig]="selectionFilterConfig"
+      (update)="onFilterUpdateAction($event)"
+      class="filter"
+    >
+    </ngx-dhis2-selection-filters>
   </div>
   <div>
     <div>
