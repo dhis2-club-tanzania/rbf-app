@@ -53,6 +53,7 @@ export class VerificationComponent implements OnInit {
   loss = [];
   actualAmount = [];
   totalAmount = 0;
+  verificationConfigurations = [];
 
   constructor(private store: Store<State>, private snackbar: MatSnackBar) {}
 
@@ -61,6 +62,9 @@ export class VerificationComponent implements OnInit {
     this.store
       .select(getVerificationConfigurationsCount)
       .subscribe(count => (this.verificationConfigCount = count));
+    this.store
+      .select(getVerificationConfigurations)
+      .subscribe(configs => (this.verificationConfigurations = configs));
   }
 
   onFilterUpdateAction(dataSelections) {
@@ -274,11 +278,13 @@ export class VerificationComponent implements OnInit {
       this.error[index] = this.difference[index] / this.totalRep[index];
     }
     this.provisionalAmount[index] =
-      this.totalVer[index] * this.verificationConfig$[index].unitFee;
+      this.totalVer[index] * this.verificationConfigurations[index].unitFee;
     if (this.error[index] > 10) {
-      const excess = this.error[index] - 10;
+      const excess = (this.error[index] - 10) / 100;
       this.loss[index] =
-        excess * this.totalVer[index] * this.verificationConfig$[index].unitFee;
+        excess *
+        this.totalVer[index] *
+        this.verificationConfigurations[index].unitFee;
     }
     this.actualAmount[index] = this.provisionalAmount[index] - this.loss[index];
     for (let a = 0; a < index; a++) {

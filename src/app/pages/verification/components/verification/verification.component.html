@@ -123,6 +123,7 @@
             </td>
             <td>
               <input
+                type="number"
                 [(ngModel)]="error[sno]"
                 [ngModelOptions]="{ standalone: true }"
                 name="%error"
@@ -132,6 +133,7 @@
             <td>{{ indicatior.unitFee }}</td>
             <td>
               <input
+                type="number"
                 [(ngModel)]="provisionalAmount[sno]"
                 [ngModelOptions]="{ standalone: true }"
                 name="totalProvisionalAmount"
@@ -140,6 +142,7 @@
             </td>
             <td>
               <input
+                type="number"
                 [(ngModel)]="loss[sno]"
                 [ngModelOptions]="{ standalone: true }"
                 name="loss"
@@ -148,6 +151,7 @@
             </td>
             <td>
               <input
+                type="number"
                 [(ngModel)]="actualAmount[sno]"
                 [ngModelOptions]="{ standalone: true }"
                 name="actualAmount"
@@ -156,13 +160,14 @@
             </td>
           </tr>
           <tr>
-            <td colspan="11" class="total">
+            <td colspan="10" class="total">
               Total
               {{ dataSelections[0].items[0].type | titlecase }} Provisional
               Amount for {{ orgUnitLevel | titlecase }}
             </td>
             <td>
               <input
+                type="number"
                 [(ngModel)]="totalAmount"
                 [ngModelOptions]="{ standalone: true }"
               />
@@ -174,6 +179,5 @@
       <button class="btn btn-group btn-primary btn-form">Incomplete</button>
       <button class="btn btn-group btn-primary btn-form">Run Validation</button>
     </form>
-    {{ verificationConfig$ | async | json }}
   </div>
 </div>
