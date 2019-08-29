@@ -5,6 +5,7 @@ import { VerificationConfiguration } from 'src/app/pages/configuration/models/ve
 import { Store } from '@ngrx/store';
 import { State } from 'src/app/store/reducers';
 import { getVerificationConfigurations } from 'src/app/store/selectors';
+import { NgModel } from '@angular/forms';
 
 @Component({
   selector: 'app-verification',
@@ -17,16 +18,19 @@ export class VerificationComponent implements OnInit {
   verificationConfig$: Observable<VerificationConfiguration[]>;
   selectionFilterConfig: SelectionFilterConfig = {
     allowStepSelection: true,
-    showDynamicDimension: false,
+    showDynamicDimension: true,
     showDataFilter: false,
     showValidationRuleGroupFilter: false,
-    stepSelections: ['pe', 'ou', 'dx', 'vrg'],
-    dataFilterConfig: {
-      singleSelection: true,
-      enabledSelections: []
-    },
+    stepSelections: ['pe', 'ou'],
     periodFilterConfig: {
       singleSelection: true
+    },
+    orgUnitFilterConfig: {
+      showUserOrgUnitSection: false,
+      singleSelection: true,
+      showOrgUnitGroupSection: false,
+      showOrgUnitLevelSection: false,
+      showOrgUnitLevelGroupSection: false
     }
   };
 
@@ -36,6 +40,7 @@ export class VerificationComponent implements OnInit {
   periodLooper = [];
 
   // Form Properties are deckared below
+  totalRep;
 
   constructor(private store: Store<State>) {}
 
@@ -227,5 +232,8 @@ export class VerificationComponent implements OnInit {
       this.setOrgUnitLevel();
       this.setPeriodLooper();
     }
+  }
+  onBlur(input) {
+    this.totalRep += input;
   }
 }

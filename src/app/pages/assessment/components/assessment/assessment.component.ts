@@ -19,13 +19,16 @@ export class AssessmentComponent implements OnInit {
     showDynamicDimension: false,
     showDataFilter: false,
     showValidationRuleGroupFilter: false,
-    stepSelections: ['pe', 'ou', 'dx', 'vrg'],
-    dataFilterConfig: {
-      singleSelection: true,
-      enabledSelections: []
-    },
+    stepSelections: ['pe', 'ou'],
     periodFilterConfig: {
       singleSelection: true
+    },
+    orgUnitFilterConfig: {
+      showUserOrgUnitSection: false,
+      singleSelection: true,
+      showOrgUnitGroupSection: false,
+      showOrgUnitLevelSection: false,
+      showOrgUnitLevelGroupSection: false
     }
   };
 
