@@ -7,7 +7,6 @@
       <form
         [formGroup]="generalConfigForm"
         (ngSubmit)="onClickSave(generalConfigForm.value)"
-        *ngIf="showForm"
       >
         <div class="form-group">
           <mat-form-field>
@@ -55,35 +54,6 @@
           </div>
         </div>
       </form>
-      <table class="table table-striped" *ngIf="!showForm">
-        <thead>
-          <tr>
-            <th scope="col">Configuration</th>
-            <th scope="col">Value</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Period Type</td>
-            <td>{{ formData.periodType }}</td>
-          </tr>
-          <tr>
-            <td>Organisation Unit level</td>
-            <td>{{ formData.OrgUnitLevel }}</td>
-          </tr>
-          <tr>
-            <td>Error Rate</td>
-            <td>{{ formData.errorRate }}</td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="row" *ngIf="!showForm">
-        <div class="form-group col col-12">
-          <button class="btn btn-primary" (click)="showFormControl()">
-            Update
-          </button>
-        </div>
-      </div>
     </div>
   </div>
 </div>

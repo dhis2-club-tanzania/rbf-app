@@ -22,10 +22,6 @@ export class GeneralComponent implements OnInit {
 
   periodTypes: any[];
   OrgUnitLevels: any[];
-  showForm = true;
-
-  formData: any;
-
   generalConfigForm;
   currentUser$: Observable<any>;
 
@@ -74,11 +70,5 @@ export class GeneralComponent implements OnInit {
     this.store.dispatch(
       addGeneralConfigurations({ configuration: generalConfig })
     );
-
-    this.formData = formData;
-    this.showFormControl();
-  }
-  showFormControl() {
-    this.showForm = !this.showForm;
   }
 }
