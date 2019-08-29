@@ -8,18 +8,22 @@
         </tr>
       </thead>
       <tbody>
-        <!-- <tr>
+        <tr>
           <td>Period Type</td>
-          <td>{{ formData.periodType }}</td>
+          <td>{{ (generalConfiguration$ | async).periodType }}</td>
         </tr>
         <tr>
           <td>Organisation Unit level</td>
-          <td>{{ formData.OrgUnitLevel }}</td>
+          <td>
+            {{
+              (generalConfiguration$ | async).organisationUnitLevel.displayName
+            }}
+          </td>
         </tr>
         <tr>
           <td>Error Rate</td>
-          <td>{{ formData.errorRate }}</td>
-        </tr> -->
+          <td>{{ (generalConfiguration$ | async).errorRate }}</td>
+        </tr>
       </tbody>
     </table>
 
