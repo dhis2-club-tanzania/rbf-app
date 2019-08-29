@@ -1,0 +1,21 @@
+.main {
+  margin-top: 4px;
+}
+.form {
+  margin: 5px;
+  width: 100%;
+}
+.small {
+  width: 70px;
+}
+.select {
+  background-color: rgb(39, 102, 150);
+  color: white;
+}
+.btn {
+  margin: 3px;
+  width: 32%;
+}
+.filter {
+  margin-left: 24%;
+}

@@ -1,0 +1,60 @@
+.main {
+  margin-top: 4px;
+}
+.alert {
+  margin-top: 25%;
+  text-align: center;
+}
+.card-header {
+  width: 100%;
+}
+.form {
+  margin: 5px;
+  text-align: center;
+}
+.btn-form {
+  width: 32%;
+  margin: 3px;
+}
+input {
+  width: 4.5rem;
+}
+.tdwithin {
+  width: 130px;
+}
+.tdwithinplus {
+  width: 130px;
+}
+em {
+  color: red;
+}
+.filter {
+  margin-left: 44%;
+  margin-top: 4px;
+}
+table input {
+  text-align: center;
+}
+table thead {
+  font-size: -5px;
+}
+tbody {
+  font-size: 12pt;
+}
+.indicator {
+  width: 250px;
+  text-align: left;
+}
+.sno {
+  width: 4px;
+}
+.iteration {
+  width: 260px !important;
+  text-align: center;
+}
+.trwithin {
+  width: 130px;
+}
+.total {
+  text-align: left;
+}

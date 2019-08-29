@@ -2,7 +2,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AssessmentComponent } from './assessment.component';
 import { NgxDhis2OrgUnitFilterModule } from '@iapps/ngx-dhis2-org-unit-filter';
-import { StoreFeatureModule } from '@ngrx/store';
+import { MatProgressSpinnerModule } from '@angular/material';
+import { NgxDhis2PeriodFilterModule } from '@iapps/ngx-dhis2-period-filter';
 
 describe('AssessmentComponent', () => {
   let component: AssessmentComponent;
@@ -10,9 +11,11 @@ describe('AssessmentComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [NgxDhis2OrgUnitFilterModule],
-      declarations: [AssessmentComponent]
-    }).compileComponents();
+      declarations: [ AssessmentComponent ],
+      imports: [NgxDhis2OrgUnitFilterModule, MatProgressSpinnerModule, NgxDhis2PeriodFilterModule]
+
+    })
+    .compileComponents();
   }));
 
   beforeEach(() => {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType, createEffect } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/internal/operators';
+import { catchError, map, switchMap, mergeMap } from 'rxjs/internal/operators';
 import { UserService, User } from '../../core';
 
 import { Action } from '@ngrx/store';
@@ -24,7 +24,7 @@ export class UserEffects {
   loadCurrentUser$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadCurrentUser),
-      switchMap(({ systemInfo }) =>
+      mergeMap(({ systemInfo }) =>
         this.userService.loadCurrentUser().pipe(
           map((currentUser: User) =>
             addCurrentUser({ currentUser, systemInfo })

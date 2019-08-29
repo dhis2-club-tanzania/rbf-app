@@ -51,11 +51,14 @@
               <mat-icon>more_vert</mat-icon>
             </button>
             <mat-menu #menu="matMenu">
-              <button mat-menu-item>
+              <button mat-menu-item (click)="onEdit($event, indicator.id)">
                 <i class="fa fa-edit"></i>
                 <span> Edit</span>
               </button>
-              <button mat-menu-item>
+              <button
+                mat-menu-item
+                (click)="onDeleteConfig($event, indicator.id)"
+              >
                 <i class="fa fa-trash"></i>
                 <span> Delete</span>
               </button>
@@ -64,12 +67,8 @@
         </tr>
       </tbody>
     </table>
-    <button class="add">
-      <a
-        [routerLink]="['/configuration/assessment_configurations']"
-        routerLinkActive="router-link-active"
-        ><i class="savage fa fa-plus"></i
-      ></a>
+    <button class="add" (click)="onClickAdd($event)">
+      <i class="savage fa fa-plus"></i>
     </button>
   </div>
 </div>

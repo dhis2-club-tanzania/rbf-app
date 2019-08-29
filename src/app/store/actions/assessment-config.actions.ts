@@ -4,7 +4,7 @@ import { ErrorMessage } from 'src/app/core';
 import { AssessmentConfiguration } from 'src/app/pages/configuration/models/assessment-configuration.model';
 
 export const loadAssessmentConfigurations = createAction(
-  '[CONFIGURATION] Load Configuration'
+  '[CONFIGURATION] Load Assessment Configuration'
 );
 export const loadAssessmentConfigurationFail = createAction(
   '[CONFIGURATION] Load Assessment Configuration fail',
@@ -47,11 +47,11 @@ export const deleteAssessmentConfiguration = createAction(
 );
 
 export const deleteAssessmentConfigurationSuccess = createAction(
-  '[CONFIGURATION] Delete Assessment Configuration',
+  '[CONFIGURATION] Delete Assessment Configuration Success',
   props<{ id: string }>()
 );
 
 export const deleteAssessmentConfigurationFail = createAction(
-  '[CONFIGURATION] Delete Assessment Configuration',
+  '[CONFIGURATION] Delete Assessment Configuration Fail',
   props<{ error: ErrorMessage }>()
 );

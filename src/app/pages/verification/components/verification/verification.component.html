@@ -1,6 +1,183 @@
-<ngx-dhis2-org-unit-filter
-    [orgUnitFilterConfig]="orgUnitFilterConfig"
-    [selectedOrgUnitItems]="selectedOrgUnitItems"
-    (orgUnitUpdate)="onOrgUnitUpdate($event, 'UPDATE')"
-    (orgUnitClose)="onOrgUnitUpdate($event, 'CLOSE')">
-</ngx-dhis2-org-unit-filter>
+<div class="main">
+  <div class="card-header">
+    Verfication Form
+  </div>
+  <div class="row">
+    <ngx-dhis2-selection-filters
+      (filterUpdate)="onFilterUpdateAction($event)"
+      [dataSelections]="dataSelections"
+      [selectionFilterConfig]="selectionFilterConfig"
+      (update)="onFilterUpdateAction($event)"
+      class="filter"
+    >
+    </ngx-dhis2-selection-filters>
+  </div>
+  <div class="form" *ngIf="showForm">
+    <!-- Main Form display ground -->
+    <form name="verificationForm">
+      <h3>
+        {{ dataSelections[0].items[0].type | titlecase }}
+        {{ orgUnitLevel | titlecase }}
+        Data Verification Form
+      </h3>
+      <br />
+      <h5>
+        Organization Unit Name: <u>{{ dataSelections[1].items[0].name }}</u>
+      </h5>
+      <br />
+      <table class="table table-bordered table-hover">
+        <thead class="card-header">
+          <tr>
+            <th scope="col" rowspan="2" class="sno">S/No</th>
+            <th scope="col" rowspan="2" class="indicator">Indicator</th>
+            <th
+              scope="col"
+              class="iteration"
+              *ngFor="let iteration of periodLooper"
+            >
+              {{ iteration }}
+            </th>
+            <th scope="col">
+              Total Declared (Rep.#)
+            </th>
+            <th scope="col">
+              Total Verified (Ver.#)
+            </th>
+            <th scope="col">Difference</th>
+            <th scope="col">% Error</th>
+            <th scope="col" rowspan="2">Unit Fee (Tsh)</th>
+            <th scope="col" rowspan="2">
+              {{ dataSelections[0].items[0].type | titlecase }}
+              Provisional Total Amount
+            </th>
+            <!-- Tolerance rate percentage is needed here -->
+            <th scope="col" rowspan="2">
+              Loss Due to above <em>ToleranceRate%?</em> & Above Error
+            </th>
+            <th scope="col" rowspan="2">Actual Quantity Amount</th>
+          </tr>
+          <tr>
+            <th
+              scope="col"
+              *ngFor="let iteration of periodLooper; let i = index"
+              class="iteration"
+            >
+              <tr class="trwithin">
+                <td class="tdwithinplus">Rep. #{{ i + 1 }}</td>
+                <td class="tdwithinplus">Ver. #{{ i + 1 }}</td>
+              </tr>
+            </th>
+
+            <th scope="col">(Rep.#1 +Rep.#2 +Rep.#3)</th>
+            <th scope="col">(Ver.#1 +Ver.#2 +Ver.#3)</th>
+            <th scope="col">(Rep.#-Ver.#)</th>
+            <th scope="col">%(Rep.#-Ver.#) / Rep.#</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="
+              let indicatior of verificationConfig$ | async;
+              let sno = index
+            "
+          >
+            <th scope="row" class="sno">{{ sno + 1 }}</th>
+            <td class="indicator">{{ indicatior.indicator }}</td>
+            <td *ngFor="let iteration of periodLooper" class="iteration">
+              <tr class="trwithin">
+                <td class="tdwithin"><input value="0" disabled /></td>
+                <td class="tdwithin">
+                  <input
+                    type="number"
+                    [(ngModel)]="verArray[sno]"
+                    [ngModelOptions]="{ standalone: true }"
+                    (blur)="onVerBlur(sno)"
+                  />
+                </td>
+              </tr>
+            </td>
+
+            <td>
+              <input
+                name="totalRep"
+                [(ngModel)]="totalRep[sno]"
+                [ngModelOptions]="{ standalone: true }"
+                readonly="readonly"
+              />
+            </td>
+            <td>
+              <input
+                [(ngModel)]="totalVer[sno]"
+                [ngModelOptions]="{ standalone: true }"
+                name="totalVer"
+                readonly="readonly"
+              />
+            </td>
+            <td>
+              <input
+                [(ngModel)]="difference[sno]"
+                [ngModelOptions]="{ standalone: true }"
+                name="difference"
+                readonly="readonly"
+              /><br />
+            </td>
+            <td>
+              <input
+                type="number"
+                [(ngModel)]="error[sno]"
+                [ngModelOptions]="{ standalone: true }"
+                name="%error"
+                readonly="readonly"
+              />
+            </td>
+            <td>{{ indicatior.unitFee }}</td>
+            <td>
+              <input
+                type="number"
+                [(ngModel)]="provisionalAmount[sno]"
+                [ngModelOptions]="{ standalone: true }"
+                name="totalProvisionalAmount"
+                readonly="readonly"
+              />
+            </td>
+            <td>
+              <input
+                type="number"
+                [(ngModel)]="loss[sno]"
+                [ngModelOptions]="{ standalone: true }"
+                name="loss"
+                readonly="readonly"
+              />
+            </td>
+            <td>
+              <input
+                type="number"
+                [(ngModel)]="actualAmount[sno]"
+                [ngModelOptions]="{ standalone: true }"
+                name="actualAmount"
+                readonly="readonly"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td colspan="10" class="total">
+              Total
+              {{ dataSelections[0].items[0].type | titlecase }} Provisional
+              Amount for {{ orgUnitLevel | titlecase }}
+            </td>
+            <td>
+              <input
+                type="number"
+                [(ngModel)]="totalAmount"
+                [ngModelOptions]="{ standalone: true }"
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <button class="btn btn-group btn-primary btn-form">Complete</button>
+      <button class="btn btn-group btn-primary btn-form">Incomplete</button>
+      <button class="btn btn-group btn-primary btn-form">Run Validation</button>
+    </form>
+  </div>
+</div>

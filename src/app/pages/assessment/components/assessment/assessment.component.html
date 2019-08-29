@@ -1,6 +1,66 @@
-<ngx-dhis2-org-unit-filter
-    [orgUnitFilterConfig]="orgUnitFilterConfig"
-    [selectedOrgUnitItems]="selectedOrgUnitItems"
-    (orgUnitUpdate)="onOrgUnitUpdate($event, 'UPDATE')"
-    (orgUnitClose)="onOrgUnitUpdate($event, 'CLOSE')">
-</ngx-dhis2-org-unit-filter>
+<div class="main">
+  <div class="card-header">
+    Assessment Form
+  </div>
+  <div class=" row filter">
+    <ngx-dhis2-selection-filters
+      (filterUpdate)="onFilterUpdateAction($event)"
+      [dataSelections]="dataSelections"
+      [selectionFilterConfig]="selectionFilterConfig"
+      (update)="onFilterUpdateAction($event)"
+      class="filter"
+    >
+    </ngx-dhis2-selection-filters>
+  </div>
+  <div>
+    <div>
+      <!-- This is the beginning of the main form -->
+
+      <div class="form">
+        <div>
+          <form>
+            <table class="table table-bordered table-hover table-sm">
+              <thead>
+                <tr class="table-active">
+                  <th scope="col">S/No</th>
+                  <th scope="col">Indicator</th>
+                  <th scope="col">Possible Maximum Value</th>
+                  <th scope="col">Obtained Points</th>
+                  <th scope="col">%</th>
+                  <th scope="col">Observations</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  *ngFor="
+                    let indicator of assessmentIndicators$ | async;
+                    let sno = index
+                  "
+                >
+                  <th scope="row">{{ sno + 1 }}</th>
+                  <td>{{ indicator.indicator }}</td>
+                  <td>
+                    <input value="{{ indicator.possibleMaxValue }}" disabled />
+                  </td>
+                  <td>
+                    <input class="small" />
+                    <select class="small">
+                      <option>Select</option>
+                      <option>Applicable</option>
+                      <option>Not Applicable</option>
+                    </select>
+                  </td>
+                  <td><input class="small" disabled /></td>
+                  <td><input /></td>
+                </tr>
+              </tbody>
+            </table>
+            <button class="btn btn-group btn-primary">Complete</button>
+            <button class="btn btn-group btn-primary">Incomplete</button>
+            <button class="btn btn-group btn-primary">Run Validation</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

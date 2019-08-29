@@ -18,21 +18,23 @@ import {
   deleteAssessmentConfigurationSuccess,
   deleteAssessmentConfigurationFail
 } from '../actions';
+import { MatSnackBar } from '@angular/material';
 
 @Injectable()
 export class AssessmentConfigurationEffects {
   datastoreNamespace: string;
   constructor(
     private configServices: ConfigurationService,
-    private actions$: Actions
+    private actions$: Actions,
+    private _snackBar: MatSnackBar
   ) {
-    this.datastoreNamespace = 'RBF-assessment-config';
+    this.datastoreNamespace = 'rbf-assessment-config';
   }
 
   loadConfigurations$ = createEffect(() =>
     this.actions$.pipe(
       ofType(addSystemInfo),
-      mergeMap(() =>
+      switchMap(() =>
         this.configServices
           .getConfigurations(this.datastoreNamespace)
           .pipe(
@@ -41,66 +43,112 @@ export class AssessmentConfigurationEffects {
             )
           )
       ),
-      catchError(error => of(loadAssessmentConfigurationFail({ error: error })))
+      catchError(error => {
+        this._snackBar.open('Loading Assessment Configuration', 'FAIL', {
+          duration: 1000
+        });
+        return of(loadAssessmentConfigurationFail({ error: error }));
+      })
     )
   );
 
   addConfigurations$ = createEffect(() =>
     this.actions$.pipe(
       ofType(addAssessmentConfiguration),
-      mergeMap(action =>
-        this.configServices
+      mergeMap(action => {
+        this._snackBar.open('Adding Assessment Configuration', '', {
+          duration: 1000
+        });
+        return this.configServices
           .createConfiguration(this.datastoreNamespace, action.configuration)
           .pipe(
-            map(() =>
-              addAssessmentConfigurationSuccess({
+            map(() => {
+              this._snackBar.open('Adding Configuration', 'SUCCESS', {
+                duration: 1000
+              });
+              return addAssessmentConfigurationSuccess({
                 configuration: action.configuration
-              })
-            )
-          )
-      ),
-      catchError(error => of(addAssessmentConfigurationFail({ error: error })))
+              });
+            })
+          );
+      }),
+      catchError(error => {
+        this._snackBar.open('Adding Assessment Configuration', 'FAIL', {
+          duration: 1000
+        });
+        return of(addAssessmentConfigurationFail({ error: error }));
+      })
     )
   );
 
   deleteConfigurations$ = createEffect(() =>
     this.actions$.pipe(
       ofType(deleteAssessmentConfiguration),
-      mergeMap(action =>
-        this.configServices
+      mergeMap(action => {
+        this._snackBar.open('Deleting Assessment Configuration', '', {
+          duration: 1000
+        });
+        return this.configServices
           .deleteConfiguration(this.datastoreNamespace, action.id)
           .pipe(
-            map(() => deleteAssessmentConfigurationSuccess({ id: action.id }))
-          )
-      ),
-      catchError(error =>
-        of(deleteAssessmentConfigurationFail({ error: error }))
-      )
+            map(() => {
+              this._snackBar.open(
+                'Deleting Assessment Configuration',
+                'SUCCESS',
+                {
+                  duration: 1000
+                }
+              );
+              return deleteAssessmentConfigurationSuccess({ id: action.id });
+            })
+          );
+      }),
+      catchError(error => {
+        this._snackBar.open('Deleting Assessment Configuration', 'FAIL', {
+          duration: 1000
+        });
+        return of(deleteAssessmentConfigurationFail({ error: error }));
+      })
     )
   );
 
   updateConfigurations$ = createEffect(() =>
     this.actions$.pipe(
       ofType(updateAssessmentConfiguration),
-      mergeMap(action =>
-        this.configServices
+      mergeMap(action => {
+        this._snackBar.open('Updating Assessment Configuration', 'FAIL', {
+          duration: 1000
+        });
+        return this.configServices
           .updateConfiguration(
             this.datastoreNamespace,
             action.configuration.id,
             action.configuration
           )
           .pipe(
-            map(() =>
-              updateAssessmentConfigurationSuccess({
+            map(() => {
+              this._snackBar.open(
+                'Updating Assessment Configuration',
+                'SUCCESS',
+                {
+                  duration: 1000
+                }
+              );
+              return updateAssessmentConfigurationSuccess({
                 configuration: {
                   id: action.configuration.id,
                   changes: action.configuration
                 }
-              })
-            )
-          )
-      ),
-      catchError(error => of(updateAssessmentConfigurationFail(error)))
+              });
+            })
+          );
+      }),
+      catchError(error => {
+        this._snackBar.open('Updating Assessment Configuration', 'FAIL', {
+          duration: 1000
+        });
+        return of(updateAssessmentConfigurationFail(error));
+      })
     )
   );
 }

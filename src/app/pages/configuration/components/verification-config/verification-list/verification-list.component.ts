@@ -3,11 +3,14 @@ import { Observable } from 'rxjs';
 import { VerificationConfiguration } from '../../../models/verification-configuration.model';
 import { Store } from '@ngrx/store';
 import { State } from 'src/app/store/reducers';
+import { Router } from '@angular/router';
 import {
   getVerificationConfigurations,
   getVerificationConfigErrorState
 } from 'src/app/store/selectors';
 import { ErrorMessage } from 'src/app/core';
+import { MatDialog } from '@angular/material';
+import { DeleteVerificationComponent } from '../delete-verification/delete-verification.component';
 
 @Component({
   selector: 'app-verification-list',
@@ -17,7 +20,11 @@ import { ErrorMessage } from 'src/app/core';
 export class VerificationListComponent implements OnInit {
   verificationIndicators$: Observable<VerificationConfiguration[]>;
   verificationConfigurationError$: Observable<ErrorMessage>;
-  constructor(private store: Store<State>) {}
+  constructor(
+    private store: Store<State>,
+    private dialog: MatDialog,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.verificationIndicators$ = this.store.select(
@@ -27,10 +34,23 @@ export class VerificationListComponent implements OnInit {
       getVerificationConfigErrorState
     );
   }
-}
-export interface VerificationIndicators {
-  indicator: string;
-  dataElement: string;
-  unitFee: number;
-  toleranceRate: number;
+
+  onClickAdd() {
+    this.router.navigate(['/configuration/verification_configurations']);
+  }
+  onDeleteConfig(e, id: string) {
+    e.stopPropagation();
+    const dialogRef = this.dialog.open(DeleteVerificationComponent, {
+      width: '350px',
+      height: '200px',
+      data: id
+    });
+
+    dialogRef.afterClosed();
+  }
+
+  onEdit(e, id: string) {
+    e.stopPropagation();
+    this.router.navigate([`configuration/verification_edit/${id}`]);
+  }
 }

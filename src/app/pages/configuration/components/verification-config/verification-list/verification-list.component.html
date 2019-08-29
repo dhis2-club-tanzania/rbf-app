@@ -3,7 +3,7 @@
     Verification Indicators
   </div>
 
-  <div>
+  <div class="overflow-auto tableContainer">
     <p
       *ngIf="
         (verificationConfigurationError$ | async) ||
@@ -18,7 +18,7 @@
         (verificationIndicators$ | async) &&
         !(verificationConfigurationError$ | async)
       "
-      class="overflow-auto tableContainer"
+      class="overflow-auto tableContainer table-bordered"
       class="table table-hover"
     >
       <thead>
@@ -27,7 +27,6 @@
           <th scope="col">Indicator</th>
           <th scope="col">Data Element</th>
           <th scope="col">Unit Fee</th>
-          <th scope="col">Tolerance Rate</th>
           <th scope="col">Last Date Modified</th>
           <th></th>
         </tr>
@@ -43,7 +42,6 @@
           <td>{{ indicator.indicator }}</td>
           <td>{{ indicator.dataElement | dataElement }}</td>
           <td>{{ indicator.unitFee }}</td>
-          <td>{{ indicator.toleranceRate }}</td>
           <td>{{ indicator.lastUpdate | date }}</td>
           <td>
             <button
@@ -55,11 +53,14 @@
               <mat-icon>more_vert</mat-icon>
             </button>
             <mat-menu #menu="matMenu">
-              <button mat-menu-item>
+              <button mat-menu-item (click)="onEdit($event, indicator.id)">
                 <i class="fa fa-edit"></i>
                 <span> Edit</span>
               </button>
-              <button mat-menu-item>
+              <button
+                mat-menu-item
+                (click)="onDeleteConfig($event, indicator.id)"
+              >
                 <i class="fa fa-trash"></i>
                 <span> Delete</span>
               </button>
@@ -68,13 +69,8 @@
         </tr>
       </tbody>
     </table>
-  </div>
-  <a
-    [routerLink]="['/configuration/verification_configurations']"
-    routerLinkActive="router-link-active"
-  >
-    <button class="add">
+    <button class="add" (click)="onClickAdd()">
       <i class="savage fa fa-plus"></i>
     </button>
-  </a>
+  </div>
 </div>

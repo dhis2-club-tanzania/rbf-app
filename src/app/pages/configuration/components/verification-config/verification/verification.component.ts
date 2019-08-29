@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { UUID } from '@iapps/utils';
 
+import { addVerificationConfiguration } from 'src/app/store/actions';
 import { State } from 'src/app/store/reducers';
 import { DataElementList } from '../../../models/data-element.model';
-import { getAllDataElements } from 'src/app/store/selectors';
+import { getAllDataElements, getCurrentUser } from 'src/app/store/selectors';
 import { VerificationConfiguration } from '../../../models/verification-configuration.model';
-import { addVerificationConfiguration } from 'src/app/store/actions';
-import { Router } from '@angular/router';
+import { User } from 'src/app/core';
 
 @Component({
   selector: 'app-verification',
@@ -18,11 +19,11 @@ import { Router } from '@angular/router';
 })
 export class VerificationComponent implements OnInit {
   dataElements$: Observable<DataElementList[]>;
+  currentUser$: Observable<User>;
 
   verificationForm;
   indicator = 'Enter indicator';
   dataElement = '[Select Data Element]';
-  toleranceRate = 'Enter tolerance rate in percentage';
   unitFee = 'Enter unit fee';
   formDataArray: any[] = [];
 
@@ -30,28 +31,30 @@ export class VerificationComponent implements OnInit {
 
   ngOnInit() {
     this.dataElements$ = this.store.select(getAllDataElements);
+    this.currentUser$ = this.store.select(getCurrentUser);
     this.verificationForm = new FormGroup({
       indicator: new FormControl(),
       dataElement: new FormControl(
         '[Select Data Element]',
         Validators.required
       ),
-      unitFee: new FormControl(Validators.required),
-      toleranceRate: new FormControl(Validators.required)
+      unitFee: new FormControl(Validators.required)
     });
   }
 
   onClickDone() {
     const date = new Date();
+    let userObject: User = null;
+
+    this.currentUser$.subscribe(user => (userObject = user));
     const configObject: VerificationConfiguration = {
       id: UUID(),
       dataElement: this.verificationForm.value.dataElement,
       indicator: this.verificationForm.value.indicator,
-      user: { id: '', name: '' },
+      user: { id: userObject.id, name: userObject.displayName },
       lastUpdate: date,
       created: date,
-      unitFee: +this.verificationForm.value.unitFee,
-      toleranceRate: +this.verificationForm.value.toleranceRate
+      unitFee: +this.verificationForm.value.unitFee
     };
     this.store.dispatch(
       addVerificationConfiguration({ configuration: configObject })

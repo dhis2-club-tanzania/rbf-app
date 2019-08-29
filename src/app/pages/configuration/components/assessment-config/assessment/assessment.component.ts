@@ -22,7 +22,6 @@ export class AssessmentComponent implements OnInit {
   currentUser$: Observable<User>;
   assessmentForm;
   indicator = 'Enter indicator';
-  dataElement;
   possibleMaximumValue = 'Enter the possible maximum value';
   formDataArray: any[] = [];
 
@@ -39,6 +38,10 @@ export class AssessmentComponent implements OnInit {
   }
 
   onClickDone() {
+    let userObject: User = null;
+    this.currentUser$.subscribe(user => {
+      userObject = user;
+    });
     const date = new Date();
     const config: AssessmentConfiguration = {
       id: UUID(),
@@ -46,7 +49,7 @@ export class AssessmentComponent implements OnInit {
       dataElement: this.assessmentForm.value.dataElement,
       created: date,
       lastUpdate: date,
-      user: { id: this.currentUser$['id'], name: this.currentUser$['name'] },
+      user: { id: userObject.id, name: userObject.displayName },
       possibleMaxValue: this.assessmentForm.value.possibleMaxValue
     };
     this.store.dispatch(addAssessmentConfiguration({ configuration: config }));
