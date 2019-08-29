@@ -12,9 +12,11 @@ import {
   updateGeneralConfigurations,
   updateGeneralConfigurationsFail,
   loadGeneralConfigurationsFail,
-  updateGeneralConfigurationsSuccess
+  updateGeneralConfigurationsSuccess,
+  loadDefaultGeneralConfigurations
 } from '../actions';
 import { ConfigurationService } from 'src/app/pages/configuration/services/configuration.service';
+import { ErrorMessage } from 'src/app/core';
 
 @Injectable()
 export class GeneralConfigurationEffects {
@@ -32,18 +34,43 @@ export class GeneralConfigurationEffects {
       ofType(addSystemInfo),
       switchMap(() =>
         this.configService
-          .getConfigurations(this.dataStoreNamespace)
+          .getGeneralConfigurations(this.dataStoreNamespace)
           .pipe(
             map(config =>
               loadGeneralConfigurationsSucess({ configurations: config })
             )
           )
       ),
-      catchError(error => {
+      catchError((error: ErrorMessage) => {
+        if (error.status !== 404) {
+          this._snackBar.open('Loading General Configuration', 'FAIL', {
+            duration: 1000
+          });
+          return of(loadGeneralConfigurationsFail({ error: error }));
+        } else {
+          return of(loadDefaultGeneralConfigurations());
+        }
+      })
+    )
+  );
+
+  loadDefaultConfigurations$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadDefaultGeneralConfigurations),
+      switchMap(() =>
+        this.configService
+          .addDefaultGeneralConfiguration(this.dataStoreNamespace)
+          .pipe(
+            map(config =>
+              loadGeneralConfigurationsSucess({ configurations: config })
+            )
+          )
+      ),
+      catchError(err => {
         this._snackBar.open('Loading General Configuration', 'FAIL', {
           duration: 1000
         });
-        return of(loadGeneralConfigurationsFail({ error: error }));
+        return of(loadGeneralConfigurationsFail({ error: err }));
       })
     )
   );
@@ -96,10 +123,7 @@ export class GeneralConfigurationEffects {
                 duration: 1000
               });
               return updateGeneralConfigurationsSuccess({
-                configuration: {
-                  id: action.configuration.id,
-                  changes: action.configuration
-                }
+                configuration: action.configuration
               });
             })
           );

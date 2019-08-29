@@ -17,6 +17,10 @@ export const loadGeneralConfigurationsFail = createAction(
   props<{ error: ErrorMessage }>()
 );
 
+export const loadDefaultGeneralConfigurations = createAction(
+  '[CONFIGURATION] Load Default Configurations'
+);
+
 export const addGeneralConfigurations = createAction(
   '[CONFIGURATION] Add General Configuration',
   props<{ configuration: GeneralConfiguration }>()
@@ -42,5 +46,5 @@ export const updateGeneralConfigurationsFail = createAction(
 );
 export const updateGeneralConfigurationsSuccess = createAction(
   '[CONFIGURATION] update Configurations Success',
-  props<{ configuration: Update<GeneralConfiguration> }>()
+  props<{ configuration: GeneralConfiguration }>()
 );

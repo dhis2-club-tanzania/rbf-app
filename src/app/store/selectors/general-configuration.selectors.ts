@@ -1,7 +1,6 @@
 import { createSelector } from '@ngrx/store';
 import { getRootState, State } from '../reducers';
-
-import * as fromConfigState from '../states/general-configuration.state';
+import { GeneralConfigurationState } from '../states/general-configuration.state';
 
 export const getGeneralConfigurationState = createSelector(
   getRootState,
@@ -10,5 +9,5 @@ export const getGeneralConfigurationState = createSelector(
 
 export const getGeneralConfiguration = createSelector(
   getGeneralConfigurationState,
-  fromConfigState.selectAllGeneralConfigurations
+  (state: GeneralConfigurationState) => state.configuration
 );

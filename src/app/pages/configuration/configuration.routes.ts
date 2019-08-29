@@ -9,6 +9,7 @@ import { AssessmentListComponent } from './components/assessment-config/assessme
 import { VerificationListComponent } from './components/verification-config/verification-list/verification-list.component';
 import { EditAssessmentComponent } from './components/assessment-config/edit-assessment/edit-assessment.component';
 import { EditVerificationComponent } from './components/verification-config/edit-verification/edit-verification.component';
+import { GeneralConfigurationListComponent } from './components/general-configuration-list/general-configuration-list.component';
 
 export const routes: Routes = [
   {
@@ -49,6 +50,10 @@ export const routes: Routes = [
       },
       {
         path: 'general',
+        component: GeneralConfigurationListComponent
+      },
+      {
+        path: 'general/update',
         component: GeneralComponent
       }
     ]
