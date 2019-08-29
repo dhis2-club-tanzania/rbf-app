@@ -9,6 +9,7 @@ import { DeleteAssessmentComponent } from './assessment-config/delete-assessment
 import { DeleteVerificationComponent } from './verification-config/delete-verification/delete-verification.component';
 import { EditAssessmentComponent } from './assessment-config/edit-assessment/edit-assessment.component';
 import { EditVerificationComponent } from './verification-config/edit-verification/edit-verification.component';
+import { GeneralConfigurationListComponent } from './general-configuration-list/general-configuration-list.component';
 
 export const components: any[] = [
   ConfigurationComponent,
@@ -21,5 +22,6 @@ export const components: any[] = [
   DeleteAssessmentComponent,
   DeleteVerificationComponent,
   EditAssessmentComponent,
-  EditVerificationComponent
+  EditVerificationComponent,
+  GeneralConfigurationListComponent
 ];

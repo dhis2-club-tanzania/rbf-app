@@ -19,7 +19,6 @@ import {
   loadedBaseState,
   errorBaseState
 } from '../states/base.state';
-import { adapter } from '../states/general-configuration.state';
 
 export const reducer = createReducer(
   initialGeneralConfigurationState,
@@ -29,9 +28,12 @@ export const reducer = createReducer(
     ...errorBaseState,
     error
   })),
-  on(loadGeneralConfigurationsSucess, (state, { configurations }) =>
-    adapter.addOne(configurations, { ...state, ...loadedBaseState })
-  ),
+  on(loadGeneralConfigurationsSucess, (state, { configurations }) => ({
+    ...state,
+    adding: false,
+    added: true,
+    configuration: configurations
+  })),
   on(addGeneralConfigurations, state => ({
     ...state,
     added: false,
@@ -43,9 +45,12 @@ export const reducer = createReducer(
     adding: false,
     error
   })),
-  on(addGeneralConfigurationsSuccess, (state, { configuration }) =>
-    adapter.addOne(configuration, { ...state, adding: false, added: true })
-  ),
+  on(addGeneralConfigurationsSuccess, (state, { configuration }) => ({
+    ...state,
+    adding: false,
+    added: true,
+    configuration: configuration
+  })),
   on(updateGeneralConfigurations, state => ({
     ...state,
     updated: false,
@@ -58,13 +63,12 @@ export const reducer = createReducer(
     ...errorBaseState,
     error
   })),
-  on(updateGeneralConfigurationsSuccess, (state, { configuration }) =>
-    adapter.updateOne(configuration, {
-      ...state,
-      updated: true,
-      updating: false
-    })
-  )
+  on(updateGeneralConfigurationsSuccess, (state, { configuration }) => ({
+    ...state,
+    adding: false,
+    added: true,
+    configuration: configuration
+  }))
 );
 
 export function generalConfigurationReducer(

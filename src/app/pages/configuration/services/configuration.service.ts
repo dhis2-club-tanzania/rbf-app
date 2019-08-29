@@ -124,8 +124,43 @@ export class ConfigurationService {
     );
   }
 
+  /**
+   *
+   * @param namespace datat store namespace
+   * @param key data store key
+   */
   deleteConfiguration(namespace: string, key: string): Observable<any> {
     return this.httpService.delete(`${this.dataStoreUrl}/${namespace}/${key}`);
+  }
+
+  /**
+   *
+   * @param namespace data store namespace
+   */
+  addDefaultGeneralConfiguration(namespace: string): Observable<any> {
+    const date = new Date();
+    const defaultConfig = {
+      id: 'default',
+      user: null,
+      created: date,
+      errorRate: 10,
+      lastUpdate: date,
+      periodType: 'Quarterly',
+      organisationUnitLevel: {
+        id: 'm9lBJogzE95',
+        level: 4,
+        displayName: 'Facility'
+      }
+    };
+
+    return this.httpService.post(
+      `${this.dataStoreUrl}/${namespace}/${defaultConfig.id}`,
+      defaultConfig
+    );
+  }
+
+  getGeneralConfigurations(namespace): Observable<any> {
+    return this.httpService.get(`${this.dataStoreUrl}/${namespace}/default`);
   }
 
   getPeriodTypes(): Observable<any> {
