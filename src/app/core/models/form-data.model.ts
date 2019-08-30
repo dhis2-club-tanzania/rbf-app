@@ -6,14 +6,14 @@ export interface FormDataPayload {
   value: any;
 }
 
-export interface FormDataValues {
+export interface FormDataValue {
   id: string;
   val: string;
   com: string;
 }
 
 export interface FormDataValuesResponse {
-  dataValues: FormDataValues[];
+  dataValues: FormDataValue[];
   minMaxDataElements: any[];
   complete: boolean;
   date: Date;
