@@ -5,9 +5,6 @@
   margin: 5px;
   width: 100%;
 }
-.small {
-  width: 70px;
-}
 .select {
   background-color: rgb(39, 102, 150);
   color: white;
@@ -18,4 +15,32 @@
 }
 .filter {
   margin-left: 24%;
+}
+table thead {
+  text-align: left;
+}
+.sno {
+  width: 10px !important;
+  text-align: center;
+}
+table td {
+  width: 100px;
+}
+input {
+  margin-right: 4px;
+  width: 100px;
+}
+select {
+  width: 100px;
+}
+.indicator {
+  text-align: left;
+}
+td,
+.percentage {
+  text-align: center;
+}
+.observation {
+  text-align: left;
+  width: 100%;
 }

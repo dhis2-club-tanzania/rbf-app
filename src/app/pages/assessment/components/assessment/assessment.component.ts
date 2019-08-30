@@ -4,7 +4,10 @@ import { Observable } from 'rxjs';
 import { AssessmentConfiguration } from '../../../configuration/models/assessment-configuration.model';
 import { State } from 'src/app/store/reducers';
 import { Store } from '@ngrx/store';
-import { getAssessmentConfigurations } from 'src/app/store/selectors';
+import {
+  getAssessmentConfigurations,
+  getAssessmentConfigurationsCount
+} from 'src/app/store/selectors';
 import { SelectionFilterConfig } from '@iapps/ngx-dhis2-selection-filters';
 
 @Component({
@@ -32,59 +35,76 @@ export class AssessmentComponent implements OnInit {
     }
   };
 
-  showPeriodFilter = false;
-  showOrgUnitFilter = false;
-
   assessmentIndicators$: Observable<AssessmentConfiguration[]>;
 
-  orgUnitObject: any;
-  periodObject: any;
-  periodFilterConfig: PeriodFilterConfig = {
-    singleSelection: false,
-    emitOnSelection: false
-  };
-  action: string;
-  orgUnitFilterConfig: OrgUnitFilterConfig = {
-    singleSelection: false,
-    showUserOrgUnitSection: false,
-    showOrgUnitLevelGroupSection: false,
-    showOrgUnitGroupSection: true,
-    showOrgUnitLevelSection: false
-  };
-  selectedOrgUnitItems: any[] = [];
-  selectedPeriodItems: any[] = [];
+  // Form properties
+  showForm = false;
+  createArray = true;
+  allConfigurations = [];
+  possibleMaxValue = [];
+  obtainedValue = [];
+  percentage = [];
+  selection = [];
+  assessmentIndex: number;
 
   constructor(private store: Store<State>) {}
 
   ngOnInit() {
     this.assessmentIndicators$ = this.store.select(getAssessmentConfigurations);
+    this.store
+      .select(getAssessmentConfigurationsCount)
+      .subscribe(count => (this.assessmentIndex = count));
+    this.store
+      .select(getAssessmentConfigurations)
+      .subscribe(configs => (this.allConfigurations = configs));
   }
 
-  onPeriodFilterToggle() {
-    this.showPeriodFilter = !this.showPeriodFilter;
+  onFilterUpdateAction(dataSelections) {
+    this.showForm = true;
   }
 
-  onOrgUnitFilterToggle() {
-    this.showOrgUnitFilter = !this.showOrgUnitFilter;
+  createFormArrays(index) {
+    for (let a = 0; a < index; a++) {
+      this.possibleMaxValue.push(0);
+      this.obtainedValue.push(0);
+      this.selection.push(1);
+      this.percentage.push(0);
+    }
+    this.posssibleMaxValueInitializer(index);
   }
 
-  onOrgUnitUpdate(orgUnitObject, action) {
-    this.orgUnitObject = orgUnitObject;
-    this.action = action;
-    this.onOrgUnitFilterToggle();
+  posssibleMaxValueInitializer(index) {
+    for (let a = 0; a < index; a++) {
+      this.possibleMaxValue[a] = this.allConfigurations[a].possibleMaxValue;
+    }
   }
-  onPeriodUpdate(periodObject, action) {
-    this.periodObject = periodObject;
-    this.action = action;
-    this.onPeriodFilterToggle();
+  onInputBlur(index) {
+    console.log(this.obtainedValue[index]);
+    console.log(this.allConfigurations[index]);
+  }
+  onInputChange(index) {
+    if (
+      this.obtainedValue[index] > this.allConfigurations[index].possibleMaxValue
+    ) {
+      window.alert(
+        'Input Value Exceeded the Possible Maximum Value of:' +
+          this.allConfigurations[index].possibleMaxValue
+      );
+    }
   }
 
-  onFilterUpdateAction(dataSelections) {}
-}
-export interface OrgUnitFilterConfig {
-  singleSelection: boolean;
-  showUserOrgUnitSection: boolean;
-  showOrgUnitLevelGroupSection: boolean;
-  showOrgUnitGroupSection: boolean;
-  showOrgUnitLevelSection: boolean;
+  onSelectBlur(index) {
+    if (this.createArray) {
+      this.createFormArrays(this.assessmentIndex);
+      this.createArray = false;
+    }
+
+    if ((this.selection[index] = '0')) {
+      console.log(this.selection[index]);
+      this.obtainedValue[index] = 0;
+    }
+    console.log(this.selection);
+    this.percentage[index] =
+      (100 * this.obtainedValue[index]) / this.possibleMaxValue[index];
+  }
 }

@@ -18,15 +18,17 @@
 
       <div class="form">
         <div>
-          <form>
+          <form name="assessmentForm" *ngIf="showForm">
             <table class="table table-bordered table-hover table-sm">
-              <thead>
+              <thead class="card-header">
                 <tr class="table-active">
-                  <th scope="col">S/No</th>
-                  <th scope="col">Indicator</th>
-                  <th scope="col">Possible Maximum Value</th>
+                  <th scope="col" class="sno">S/No</th>
+                  <th scope="col" class="indicator">Indicator</th>
+                  <th scope="col" class="possibleMaxValue">
+                    Possible Maximum Value
+                  </th>
                   <th scope="col">Obtained Points</th>
-                  <th scope="col">%</th>
+                  <th scope="col" class="percentage">%</th>
                   <th scope="col">Observations</th>
                 </tr>
               </thead>
@@ -37,25 +39,43 @@
                     let sno = index
                   "
                 >
-                  <th scope="row">{{ sno + 1 }}</th>
-                  <td>{{ indicator.indicator }}</td>
+                  <th scope="row" class="sno">{{ sno + 1 }}</th>
+                  <td class="indicator">{{ indicator.indicator }}</td>
                   <td>
                     <input value="{{ indicator.possibleMaxValue }}" disabled />
                   </td>
                   <td>
-                    <input class="small" />
-                    <select class="small">
-                      <option>Select</option>
-                      <option>Applicable</option>
-                      <option>Not Applicable</option>
+                    <input
+                      type="number"
+                      (blur)="onInputBlur(sno)"
+                      (keypress)="onInputChange(sno)"
+                      [(ngModel)]="obtainedValue[sno]"
+                      [ngModelOptions]="{ standalone: true }"
+                      max="{{ indicator.possibleMaxValue }}"
+                    />
+                    <select
+                      name="selection"
+                      [(value)]="selection[sno]"
+                      (blur)="onSelectBlur(sno)"
+                    >
+                      <option value="1">Applicable</option>
+                      <option value="0">Not Applicable</option>
                     </select>
                   </td>
-                  <td><input class="small" disabled /></td>
-                  <td><input /></td>
+                  <td>
+                    <input
+                      disabled
+                      [(ngModel)]="percentage[sno]"
+                      [ngModelOptions]="{ standalone: true }"
+                    />
+                  </td>
+                  <td><input class="observation" /></td>
                 </tr>
               </tbody>
             </table>
-            <button class="btn btn-group btn-primary">Complete</button>
+            <button class="btn btn-group btn-primary" type="submit">
+              Complete
+            </button>
             <button class="btn btn-group btn-primary">Incomplete</button>
             <button class="btn btn-group btn-primary">Run Validation</button>
           </form>
