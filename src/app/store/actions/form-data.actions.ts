@@ -1,6 +1,9 @@
 import { createAction, props } from '@ngrx/store';
 import { ErrorMessage } from 'src/app/core';
-import { FormDataValue } from 'src/app/core/models/form-data.model';
+import {
+  FormDataValue,
+  FormDataPayload
+} from 'src/app/core/models/form-data.model';
 
 export const loadFormDataValues = createAction('[FORM DATA] Load form data');
 
@@ -14,7 +17,10 @@ export const loadFormDataValuesFail = createAction(
   props<{ error: ErrorMessage }>()
 );
 
-export const addFormDatavalues = createAction('[FORM DATA] Add form data');
+export const addFormDatavalues = createAction(
+  '[FORM DATA] Add form data',
+  props<{ payload: FormDataPayload }>()
+);
 
 export const addFormDatavaluesFail = createAction(
   '[FORM DATA] Add form data Fail',

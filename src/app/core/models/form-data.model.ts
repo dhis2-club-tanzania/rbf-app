@@ -3,6 +3,7 @@ export interface FormDataPayload {
   categoryCombo: string;
   dataSet: string;
   orgUnit: string;
+  dataElement: string;
   value: any;
 }
 
