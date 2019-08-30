@@ -5,3 +5,17 @@ export interface FormDataPayload {
   orgUnit: string;
   value: any;
 }
+
+export interface FormDataValues {
+  id: string;
+  val: string;
+  com: string;
+}
+
+export interface FormDataValuesResponse {
+  dataValues: FormDataValues[];
+  minMaxDataElements: any[];
+  complete: boolean;
+  date: Date;
+  storedBy: string;
+}
