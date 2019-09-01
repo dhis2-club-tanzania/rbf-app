@@ -15,6 +15,8 @@ import { assessmentConfigurationReducer } from './assessment-configuration.reduc
 import { verificationConfigurationReducer } from './verification-configuration.reducer';
 import { GeneralConfigurationState } from '../states/general-configuration.state';
 import { generalConfigurationReducer } from './general-configuration.reducers';
+import { FormDataState } from '../states/form-data.state';
+import { formDataReducer } from './form-data.reducers';
 
 export interface State {
   user: UserState;
@@ -24,6 +26,7 @@ export interface State {
   verificationConfiguration: VerificationConfigurationState;
   assessmentConfiguration: AssessmentConfigurationState;
   generalConfiguration: GeneralConfigurationState;
+  formData: FormDataState;
 }
 
 export const reducers: ActionReducerMap<State> = {
@@ -33,7 +36,8 @@ export const reducers: ActionReducerMap<State> = {
   dataElements: dataElementsReducer,
   assessmentConfiguration: assessmentConfigurationReducer,
   verificationConfiguration: verificationConfigurationReducer,
-  generalConfiguration: generalConfigurationReducer
+  generalConfiguration: generalConfigurationReducer,
+  formData: formDataReducer
 };
 
 export const metaReducers: MetaReducer<State>[] = !environment.production
