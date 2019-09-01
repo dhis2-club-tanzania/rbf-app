@@ -53,14 +53,31 @@
                       [ngModelOptions]="{ standalone: true }"
                       max="{{ indicator.possibleMaxValue }}"
                     />
-                    <select
-                      name="selection"
-                      [(value)]="selection[sno]"
-                      (blur)="onSelectBlur(sno)"
-                    >
-                      <option value="1">Applicable</option>
-                      <option value="0">Not Applicable</option>
-                    </select>
+                    <!-- <select name="selection" (blur)="onSelectBlur(sno)">
+                      <option (click)="onOptionSelect(sno, 1)">
+                        Applicable
+                      </option>
+                      <option (click)="onOptionSelect(sno, 0)">
+                        Not Applicable
+                      </option>
+                    </select> -->
+                    <mat-form-field class="mat-form-field">
+                      <mat-label>Selection Applet</mat-label>
+                      <mat-select (blur)="onSelectBlur(sno)">
+                        <mat-option
+                          [value]="1"
+                          (click)="onOptionSelect(sno, 1)"
+                        >
+                          Applicable
+                        </mat-option>
+                        <mat-option
+                          [value]="2"
+                          (click)="onOptionSelect(sno, 0)"
+                        >
+                          Not Applicable
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
                   </td>
                   <td>
                     <input

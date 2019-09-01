@@ -61,6 +61,10 @@ export class AssessmentComponent implements OnInit {
 
   onFilterUpdateAction(dataSelections) {
     this.showForm = true;
+    if (this.createArray) {
+      this.createFormArrays(this.assessmentIndex);
+      this.createArray = false;
+    }
   }
 
   createFormArrays(index) {
@@ -92,19 +96,18 @@ export class AssessmentComponent implements OnInit {
       );
     }
   }
+  onOptionSelect(index, value) {
+    this.selection[index] = value;
+    console.log(typeof this.selection[index]);
 
-  onSelectBlur(index) {
-    if (this.createArray) {
-      this.createFormArrays(this.assessmentIndex);
-      this.createArray = false;
-    }
-
-    if ((this.selection[index] = '0')) {
-      console.log(this.selection[index]);
+    if (this.selection[index] === 0) {
       this.obtainedValue[index] = 0;
     }
-    console.log(this.selection);
     this.percentage[index] =
       (100 * this.obtainedValue[index]) / this.possibleMaxValue[index];
+  }
+
+  onSelectBlur(index) {
+    console.log('If you know, you know');
   }
 }
