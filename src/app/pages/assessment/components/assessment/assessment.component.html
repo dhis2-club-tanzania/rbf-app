@@ -15,13 +15,13 @@
   <div>
     <div>
       <!-- This is the beginning of the main form -->
-
       <div class="form">
         <div>
           <form name="assessmentForm" *ngIf="showForm">
             <h3 class="form-header">
               Summary of {{ dataSelections[0].items[0].type }} Quality
-              Activities/ Areas Assessment Results of the Facility
+              Activities/ Areas Assessment Results of the
+              {{ orgUnitLevel$ | async }}
             </h3>
             <table class="table table-bordered table-hover table-sm">
               <thead class="card-header">

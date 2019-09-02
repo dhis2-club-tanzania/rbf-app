@@ -9,6 +9,7 @@ import {
   getAssessmentConfigurationsCount
 } from 'src/app/store/selectors';
 import { SelectionFilterConfig } from '@iapps/ngx-dhis2-selection-filters';
+import { getGeneralConfigurationOrunitLevel } from 'src/app/store/selectors/general-configuration.selectors';
 
 @Component({
   selector: 'app-assessment',
@@ -16,6 +17,9 @@ import { SelectionFilterConfig } from '@iapps/ngx-dhis2-selection-filters';
   styleUrls: ['./assessment.component.css']
 })
 export class AssessmentComponent implements OnInit {
+  assessmentIndicators$: Observable<AssessmentConfiguration[]>;
+  orgUnitLevel$: Observable<string>;
+
   dataSelections: any;
   selectionFilterConfig: SelectionFilterConfig = {
     allowStepSelection: true,
@@ -35,8 +39,6 @@ export class AssessmentComponent implements OnInit {
     }
   };
 
-  assessmentIndicators$: Observable<AssessmentConfiguration[]>;
-
   // Form properties
   showForm = false;
   createArray = true;
@@ -54,6 +56,7 @@ export class AssessmentComponent implements OnInit {
 
   ngOnInit() {
     this.assessmentIndicators$ = this.store.select(getAssessmentConfigurations);
+    this.orgUnitLevel$ = this.store.select(getGeneralConfigurationOrunitLevel);
     this.store
       .select(getAssessmentConfigurationsCount)
       .subscribe(count => (this.assessmentIndex = count));
