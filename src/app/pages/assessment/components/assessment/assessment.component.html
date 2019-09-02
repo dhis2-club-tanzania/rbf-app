@@ -19,6 +19,10 @@
       <div class="form">
         <div>
           <form name="assessmentForm" *ngIf="showForm">
+            <h3 class="form-header">
+              Summary of {{ dataSelections[0].items[0].type }} Quality
+              Activities/ Areas Assessment Results of the Facility
+            </h3>
             <table class="table table-bordered table-hover table-sm">
               <thead class="card-header">
                 <tr class="table-active">
@@ -55,7 +59,7 @@
                     />
                     <mat-form-field class="mat-form-field">
                       <mat-label>Selection Applet</mat-label>
-                      <mat-select (blur)="onSelectBlur(sno)">
+                      <mat-select>
                         <mat-option
                           [value]="1"
                           (click)="onOptionSelect(sno, 1)"
@@ -79,6 +83,13 @@
                     />
                   </td>
                   <td><input class="observation" /></td>
+                </tr>
+                <tr class="total-tr">
+                  <td colspan="2" class="total">TOTAL</td>
+                  <td>{{ possibleMaxValueSum }}</td>
+                  <td>{{ obtainedValueSum }}</td>
+                  <td>{{ percentageSum }}</td>
+                  <td></td>
                 </tr>
               </tbody>
             </table>

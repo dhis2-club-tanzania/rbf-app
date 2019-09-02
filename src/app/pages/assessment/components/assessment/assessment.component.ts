@@ -42,8 +42,11 @@ export class AssessmentComponent implements OnInit {
   createArray = true;
   allConfigurations = [];
   possibleMaxValue = [];
+  possibleMaxValueSum = 0;
   obtainedValue = [];
+  obtainedValueSum = 0;
   percentage = [];
+  percentageSum = 0;
   selection = [];
   assessmentIndex: number;
 
@@ -60,6 +63,7 @@ export class AssessmentComponent implements OnInit {
   }
 
   onFilterUpdateAction(dataSelections) {
+    this.dataSelections = dataSelections;
     this.showForm = true;
     if (this.createArray) {
       this.createFormArrays(this.assessmentIndex);
@@ -71,7 +75,7 @@ export class AssessmentComponent implements OnInit {
     for (let a = 0; a < index; a++) {
       this.possibleMaxValue.push(0);
       this.obtainedValue.push(0);
-      this.selection.push(1);
+      this.selection.push(0);
       this.percentage.push(0);
     }
     this.posssibleMaxValueInitializer(index);
@@ -80,12 +84,10 @@ export class AssessmentComponent implements OnInit {
   posssibleMaxValueInitializer(index) {
     for (let a = 0; a < index; a++) {
       this.possibleMaxValue[a] = this.allConfigurations[a].possibleMaxValue;
+      this.possibleMaxValueSum += this.possibleMaxValue[a];
     }
   }
-  onInputBlur(index) {
-    console.log(this.obtainedValue[index]);
-    console.log(this.allConfigurations[index]);
-  }
+  onInputBlur(index) {}
   onInputChange(index) {
     if (
       this.obtainedValue[index] > this.allConfigurations[index].possibleMaxValue
@@ -99,16 +101,28 @@ export class AssessmentComponent implements OnInit {
   }
   onOptionSelect(index, value) {
     this.selection[index] = value;
-    console.log(typeof this.selection[index]);
+    // console.log(typeof this.selection[index]);
 
     if (this.selection[index] === 0) {
       this.obtainedValue[index] = 0;
     }
     this.percentage[index] =
       (100 * this.obtainedValue[index]) / this.possibleMaxValue[index];
+    this.total(this.assessmentIndex);
   }
 
-  onSelectBlur(index) {
-    console.log('If you know, you know');
+  total(count) {
+    let checker = 0;
+    this.obtainedValueSum = 0;
+    let percentageSum = 0;
+    for (let index = 0; index < count; index++) {
+      this.obtainedValueSum += this.obtainedValue[index];
+      percentageSum += this.percentage[index];
+      if (this.selection[index] === 1) {
+        checker++;
+      }
+    }
+    this.percentageSum = percentageSum / checker;
+    console.log(checker);
   }
 }

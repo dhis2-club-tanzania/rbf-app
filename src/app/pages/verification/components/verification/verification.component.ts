@@ -44,6 +44,8 @@ export class VerificationComponent implements OnInit {
 
   // Form Properties are deckared below
   verificationConfigCount: number;
+  errorRate: number;
+
   totalRep = [];
   totalVer = [];
   difference = [];
