@@ -17,7 +17,7 @@
     <form name="verificationForm">
       <h3>
         {{ dataSelections[0].items[0].type | titlecase }}
-        {{ orgUnitLevel | titlecase }}
+        {{ orgUnitLevel$ | async | titlecase }}
         Data Verification Form
       </h3>
       <br />
@@ -52,7 +52,7 @@
             </th>
             <!-- Tolerance rate percentage is needed here -->
             <th scope="col" rowspan="2">
-              Loss Due to above <em>ToleranceRate%?</em> & Above Error
+              Loss Due to above {{ errorRate$ | async }}% & Above Error
             </th>
             <th scope="col" rowspan="2">Actual Quantity Amount</th>
           </tr>
@@ -163,7 +163,7 @@
             <td colspan="10" class="total">
               Total
               {{ dataSelections[0].items[0].type | titlecase }} Provisional
-              Amount for {{ orgUnitLevel | titlecase }}
+              Amount for {{ orgUnitLevel$ | async | titlecase }}
             </td>
             <td>
               <input
