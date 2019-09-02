@@ -55,3 +55,6 @@ table input {
 .form-header {
   text-align: center;
 }
+.theme-color {
+  background-color: rgb(39, 102, 150);
+}

@@ -55,9 +55,9 @@ export class VerificationComponent implements OnInit {
   difference = [];
   verArray = [];
   error = [];
-  provisionalAmount = [];
-  loss = [];
-  actualAmount = [];
+  provisionalAmount: number[] = [];
+  loss: number[] = [];
+  actualAmount: number[] = [];
   totalAmount = 0;
   verificationConfigurations = [];
 
@@ -278,15 +278,28 @@ export class VerificationComponent implements OnInit {
       this.totalVer[index] * this.verificationConfigurations[index].unitFee;
     if (this.error[index] > this.errorRate) {
       const excess = (this.error[index] - this.errorRate) / 100;
-      this.loss[index] =
-        excess *
-        this.totalVer[index] *
-        this.verificationConfigurations[index].unitFee;
+      this.loss[index] = parseFloat(
+        (
+          excess *
+          this.totalVer[index] *
+          this.verificationConfigurations[index].unitFee
+        ).toFixed(1)
+      );
     }
-    this.actualAmount[index] = this.provisionalAmount[index] - this.loss[index];
-    for (let a = 0; a < index; a++) {
-      this.totalAmount += this.actualAmount[index];
+    this.actualAmount[index] = parseFloat(
+      (this.provisionalAmount[index] - this.loss[index]).toFixed(2)
+    );
+    this.total(this.verificationConfigCount);
+  }
+  total(count) {
+    this.totalAmount = 0;
+    for (let index = 0; index < count; index++) {
+      this.totalAmount = parseFloat(
+        (this.actualAmount[index] + this.totalAmount).toFixed(2)
+      );
+      this.snackbar.open('Total Called', this.totalAmount.toString(), {
+        duration: 1000
+      });
     }
-    this.snackbar.open('update field', 'SUCCESSFUL', { duration: 1000 });
   }
 }
