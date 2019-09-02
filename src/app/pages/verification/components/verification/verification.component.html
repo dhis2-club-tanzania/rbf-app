@@ -169,7 +169,10 @@
               <input
                 type="number"
                 [(ngModel)]="totalAmount"
-                [ngModelOptions]="{ standalone: true }"
+                [ngModelOptions]="{
+                  standalone: true
+                }"
+                readonly
               />
             </td>
           </tr>
