@@ -51,9 +51,9 @@ export class VerificationComponent implements OnInit {
   difference = [];
   verArray = [];
   error = [];
-  provisionalAmount = [];
-  loss = [];
-  actualAmount = [];
+  provisionalAmount: number[] = [];
+  loss: number[] = [];
+  actualAmount: number[] = [];
   totalAmount = 0;
   verificationConfigurations = [];
 
@@ -289,9 +289,19 @@ export class VerificationComponent implements OnInit {
         this.verificationConfigurations[index].unitFee;
     }
     this.actualAmount[index] = this.provisionalAmount[index] - this.loss[index];
-    for (let a = 0; a < index; a++) {
-      this.totalAmount += this.actualAmount[index];
+    this.total(this.verificationConfigCount);
+  }
+  total(count) {
+    this.totalAmount = 0;
+
+    for (let index = 0; index < count; index++) {
+      const num: string = (this.actualAmount[index] + this.totalAmount).toFixed(
+        2
+      );
+      this.totalAmount = parseFloat(num);
+      this.snackbar.open('Total Called', this.totalAmount.toString(), {
+        duration: 1000
+      });
     }
-    this.snackbar.open('update field', 'SUCCESSFUL', { duration: 1000 });
   }
 }
