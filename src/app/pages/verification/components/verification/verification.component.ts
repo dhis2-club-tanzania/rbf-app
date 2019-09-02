@@ -9,6 +9,10 @@ import {
   getVerificationConfigurationsCount
 } from 'src/app/store/selectors';
 import { MatSnackBar } from '@angular/material';
+import {
+  getGeneralConfigurationErrorRate,
+  getGeneralConfigurationOrunitLevel
+} from 'src/app/store/selectors/general-configuration.selectors';
 
 @Component({
   selector: 'app-verification',
@@ -16,9 +20,12 @@ import { MatSnackBar } from '@angular/material';
   styleUrls: ['./verification.component.css']
 })
 export class VerificationComponent implements OnInit {
+  verificationConfig$: Observable<VerificationConfiguration[]>;
+  errorRate$: Observable<number>;
+  orgUnitLevel$: Observable<string>;
+
   dataSelections: any;
   showForm = false;
-  verificationConfig$: Observable<VerificationConfiguration[]>;
   selectionFilterConfig: SelectionFilterConfig = {
     allowStepSelection: true,
     showDynamicDimension: true,
@@ -38,12 +45,11 @@ export class VerificationComponent implements OnInit {
   };
 
   periodObject: any;
-  orgUnitLevel: string;
-  action;
   periodLooper = [];
 
   // Form Properties are deckared below
   verificationConfigCount: number;
+  errorRate: number;
   totalRep = [];
   totalVer = [];
   difference = [];
@@ -57,14 +63,21 @@ export class VerificationComponent implements OnInit {
 
   constructor(private store: Store<State>, private snackbar: MatSnackBar) {}
 
+  // TODO deal with the subscription
   ngOnInit() {
     this.verificationConfig$ = this.store.select(getVerificationConfigurations);
-    this.store
+    const sub = this.store
       .select(getVerificationConfigurationsCount)
       .subscribe(count => (this.verificationConfigCount = count));
     this.store
       .select(getVerificationConfigurations)
       .subscribe(configs => (this.verificationConfigurations = configs));
+    this.errorRate$ = this.store.select(getGeneralConfigurationErrorRate);
+    this.orgUnitLevel$ = this.store.select(getGeneralConfigurationOrunitLevel);
+    this.errorRate$.subscribe(
+      errorRate => (this.errorRate = errorRate),
+      () => (this.errorRate = null)
+    );
   }
 
   onFilterUpdateAction(dataSelections) {
@@ -86,22 +99,6 @@ export class VerificationComponent implements OnInit {
     }
   }
 
-  setOrgUnitLevel() {
-    switch (this.dataSelections[1].items[0].level) {
-      case 1:
-        this.orgUnitLevel = 'National';
-        break;
-      case 2:
-        this.orgUnitLevel = 'District';
-        break;
-      case 3:
-        this.orgUnitLevel = 'Chiefdom';
-        break;
-      case 4:
-        this.orgUnitLevel = 'Facility';
-        break;
-    }
-  }
   setPeriodLooper() {
     if (this.dataSelections[0].items[0].type === 'Monthly') {
       this.periodLooper = [this.dataSelections[0].items[0].name];
@@ -262,11 +259,11 @@ export class VerificationComponent implements OnInit {
   setShowForm() {
     if (this.dataSelections[1].items[0].level) {
       this.showForm = true;
-      this.setOrgUnitLevel();
       this.setPeriodLooper();
       this.setFormProperties(this.verificationConfigCount);
     }
   }
+
   onVerBlur(index) {
     this.totalVer[index] = this.verArray[index];
     this.difference[index] = Math.abs(
@@ -279,8 +276,8 @@ export class VerificationComponent implements OnInit {
     }
     this.provisionalAmount[index] =
       this.totalVer[index] * this.verificationConfigurations[index].unitFee;
-    if (this.error[index] > 10) {
-      const excess = (this.error[index] - 10) / 100;
+    if (this.error[index] > this.errorRate) {
+      const excess = (this.error[index] - this.errorRate) / 100;
       this.loss[index] =
         excess *
         this.totalVer[index] *
