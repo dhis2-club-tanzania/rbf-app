@@ -106,8 +106,12 @@ export class AssessmentComponent implements OnInit {
     if (this.selection[index] === 0) {
       this.obtainedValue[index] = 0;
     }
-    this.percentage[index] =
-      (100 * this.obtainedValue[index]) / this.possibleMaxValue[index];
+    this.percentage[index] = parseFloat(
+      (
+        (100 * this.obtainedValue[index]) /
+        this.possibleMaxValue[index]
+      ).toFixed(2)
+    );
     this.total(this.assessmentIndex);
   }
 
@@ -122,7 +126,7 @@ export class AssessmentComponent implements OnInit {
         checker++;
       }
     }
-    this.percentageSum = percentageSum / checker;
+    this.percentageSum = parseFloat((percentageSum / checker).toFixed(2));
     console.log(checker);
   }
 }

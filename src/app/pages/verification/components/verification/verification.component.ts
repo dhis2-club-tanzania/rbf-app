@@ -278,22 +278,25 @@ export class VerificationComponent implements OnInit {
       this.totalVer[index] * this.verificationConfigurations[index].unitFee;
     if (this.error[index] > this.errorRate) {
       const excess = (this.error[index] - this.errorRate) / 100;
-      this.loss[index] =
-        excess *
-        this.totalVer[index] *
-        this.verificationConfigurations[index].unitFee;
+      this.loss[index] = parseFloat(
+        (
+          excess *
+          this.totalVer[index] *
+          this.verificationConfigurations[index].unitFee
+        ).toFixed(1)
+      );
     }
-    this.actualAmount[index] = this.provisionalAmount[index] - this.loss[index];
+    this.actualAmount[index] = parseFloat(
+      (this.provisionalAmount[index] - this.loss[index]).toFixed(2)
+    );
     this.total(this.verificationConfigCount);
   }
   total(count) {
     this.totalAmount = 0;
-
     for (let index = 0; index < count; index++) {
-      const num: string = (this.actualAmount[index] + this.totalAmount).toFixed(
-        2
+      this.totalAmount = parseFloat(
+        (this.actualAmount[index] + this.totalAmount).toFixed(2)
       );
-      this.totalAmount = parseFloat(num);
       this.snackbar.open('Total Called', this.totalAmount.toString(), {
         duration: 1000
       });

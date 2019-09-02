@@ -171,14 +171,21 @@
                 step="0.1"
                 [(ngModel)]="totalAmount"
                 [ngModelOptions]="{ standalone: true }"
+                readonly="readonly"
               />
             </td>
           </tr>
         </tbody>
       </table>
-      <button class="btn btn-group btn-primary btn-form">Complete</button>
-      <button class="btn btn-group btn-primary btn-form">Incomplete</button>
-      <button class="btn btn-group btn-primary btn-form">Run Validation</button>
+      <button class="btn btn-group btn-primary btn-form theme-color">
+        Complete
+      </button>
+      <button class="btn btn-group btn-primary btn-form theme-color">
+        Incomplete
+      </button>
+      <button class="btn btn-group btn-primary btn-form theme-color">
+        Run Validation
+      </button>
     </form>
   </div>
 </div>
