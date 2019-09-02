@@ -45,6 +45,15 @@ td,
   width: 100%;
 }
 .mat-form-field {
-  height: 10px;
+  height: 8px;
   width: 100px;
+  border: 2pt;
+  border-color: gray;
+  border: cadetblue;
+}
+.mat-form-field-infix {
+  border: black;
+}
+.mat-form-field-wrapper {
+  border: black;
 }

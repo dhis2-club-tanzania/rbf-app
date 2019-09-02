@@ -48,19 +48,11 @@
                     <input
                       type="number"
                       (blur)="onInputBlur(sno)"
-                      (keypress)="onInputChange(sno)"
+                      (keyup)="onInputChange(sno)"
                       [(ngModel)]="obtainedValue[sno]"
                       [ngModelOptions]="{ standalone: true }"
                       max="{{ indicator.possibleMaxValue }}"
                     />
-                    <!-- <select name="selection" (blur)="onSelectBlur(sno)">
-                      <option (click)="onOptionSelect(sno, 1)">
-                        Applicable
-                      </option>
-                      <option (click)="onOptionSelect(sno, 0)">
-                        Not Applicable
-                      </option>
-                    </select> -->
                     <mat-form-field class="mat-form-field">
                       <mat-label>Selection Applet</mat-label>
                       <mat-select (blur)="onSelectBlur(sno)">

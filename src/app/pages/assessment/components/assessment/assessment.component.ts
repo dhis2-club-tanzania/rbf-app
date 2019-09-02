@@ -94,6 +94,7 @@ export class AssessmentComponent implements OnInit {
         'Input Value Exceeded the Possible Maximum Value of:' +
           this.allConfigurations[index].possibleMaxValue
       );
+      this.obtainedValue[index] = 0;
     }
   }
   onOptionSelect(index, value) {
