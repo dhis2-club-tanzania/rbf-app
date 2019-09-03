@@ -53,7 +53,7 @@ export class VerificationComponent implements OnInit {
   totalRep = [];
   totalVer = [];
   difference = [];
-  verArray = [];
+  verArray: verArray[] = [];
   error = [];
   provisionalAmount: number[] = [];
   loss: number[] = [];
@@ -85,11 +85,17 @@ export class VerificationComponent implements OnInit {
     this.setShowForm();
   }
 
-  setFormProperties(index) {
+  setFormProperties(index, columns) {
+    const months: number[] = [];
+    for (let b = 0; b < columns; b++) {
+      months.push(0);
+      console.log(months[columns]);
+    }
+    this.verArray = [];
     for (let a = 0; a < index; a++) {
       this.totalRep.push(0);
       this.totalVer.push(0);
-      this.verArray.push(0);
+      this.verArray.push({ months: months });
       this.difference.push(0);
       this.error.push(0);
       this.provisionalAmount.push(0);
@@ -260,12 +266,15 @@ export class VerificationComponent implements OnInit {
     if (this.dataSelections[1].items[0].level) {
       this.showForm = true;
       this.setPeriodLooper();
-      this.setFormProperties(this.verificationConfigCount);
+      this.setFormProperties(
+        this.verificationConfigCount,
+        this.periodLooper.length
+      );
     }
   }
 
-  onVerBlur(index) {
-    this.totalVer[index] = this.verArray[index];
+  onVerBlur(index, months) {
+    this.totalVer[index] = this.totalVerFinder(index, months);
     this.difference[index] = Math.abs(
       this.totalRep[index] - this.totalVer[index]
     );
@@ -302,4 +311,18 @@ export class VerificationComponent implements OnInit {
       });
     }
   }
+  totalVerFinder(count, index) {
+    let sum = 0;
+    for (let a = 0; a < count; a++) {
+      for (let b = 0; b < index; b++) {
+        sum += this.verArray[count].months[index];
+      }
+    }
+    // tslint:disable-next-line: radix
+    return parseInt(sum.toFixed(0));
+  }
+}
+// tslint:disable-next-line: class-name
+export interface verArray {
+  months: number[];
 }

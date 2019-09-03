@@ -15,6 +15,8 @@
   <div class="form" *ngIf="showForm">
     <!-- Main Form display ground -->
     <form name="verificationForm">
+      {{ verArray | json }}
+
       <h3>
         {{ dataSelections[0].items[0].type | titlecase }}
         {{ orgUnitLevel$ | async | titlecase }}
@@ -83,15 +85,18 @@
           >
             <th scope="row" class="sno">{{ sno + 1 }}</th>
             <td class="indicator">{{ indicatior.indicator }}</td>
-            <td *ngFor="let iteration of periodLooper" class="iteration">
+            <td
+              *ngFor="let iteration of periodLooper; let columnIndex = index"
+              class="iteration"
+            >
               <tr class="trwithin">
                 <td class="tdwithin"><input value="0" disabled /></td>
                 <td class="tdwithin">
                   <input
                     type="number"
-                    [(ngModel)]="verArray[sno]"
+                    [(ngModel)]="verArray[sno].months[columnIndex]"
                     [ngModelOptions]="{ standalone: true }"
-                    (blur)="onVerBlur(sno)"
+                    (blur)="onVerBlur(sno, columnIndex)"
                   />
                 </td>
               </tr>
@@ -160,7 +165,7 @@
             </td>
           </tr>
           <tr>
-            <td colspan="10" class="total">
+            <td [colSpan]="9 + periodLooper.length" class="total">
               Total
               {{ dataSelections[0].items[0].type | titlecase }} Provisional
               Amount for {{ orgUnitLevel$ | async | titlecase }}
