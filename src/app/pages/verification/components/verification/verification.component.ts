@@ -6,14 +6,15 @@ import { Store } from '@ngrx/store';
 import { State } from 'src/app/store/reducers';
 import {
   getVerificationConfigurations,
-  getVerificationConfigurationsCount
+  getVerificationConfigurationsCount,
+  getTableStructure
 } from 'src/app/store/selectors';
 import { MatSnackBar } from '@angular/material';
 import {
   getGeneralConfigurationErrorRate,
   getGeneralConfigurationOrunitLevel
 } from 'src/app/store/selectors/general-configuration.selectors';
-
+import { VerificationData, verificationData } from './verificationData';
 @Component({
   selector: 'app-verification',
   templateUrl: './verification.component.html',
@@ -49,11 +50,13 @@ export class VerificationComponent implements OnInit {
 
   // Form Properties are deckared below
   verificationConfigCount: number;
+  verificationData: VerificationData[] = verificationData;
   errorRate: number;
   totalRep = [];
   totalVer = [];
   difference = [];
   verArray: verArray[] = [];
+  months: number[] = [];
   error = [];
   provisionalAmount: number[] = [];
   loss: number[] = [];
@@ -66,6 +69,7 @@ export class VerificationComponent implements OnInit {
   // TODO deal with the subscription
   ngOnInit() {
     this.verificationConfig$ = this.store.select(getVerificationConfigurations);
+    this.store.select(getTableStructure).subscribe();
     const sub = this.store
       .select(getVerificationConfigurationsCount)
       .subscribe(count => (this.verificationConfigCount = count));
@@ -86,16 +90,15 @@ export class VerificationComponent implements OnInit {
   }
 
   setFormProperties(index, columns) {
-    const months: number[] = [];
+    this.months = [];
     for (let b = 0; b < columns; b++) {
-      months.push(0);
-      console.log(months[columns]);
+      this.months.push(0);
     }
     this.verArray = [];
     for (let a = 0; a < index; a++) {
       this.totalRep.push(0);
       this.totalVer.push(0);
-      this.verArray.push({ months: months });
+      this.verArray.push({ months: this.months });
       this.difference.push(0);
       this.error.push(0);
       this.provisionalAmount.push(0);
@@ -273,7 +276,7 @@ export class VerificationComponent implements OnInit {
     }
   }
 
-  onVerBlur(index, months) {
+  onVerUpdate(index, months) {
     this.totalVer[index] = this.totalVerFinder(index, months);
     this.difference[index] = Math.abs(
       this.totalRep[index] - this.totalVer[index]
@@ -313,10 +316,8 @@ export class VerificationComponent implements OnInit {
   }
   totalVerFinder(count, index) {
     let sum = 0;
-    for (let a = 0; a < count; a++) {
-      for (let b = 0; b < index; b++) {
-        sum += this.verArray[count].months[index];
-      }
+    for (let b = 0; b < index; b++) {
+      sum += this.verArray[count].months[index];
     }
     // tslint:disable-next-line: radix
     return parseInt(sum.toFixed(0));

@@ -30,3 +30,11 @@ export const getSelectedVerificationConfig = id =>
     (configurations: VerificationConfiguration[]) =>
       _.find(configurations, config => config.id === id)
   );
+
+export const getTableStructure = createSelector(
+  getVerificationConfigurationState,
+  getVerificationConfigurations,
+  (state, configurations) => {
+    console.log(configurations);
+  }
+);
