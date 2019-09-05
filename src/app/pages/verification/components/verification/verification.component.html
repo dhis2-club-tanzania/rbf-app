@@ -2,6 +2,7 @@
   <div class="card-header">
     Verfication Form
   </div>
+  {{ verificationData | json }}
   <div class="row">
     <ngx-dhis2-selection-filters
       (filterUpdate)="onFilterUpdateAction($event)"
@@ -33,9 +34,9 @@
             <th
               scope="col"
               class="iteration"
-              *ngFor="let iteration of periodLooper"
+              *ngFor="let iteration of verificationData[0].monthlyValues"
             >
-              {{ iteration }}
+              {{ iteration.periodId }}
             </th>
             <th scope="col">
               Total Declared (Rep.#)
@@ -59,7 +60,10 @@
           <tr>
             <th
               scope="col"
-              *ngFor="let iteration of periodLooper; let i = index"
+              *ngFor="
+                let iteration of verificationData[0].monthlyValues;
+                let i = index
+              "
               class="iteration"
             >
               <tr class="trwithin">
@@ -75,23 +79,33 @@
           </tr>
         </thead>
         <tbody>
-          <tr
-            *ngFor="
-              let indicatior of verificationConfig$ | async;
-              let sno = index
-            "
-          >
+          <tr *ngFor="let indicatior of verificationData; let sno = index">
             <th scope="row" class="sno">{{ sno + 1 }}</th>
             <td class="indicator">{{ indicatior.indicator }}</td>
-            <td *ngFor="let iteration of periodLooper" class="iteration">
+            <td
+              *ngFor="
+                let iteration of indicatior.monthlyValues;
+                let columnIndex = index
+              "
+              class="iteration"
+            >
               <tr class="trwithin">
-                <td class="tdwithin"><input value="0" disabled /></td>
+                <td class="tdwithin">
+                  <input
+                    [(ngModel)]="
+                      verificationData[sno].monthlyValues[columnIndex].rep
+                    "
+                    disabled
+                  />
+                </td>
                 <td class="tdwithin">
                   <input
                     type="number"
-                    [(ngModel)]="verArray[sno]"
+                    [(ngModel)]="
+                      verificationData[sno].monthlyValues[columnIndex].ver
+                    "
                     [ngModelOptions]="{ standalone: true }"
-                    (blur)="onVerBlur(sno)"
+                    (blur)="onVerUpdate(sno, columnIndex)"
                   />
                 </td>
               </tr>
@@ -160,7 +174,7 @@
             </td>
           </tr>
           <tr>
-            <td colspan="10" class="total">
+            <td [colSpan]="9 + periodLooper.length" class="total">
               Total
               {{ dataSelections[0].items[0].type | titlecase }} Provisional
               Amount for {{ orgUnitLevel$ | async | titlecase }}

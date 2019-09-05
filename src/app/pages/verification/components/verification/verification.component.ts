@@ -6,13 +6,16 @@ import { Store } from '@ngrx/store';
 import { State } from 'src/app/store/reducers';
 import {
   getVerificationConfigurations,
-  getVerificationConfigurationsCount
+  getVerificationConfigurationsCount,
+  getTableStructure
 } from 'src/app/store/selectors';
 import { MatSnackBar } from '@angular/material';
 import {
   getGeneralConfigurationErrorRate,
   getGeneralConfigurationOrunitLevel
 } from 'src/app/store/selectors/general-configuration.selectors';
+import { VerificationData, verificationData } from './verificationData';
+import { setPeriodLooper } from '../../Helpers/periodLooper';
 
 @Component({
   selector: 'app-verification',
@@ -43,17 +46,16 @@ export class VerificationComponent implements OnInit {
       showOrgUnitLevelGroupSection: false
     }
   };
-
-  periodObject: any;
   periodLooper = [];
 
-  // Form Properties are deckared below
+  // Form Properties are declared below
   verificationConfigCount: number;
+  verificationData: VerificationData[] = verificationData;
+
   errorRate: number;
   totalRep = [];
   totalVer = [];
   difference = [];
-  verArray = [];
   error = [];
   provisionalAmount: number[] = [];
   loss: number[] = [];
@@ -63,9 +65,10 @@ export class VerificationComponent implements OnInit {
 
   constructor(private store: Store<State>, private snackbar: MatSnackBar) {}
 
-  // TODO deal with the subscription
   ngOnInit() {
+    // TODO deal with the subscription
     this.verificationConfig$ = this.store.select(getVerificationConfigurations);
+    this.store.select(getTableStructure).subscribe();
     const sub = this.store
       .select(getVerificationConfigurationsCount)
       .subscribe(count => (this.verificationConfigCount = count));
@@ -79,17 +82,15 @@ export class VerificationComponent implements OnInit {
       () => (this.errorRate = null)
     );
   }
-
   onFilterUpdateAction(dataSelections) {
     this.dataSelections = dataSelections;
     this.setShowForm();
   }
 
-  setFormProperties(index) {
+  setFormProperties(index, columns) {
     for (let a = 0; a < index; a++) {
       this.totalRep.push(0);
       this.totalVer.push(0);
-      this.verArray.push(0);
       this.difference.push(0);
       this.error.push(0);
       this.provisionalAmount.push(0);
@@ -99,200 +100,50 @@ export class VerificationComponent implements OnInit {
     }
   }
 
-  setPeriodLooper() {
-    if (this.dataSelections[0].items[0].type === 'Monthly') {
-      this.periodLooper = [this.dataSelections[0].items[0].name];
-    }
-    if (this.dataSelections[0].items[0].type === 'BiMonthly') {
-      switch (this.dataSelections[0].items[0].id.charAt(5)) {
-        case '1':
-          {
-            this.periodLooper = [
-              'January '.concat(this.dataSelections[0].items[0].id.slice(0, 4)),
-              'February '.concat(this.dataSelections[0].items[0].id.slice(0, 4))
-            ];
-          }
-          break;
-        case '2':
-          {
-            this.periodLooper = [
-              'March '.concat(this.dataSelections[0].items[0].id.slice(0, 4)),
-              'April '.concat(this.dataSelections[0].items[0].id.slice(0, 4))
-            ];
-          }
-          break;
-        case '3':
-          {
-            this.periodLooper = [
-              'May '.concat(this.dataSelections[0].items[0].id.slice(0, 4)),
-              'June '.concat(this.dataSelections[0].items[0].id.slice(0, 4))
-            ];
-          }
-          break;
-        case '4':
-          {
-            this.periodLooper = [
-              'July '.concat(this.dataSelections[0].items[0].id.slice(0, 4)),
-              'August '.concat(this.dataSelections[0].items[0].id.slice(0, 4))
-            ];
-          }
-          break;
-        case '5':
-          {
-            this.periodLooper = [
-              'September '.concat(
-                this.dataSelections[0].items[0].id.slice(0, 4)
-              ),
-              'October '.concat(this.dataSelections[0].items[0].id.slice(0, 4))
-            ];
-          }
-          break;
-        case '6':
-          {
-            this.periodLooper = [
-              'November '.concat(
-                this.dataSelections[0].items[0].id.slice(0, 4)
-              ),
-              'December '.concat(this.dataSelections[0].items[0].id.slice(0, 4))
-            ];
-          }
-          break;
-      }
-    }
-    if (this.dataSelections[0].items[0].type === 'Quarterly') {
-      switch (this.dataSelections[0].items[0].id.charAt(5)) {
-        case '1':
-          {
-            this.periodLooper = [
-              'January '.concat(this.dataSelections[0].items[0].id.slice(0, 4)),
-              'February '.concat(
-                this.dataSelections[0].items[0].id.slice(0, 4)
-              ),
-              'March '.concat(this.dataSelections[0].items[0].id.slice(0, 4))
-            ];
-          }
-          break;
-        case '2':
-          {
-            this.periodLooper = [
-              'April '.concat(this.dataSelections[0].items[0].id.slice(0, 4)),
-              'May '.concat(this.dataSelections[0].items[0].id.slice(0, 4)),
-              'June '.concat(this.dataSelections[0].items[0].id.slice(0, 4))
-            ];
-          }
-          break;
-        case '3':
-          {
-            this.periodLooper = [
-              'July '.concat(this.dataSelections[0].items[0].id.slice(0, 4)),
-              'August '.concat(this.dataSelections[0].items[0].id.slice(0, 4)),
-              'September '.concat(
-                this.dataSelections[0].items[0].id.slice(0, 4)
-              )
-            ];
-          }
-          break;
-        case '4':
-          {
-            this.periodLooper = [
-              'October '.concat(this.dataSelections[0].items[0].id.slice(0, 4)),
-              'November '.concat(
-                this.dataSelections[0].items[0].id.slice(0, 4)
-              ),
-              'December '.concat(this.dataSelections[0].items[0].id.slice(0, 4))
-            ];
-          }
-          break;
-      }
-    }
-    if (this.dataSelections[0].items[0].type === 'SixMonthly') {
-      switch (this.dataSelections[0].items[0].id.charAt(5)) {
-        case '1':
-          {
-            this.periodLooper = [
-              'January '.concat(this.dataSelections[0].items[0].id.slice(0, 4)),
-              'February '.concat(
-                this.dataSelections[0].items[0].id.slice(0, 4)
-              ),
-              'March '.concat(this.dataSelections[0].items[0].id.slice(0, 4)),
-              'April '.concat(this.dataSelections[0].items[0].id.slice(0, 4)),
-              'May '.concat(this.dataSelections[0].items[0].id.slice(0, 4)),
-              'June '.concat(this.dataSelections[0].items[0].id.slice(0, 4))
-            ];
-          }
-          break;
-        case '2':
-          {
-            this.periodLooper = [
-              'July '.concat(this.dataSelections[0].items[0].id.slice(0, 4)),
-              'August '.concat(this.dataSelections[0].items[0].id.slice(0, 4)),
-              'September '.concat(
-                this.dataSelections[0].items[0].id.slice(0, 4)
-              ),
-              'October '.concat(this.dataSelections[0].items[0].id.slice(0, 4)),
-              'November '.concat(
-                this.dataSelections[0].items[0].id.slice(0, 4)
-              ),
-              'December '.concat(this.dataSelections[0].items[0].id.slice(0, 4))
-            ];
-          }
-          break;
-      }
-    }
-    if (this.dataSelections[0].items[0].type === 'Yearly') {
-      this.periodLooper = [
-        'January '.concat(this.dataSelections[0].items[0].id.slice(0, 4)),
-        'February '.concat(this.dataSelections[0].items[0].id.slice(0, 4)),
-        'March '.concat(this.dataSelections[0].items[0].id.slice(0, 4)),
-        'April '.concat(this.dataSelections[0].items[0].id.slice(0, 4)),
-        'May '.concat(this.dataSelections[0].items[0].id.slice(0, 4)),
-        'June '.concat(this.dataSelections[0].items[0].id.slice(0, 4)),
-        'July '.concat(this.dataSelections[0].items[0].id.slice(0, 4)),
-        'August '.concat(this.dataSelections[0].items[0].id.slice(0, 4)),
-        'September '.concat(this.dataSelections[0].items[0].id.slice(0, 4)),
-        'October '.concat(this.dataSelections[0].items[0].id.slice(0, 4)),
-        'November '.concat(this.dataSelections[0].items[0].id.slice(0, 4)),
-        'December '.concat(this.dataSelections[0].items[0].id.slice(0, 4))
-      ];
-    }
-  }
   setShowForm() {
     if (this.dataSelections[1].items[0].level) {
       this.showForm = true;
-      this.setPeriodLooper();
-      this.setFormProperties(this.verificationConfigCount);
+      this.periodLooper = setPeriodLooper(this.dataSelections);
+      this.setFormProperties(
+        this.verificationConfigCount,
+        this.periodLooper.length
+      );
     }
   }
 
-  onVerBlur(index) {
-    this.totalVer[index] = this.verArray[index];
-    this.difference[index] = Math.abs(
-      this.totalRep[index] - this.totalVer[index]
+  onVerUpdate(Indicatorindex, monthIndex) {
+    this.totalVer[Indicatorindex] = 0; // Find sum
+    this.difference[Indicatorindex] = Math.abs(
+      this.totalRep[Indicatorindex] - this.totalVer[Indicatorindex]
     );
-    if (this.totalRep[index] === 0) {
-      this.error[index] = 100;
+    if (this.totalRep[Indicatorindex] === 0) {
+      this.error[Indicatorindex] = 100;
     } else {
-      this.error[index] = this.difference[index] / this.totalRep[index];
+      this.error[Indicatorindex] =
+        this.difference[Indicatorindex] / this.totalRep[Indicatorindex];
     }
-    this.provisionalAmount[index] =
-      this.totalVer[index] * this.verificationConfigurations[index].unitFee;
-    if (this.error[index] > this.errorRate) {
-      const excess = (this.error[index] - this.errorRate) / 100;
-      this.loss[index] = parseFloat(
+    this.provisionalAmount[Indicatorindex] =
+      this.totalVer[Indicatorindex] *
+      this.verificationConfigurations[Indicatorindex].unitFee;
+    if (this.error[Indicatorindex] > this.errorRate) {
+      const excess = (this.error[Indicatorindex] - this.errorRate) / 100;
+      this.loss[Indicatorindex] = parseFloat(
         (
           excess *
-          this.totalVer[index] *
-          this.verificationConfigurations[index].unitFee
+          this.totalVer[Indicatorindex] *
+          this.verificationConfigurations[Indicatorindex].unitFee
         ).toFixed(1)
       );
     }
-    this.actualAmount[index] = parseFloat(
-      (this.provisionalAmount[index] - this.loss[index]).toFixed(2)
+    this.actualAmount[Indicatorindex] = parseFloat(
+      (
+        this.provisionalAmount[Indicatorindex] - this.loss[Indicatorindex]
+      ).toFixed(2)
     );
     this.total(this.verificationConfigCount);
   }
   total(count) {
-    this.totalAmount = 0;
+    this.totalAmount = 0; // TODO find total
     for (let index = 0; index < count; index++) {
       this.totalAmount = parseFloat(
         (this.actualAmount[index] + this.totalAmount).toFixed(2)
