@@ -21,10 +21,10 @@ export class FormDataEffects {
     this.actions$.pipe(
       ofType(addFormDatavalues),
       mergeMap(action =>
-        this.formDataService.getFormDataValues(action.payload).pipe(
+        this.formDataService.sendFormDataValue(action.payload).pipe(
           map(() => {
             const dataValue: FormDataValue = {
-              id: `${action.payload.dataElement}-${action.payload.categoryCombo}`,
+              id: `${action.payload.de}-${action.payload.co}`,
               val: action.payload.value,
               com: 'false'
             };

@@ -16,10 +16,7 @@ export class FormDataService {
     this.dataSetUrl = 'dataValues';
   }
   sendFormDataValue(payload: FormDataPayload): Observable<any> {
-    return this.dhisHttp.post(
-      `26/${this.dataSetUrl}?pe=${payload.period}&ou=${payload.orgUnit}&ds=${payload.dataSet}&co=${payload.categoryCombo}&value=${payload.value}`,
-      null
-    );
+    return this.dhisHttp.post(`26/${this.dataSetUrl}?`, payload);
   }
 
   getFormDataValues(payload: any): Observable<any> {

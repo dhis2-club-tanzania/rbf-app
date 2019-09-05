@@ -51,7 +51,7 @@
                   <td>
                     <input
                       type="number"
-                      (blur)="onInputBlur(sno)"
+                      (blur)="onInputBlur(sno, indicator.dataElement)"
                       (keyup)="onInputChange(sno)"
                       [(ngModel)]="obtainedValue[sno]"
                       [ngModelOptions]="{ standalone: true }"
