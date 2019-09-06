@@ -20,9 +20,11 @@ import {
   VerSum,
   RepSum,
   difference,
-  provisionalAmountSum
+  provisionalAmountSum,
+  lossCalculator,
+  actualAmount,
+  totalAmount
 } from '../../Helpers/summations';
-import { ConvertToLighterColor } from '@iapps/ngx-dhis2-menu/lib/pipes';
 
 @Component({
   selector: 'app-verification',
@@ -38,6 +40,7 @@ export class VerificationComponent implements OnInit {
   showForm = false;
   selectionFilterConfig: SelectionFilterConfig = {
     allowStepSelection: true,
+    stepSelections: ['pe', 'ou'],
     showDynamicDimension: true,
     showDataFilter: false,
     showValidationRuleGroupFilter: false,
@@ -91,6 +94,7 @@ export class VerificationComponent implements OnInit {
   onFilterUpdateAction(dataSelections) {
     this.dataSelections = dataSelections;
     this.setShowForm();
+    console.log(dataSelections);
   }
   setFormProperties(indicatorsCount) {
     for (let index = 0; index < indicatorsCount; index++) {
@@ -147,28 +151,20 @@ export class VerificationComponent implements OnInit {
         1
       )
     ); // Updated % Error
-
     this.provisionalAmount[indicatorIndex] = provisionalAmountSum(
       this.verificationData,
       this.totalVer[indicatorIndex],
       indicatorIndex
     ); // Updated Provisional Amount
-    //   this.totalVer[indicatorIndex] *
-    //   this.verificationData[indicatorIndex].unitFee;
-    // if (this.error[indicatorIndex] > this.errorRate) {
-    //   const excess = (this.error[indicatorIndex] - this.errorRate) / 100;
-    //   this.loss[indicatorIndex] = parseFloat(
-    //     (
-    //       excess *
-    //       this.totalVer[indicatorIndex] *
-    //       this.verificationData[indicatorIndex].unitFee
-    //     ).toFixed(1)
-    //   );
-    // }
-    // this.actualAmount[indicatorIndex] = parseFloat(
-    //   (
-    //     this.provisionalAmount[indicatorIndex] - this.loss[indicatorIndex]
-    //   ).toFixed(2)
-    // );
+    this.loss[indicatorIndex] = lossCalculator(
+      this.provisionalAmount[indicatorIndex],
+      this.errorRate,
+      this.error[indicatorIndex]
+    ); // Updated Loss due to excess % error
+    this.actualAmount[indicatorIndex] = actualAmount(
+      this.provisionalAmount[indicatorIndex],
+      this.loss[indicatorIndex]
+    ); // Updated Actual Amount
+    this.totalAmount = totalAmount(this.actualAmount); // Updated totalAmount
   }
 }

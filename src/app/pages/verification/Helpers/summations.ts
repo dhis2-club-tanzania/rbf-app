@@ -20,3 +20,26 @@ export function difference(totalRep, totalVer) {
 export function provisionalAmountSum(formData, totalVer, indicatorIndex) {
   return formData[indicatorIndex].unitFee * totalVer;
 }
+export function lossCalculator(provisionalAmount, errorRate, error) {
+  if (error > errorRate) {
+    const excessError = error - errorRate;
+    return parseFloat(((provisionalAmount * excessError) / 100).toFixed(2));
+  } else {
+    return 0;
+  }
+}
+export function actualAmount(provisionalAmount, loss) {
+  return provisionalAmount - loss;
+}
+export function totalAmount(actualAmounts) {
+  const indicatorCounts = actualAmounts.length;
+  let sum = 0;
+  for (
+    let indicatorIndex = 0;
+    indicatorIndex < indicatorCounts;
+    indicatorIndex++
+  ) {
+    sum += actualAmounts[indicatorIndex];
+  }
+  return sum;
+}
