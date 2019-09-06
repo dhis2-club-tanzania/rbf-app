@@ -17,6 +17,8 @@ import { GeneralConfigurationState } from '../states/general-configuration.state
 import { generalConfigurationReducer } from './general-configuration.reducers';
 import { FormDataState } from '../states/form-data.state';
 import { formDataReducer } from './form-data.reducers';
+import { SelectionFilterState } from '../states/selection-filter.state';
+import { selectionFilterReducer } from './selection-filter.reducers';
 
 export interface State {
   user: UserState;
@@ -27,6 +29,7 @@ export interface State {
   assessmentConfiguration: AssessmentConfigurationState;
   generalConfiguration: GeneralConfigurationState;
   formData: FormDataState;
+  selectionFilter: SelectionFilterState;
 }
 
 export const reducers: ActionReducerMap<State> = {
@@ -37,7 +40,8 @@ export const reducers: ActionReducerMap<State> = {
   assessmentConfiguration: assessmentConfigurationReducer,
   verificationConfiguration: verificationConfigurationReducer,
   generalConfiguration: generalConfigurationReducer,
-  formData: formDataReducer
+  formData: formDataReducer,
+  selectionFilter: selectionFilterReducer
 };
 
 export const metaReducers: MetaReducer<State>[] = !environment.production

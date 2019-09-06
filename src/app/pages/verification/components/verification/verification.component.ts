@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SelectionFilterConfig } from '@iapps/ngx-dhis2-selection-filters';
 import { Observable } from 'rxjs';
+import * as _ from 'lodash';
 import { VerificationConfiguration } from 'src/app/pages/configuration/models/verification-configuration.model';
 import { Store } from '@ngrx/store';
 import { State } from 'src/app/store/reducers';
@@ -25,6 +26,8 @@ import {
   actualAmount,
   totalAmount
 } from '../../Helpers/summations';
+import { getPeriodObject } from '../../Helpers/period.helper';
+import { loadSelectionFilterData } from 'src/app/store/actions';
 
 @Component({
   selector: 'app-verification',
@@ -94,8 +97,21 @@ export class VerificationComponent implements OnInit {
   onFilterUpdateAction(dataSelections) {
     this.dataSelections = dataSelections;
     this.setShowForm();
-    console.log(dataSelections);
+    const orgunigData = _.find(
+      dataSelections,
+      dataSelection => dataSelection.dimension === 'ou'
+    );
+    const periodData = _.find(
+      dataSelections,
+      dataSelection => dataSelection.dimension === 'pe'
+    );
+    const selectedData = {
+      organisationUnit: orgunigData.items[0].id,
+      period: getPeriodObject(periodData.items[0])
+    };
+    this.store.dispatch(loadSelectionFilterData({ data: selectedData }));
   }
+
   setFormProperties(indicatorsCount) {
     for (let index = 0; index < indicatorsCount; index++) {
       this.totalRep.push(0);
