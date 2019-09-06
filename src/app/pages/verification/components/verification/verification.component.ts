@@ -16,6 +16,13 @@ import {
 } from 'src/app/store/selectors/general-configuration.selectors';
 import { VerificationData, verificationData } from './verificationData';
 import { setPeriodLooper } from '../../Helpers/periodLooper';
+import {
+  VerSum,
+  RepSum,
+  difference,
+  provisionalAmountSum
+} from '../../Helpers/summations';
+import { ConvertToLighterColor } from '@iapps/ngx-dhis2-menu/lib/pipes';
 
 @Component({
   selector: 'app-verification',
@@ -34,7 +41,6 @@ export class VerificationComponent implements OnInit {
     showDynamicDimension: true,
     showDataFilter: false,
     showValidationRuleGroupFilter: false,
-    stepSelections: ['pe', 'ou'],
     periodFilterConfig: {
       singleSelection: true
     },
@@ -86,9 +92,8 @@ export class VerificationComponent implements OnInit {
     this.dataSelections = dataSelections;
     this.setShowForm();
   }
-
-  setFormProperties(index, columns) {
-    for (let a = 0; a < index; a++) {
+  setFormProperties(indicatorsCount) {
+    for (let index = 0; index < indicatorsCount; index++) {
       this.totalRep.push(0);
       this.totalVer.push(0);
       this.difference.push(0);
@@ -98,59 +103,72 @@ export class VerificationComponent implements OnInit {
       this.actualAmount.push(0);
       this.snackbar.open('Arrays Created', 'SUCCESSFUL', { duration: 1000 });
     }
+    for (let index = 0; index < indicatorsCount; index++) {
+      this.onFormUpdate(index);
+    }
   }
-
   setShowForm() {
-    if (this.dataSelections[1].items[0].level) {
-      this.showForm = true;
-      this.periodLooper = setPeriodLooper(this.dataSelections);
-      this.setFormProperties(
-        this.verificationConfigCount,
-        this.periodLooper.length
-      );
-    }
+    this.showForm = true;
+    this.periodLooper = setPeriodLooper(this.dataSelections);
+    this.setFormProperties(this.verificationData.length);
   }
+  onVerUpdate(indicatorIndex, monthIndex) {
+    this.onFormUpdate(indicatorIndex);
+    this.snackbar.open('Value Updated', 'SUCCESSFUL', { duration: 1000 });
+  }
+  onFormUpdate(indicatorIndex) {
+    let totalRep = 0;
+    for (
+      let monthlyIndex = 0;
+      monthlyIndex < this.verificationData[indicatorIndex].monthlyValues.length;
+      monthlyIndex++
+    ) {
+      totalRep += this.verificationData[indicatorIndex].monthlyValues[
+        monthlyIndex
+      ].rep;
+    }
+    this.totalRep[indicatorIndex] = totalRep; // Updating totalRep
+    let totalVer = 0;
+    for (
+      let monthlyIndex = 0;
+      monthlyIndex < this.verificationData[indicatorIndex].monthlyValues.length;
+      monthlyIndex++
+    ) {
+      totalVer += this.verificationData[indicatorIndex].monthlyValues[
+        monthlyIndex
+      ].ver;
+    }
+    this.totalVer[indicatorIndex] = totalVer; // Updated totalVer
+    this.difference[indicatorIndex] = Math.abs(
+      this.totalRep[indicatorIndex] - this.totalVer[indicatorIndex]
+    ); // Updated the difference btn totalRep and totalVer
+    this.error[indicatorIndex] = parseFloat(
+      (this.difference[indicatorIndex] / this.totalRep[indicatorIndex]).toFixed(
+        1
+      )
+    ); // Updated % Error
 
-  onVerUpdate(Indicatorindex, monthIndex) {
-    this.totalVer[Indicatorindex] = 0; // Find sum
-    this.difference[Indicatorindex] = Math.abs(
-      this.totalRep[Indicatorindex] - this.totalVer[Indicatorindex]
-    );
-    if (this.totalRep[Indicatorindex] === 0) {
-      this.error[Indicatorindex] = 100;
-    } else {
-      this.error[Indicatorindex] =
-        this.difference[Indicatorindex] / this.totalRep[Indicatorindex];
-    }
-    this.provisionalAmount[Indicatorindex] =
-      this.totalVer[Indicatorindex] *
-      this.verificationConfigurations[Indicatorindex].unitFee;
-    if (this.error[Indicatorindex] > this.errorRate) {
-      const excess = (this.error[Indicatorindex] - this.errorRate) / 100;
-      this.loss[Indicatorindex] = parseFloat(
-        (
-          excess *
-          this.totalVer[Indicatorindex] *
-          this.verificationConfigurations[Indicatorindex].unitFee
-        ).toFixed(1)
-      );
-    }
-    this.actualAmount[Indicatorindex] = parseFloat(
-      (
-        this.provisionalAmount[Indicatorindex] - this.loss[Indicatorindex]
-      ).toFixed(2)
-    );
-    this.total(this.verificationConfigCount);
-  }
-  total(count) {
-    this.totalAmount = 0; // TODO find total
-    for (let index = 0; index < count; index++) {
-      this.totalAmount = parseFloat(
-        (this.actualAmount[index] + this.totalAmount).toFixed(2)
-      );
-      this.snackbar.open('Total Called', this.totalAmount.toString(), {
-        duration: 1000
-      });
-    }
+    this.provisionalAmount[indicatorIndex] = provisionalAmountSum(
+      this.verificationData,
+      this.totalVer[indicatorIndex],
+      indicatorIndex
+    ); // Updated Provisional Amount
+    //   this.totalVer[indicatorIndex] *
+    //   this.verificationData[indicatorIndex].unitFee;
+    // if (this.error[indicatorIndex] > this.errorRate) {
+    //   const excess = (this.error[indicatorIndex] - this.errorRate) / 100;
+    //   this.loss[indicatorIndex] = parseFloat(
+    //     (
+    //       excess *
+    //       this.totalVer[indicatorIndex] *
+    //       this.verificationData[indicatorIndex].unitFee
+    //     ).toFixed(1)
+    //   );
+    // }
+    // this.actualAmount[indicatorIndex] = parseFloat(
+    //   (
+    //     this.provisionalAmount[indicatorIndex] - this.loss[indicatorIndex]
+    //   ).toFixed(2)
+    // );
   }
 }

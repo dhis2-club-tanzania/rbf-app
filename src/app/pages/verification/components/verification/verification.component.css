@@ -61,3 +61,6 @@ tbody {
 .theme-color {
   background-color: rgb(39, 102, 150);
 }
+.wide-input {
+  width: 100%;
+}
