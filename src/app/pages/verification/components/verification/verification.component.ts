@@ -26,6 +26,7 @@ import {
 import { getPeriodObject } from '../../Helpers/period.helper';
 import { loadSelectionFilterData } from 'src/app/store/actions';
 import { getSelectionFilterPeriod } from 'src/app/store/selectors/selection-filter.selectors';
+import { setRepString, setVerString } from '../../Helpers/strings';
 
 @Component({
   selector: 'app-verification',
@@ -74,12 +75,18 @@ export class VerificationComponent implements OnInit {
   verificationConfigurations = [];
 
   tableStructure$: Observable<any[]>;
+
+  // Form Strings
+  rep: string;
+  ver: string;
+
   constructor(private store: Store<State>, private snackbar: MatSnackBar) {}
 
   ngOnInit() {
     // TODO deal with the subscription
     this.verificationConfig$ = this.store.select(getVerificationConfigurations);
     this.store.select(getTableStructure).subscribe();
+    // TODO what does this do?
     const sub = this.store
       .select(getVerificationConfigurationsCount)
       .subscribe(count => (this.verificationConfigCount = count));
@@ -114,6 +121,8 @@ export class VerificationComponent implements OnInit {
       tableData => (this.verificationData = tableData)
     );
     this.periodSelection$ = this.store.select(getSelectionFilterPeriod);
+    this.rep = setRepString(this.verificationData[0].monthlyValues.length);
+    this.ver = setVerString(this.verificationData[0].monthlyValues.length);
   }
 
   setFormProperties(indicatorsCount) {
