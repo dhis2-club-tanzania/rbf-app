@@ -1,9 +1,9 @@
 export interface FormDataPayload {
-  pe: string;
-  co?: string;
-  ds: string;
-  ou: string;
-  de: string;
+  period: string;
+  categoryOption?: string;
+  dataSet: string;
+  orgUnit: string;
+  dataElement: string;
   value: any;
 }
 
