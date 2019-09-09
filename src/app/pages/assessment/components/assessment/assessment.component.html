@@ -51,14 +51,17 @@
                   <td>
                     <input
                       type="number"
-                      (blur)="onInputBlur(sno, indicator.dataElement)"
+                      (blur)="
+                        onInputBlur(sno, indicator.dataElement);
+                        onInputChange(sno)
+                      "
                       (keyup)="onInputChange(sno)"
                       [(ngModel)]="obtainedValue[sno]"
                       [ngModelOptions]="{ standalone: true }"
                       max="{{ indicator.possibleMaxValue }}"
                     />
                     <mat-form-field class="mat-form-field">
-                      <mat-label>Selection Applet</mat-label>
+                      <mat-label>Selection Application</mat-label>
                       <mat-select>
                         <mat-option
                           [value]="1"

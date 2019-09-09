@@ -21,11 +21,11 @@ import {
   actualAmount,
   totalAmount,
   error
-} from '../../Helpers/summations';
-import { getPeriodObject } from '../../Helpers/period.helper';
+} from '../../helpers/summations';
+import { getPeriodObject } from '../../helpers/period.helper';
 import { loadSelectionFilterData } from 'src/app/store/actions';
 import { getSelectionFilterPeriod } from 'src/app/store/selectors/selection-filter.selectors';
-import { setRepString, setVerString } from '../../Helpers/strings';
+import { setRepString, setVerString } from '../../helpers/strings';
 
 @Component({
   selector: 'app-verification',
@@ -96,29 +96,31 @@ export class VerificationComponent implements OnInit, OnDestroy {
     this.errorRateSubscription.unsubscribe();
   }
   onFilterUpdateAction(dataSelections) {
-    this.dataSelections = dataSelections;
-    this.setShowForm();
-    const orgunigData = _.find(
-      dataSelections,
-      dataSelection => dataSelection.dimension === 'ou'
-    );
-    const periodData = _.find(
-      dataSelections,
-      dataSelection => dataSelection.dimension === 'pe'
-    );
-    const selectedData = {
-      organisationUnit: orgunigData.items[0].id,
-      period: getPeriodObject(periodData.items[0])
-    };
-    this.store.dispatch(loadSelectionFilterData({ data: selectedData }));
-    this.store.select(getTableStructure).subscribe();
-    this.tableStructure$ = this.store.select(getTableStructure);
-    this.tableStructureSubscription = this.tableStructure$.subscribe(
-      tableData => (this.verificationData = tableData)
-    );
-    this.periodSelection$ = this.store.select(getSelectionFilterPeriod);
-    this.rep = setRepString(this.verificationData[0].monthlyValues.length);
-    this.ver = setVerString(this.verificationData[0].monthlyValues.length);
+    if (dataSelections.length > 1) {
+      this.dataSelections = dataSelections;
+      this.setShowForm();
+      const orgunigData = _.find(
+        dataSelections,
+        dataSelection => dataSelection.dimension === 'ou'
+      );
+      const periodData = _.find(
+        dataSelections,
+        dataSelection => dataSelection.dimension === 'pe'
+      );
+      const selectedData = {
+        organisationUnit: orgunigData.items[0].id,
+        period: getPeriodObject(periodData.items[0])
+      };
+      this.store.dispatch(loadSelectionFilterData({ data: selectedData }));
+      this.store.select(getTableStructure).subscribe();
+      this.tableStructure$ = this.store.select(getTableStructure);
+      this.tableStructureSubscription = this.tableStructure$.subscribe(
+        tableData => (this.verificationData = tableData)
+      );
+      this.periodSelection$ = this.store.select(getSelectionFilterPeriod);
+      this.rep = setRepString(this.verificationData[0].monthlyValues.length);
+      this.ver = setVerString(this.verificationData[0].monthlyValues.length);
+    }
   }
 
   setFormProperties(indicatorsCount) {

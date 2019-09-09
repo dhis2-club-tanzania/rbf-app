@@ -22,7 +22,7 @@ export class AssessmentComponent implements OnInit {
   assessmentIndicators$: Observable<AssessmentConfiguration[]>;
   orgUnitLevel$: Observable<string>;
 
-  dataSelections: any;
+  dataSelections: any[];
   selectionFilterConfig: SelectionFilterConfig = {
     allowStepSelection: true,
     showDynamicDimension: false,
@@ -68,11 +68,13 @@ export class AssessmentComponent implements OnInit {
   }
 
   onFilterUpdateAction(dataSelections) {
-    this.dataSelections = dataSelections;
-    this.showForm = true;
-    if (this.createArray) {
-      this.createFormArrays(this.assessmentIndex);
-      this.createArray = false;
+    if (dataSelections.length > 1) {
+      this.dataSelections = dataSelections;
+      this.showForm = true;
+      if (this.createArray) {
+        this.createFormArrays(this.assessmentIndex);
+        this.createArray = false;
+      }
     }
   }
 
@@ -119,6 +121,7 @@ export class AssessmentComponent implements OnInit {
       );
       this.obtainedValue[index] = 0;
     }
+    this.onFormUpdate(index);
   }
   onOptionSelect(index, value) {
     this.selection[index] = value;
@@ -126,6 +129,10 @@ export class AssessmentComponent implements OnInit {
     if (this.selection[index] === 0) {
       this.obtainedValue[index] = 0;
     }
+    this.onFormUpdate(index);
+  }
+
+  onFormUpdate(index) {
     this.percentage[index] = parseFloat(
       (
         (100 * this.obtainedValue[index]) /
@@ -142,11 +149,10 @@ export class AssessmentComponent implements OnInit {
     for (let index = 0; index < count; index++) {
       this.obtainedValueSum += this.obtainedValue[index];
       percentageSum += this.percentage[index];
-      if (this.selection[index] === 1) {
+      if (this.obtainedValue[index] !== 0) {
         checker++;
       }
     }
     this.percentageSum = parseFloat((percentageSum / checker).toFixed(2));
-    console.log(checker);
   }
 }
