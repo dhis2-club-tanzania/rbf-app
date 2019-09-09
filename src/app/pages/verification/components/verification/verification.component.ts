@@ -1,13 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SelectionFilterConfig } from '@iapps/ngx-dhis2-selection-filters';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import * as _ from 'lodash';
 import { VerificationConfiguration } from 'src/app/pages/configuration/models/verification-configuration.model';
 import { Store } from '@ngrx/store';
 import { State } from 'src/app/store/reducers';
 import {
   getVerificationConfigurations,
-  getVerificationConfigurationsCount,
   getTableStructure
 } from 'src/app/store/selectors';
 import { MatSnackBar } from '@angular/material';
@@ -26,16 +25,21 @@ import {
 import { getPeriodObject } from '../../Helpers/period.helper';
 import { loadSelectionFilterData } from 'src/app/store/actions';
 import { getSelectionFilterPeriod } from 'src/app/store/selectors/selection-filter.selectors';
+import { setRepString, setVerString } from '../../Helpers/strings';
 
 @Component({
   selector: 'app-verification',
   templateUrl: './verification.component.html',
   styleUrls: ['./verification.component.css']
 })
-export class VerificationComponent implements OnInit {
+export class VerificationComponent implements OnInit, OnDestroy {
+  tableStructureSubscription: Subscription;
+  errorRateSubscription: Subscription;
+
   verificationConfig$: Observable<VerificationConfiguration[]>;
   errorRate$: Observable<number>;
   orgUnitLevel$: Observable<string>;
+  periodSelection$: Observable<any[]>;
 
   dataSelections: any;
   showForm = false;
@@ -58,9 +62,7 @@ export class VerificationComponent implements OnInit {
   };
 
   // Form Properties are declared below
-  verificationConfigCount: number;
   verificationData: VerificationData[] = [];
-  periodSelection$: Observable<any[]>;
 
   errorRate: number;
   totalRep = [];
@@ -71,27 +73,27 @@ export class VerificationComponent implements OnInit {
   loss: number[] = [];
   actualAmount: number[] = [];
   totalAmount = 0;
-  verificationConfigurations = [];
 
   tableStructure$: Observable<any[]>;
+
+  // Form Strings
+  rep: string;
+  ver: string;
+
   constructor(private store: Store<State>, private snackbar: MatSnackBar) {}
 
   ngOnInit() {
-    // TODO deal with the subscription
     this.verificationConfig$ = this.store.select(getVerificationConfigurations);
-    this.store.select(getTableStructure).subscribe();
-    const sub = this.store
-      .select(getVerificationConfigurationsCount)
-      .subscribe(count => (this.verificationConfigCount = count));
-    this.store
-      .select(getVerificationConfigurations)
-      .subscribe(configs => (this.verificationConfigurations = configs));
     this.errorRate$ = this.store.select(getGeneralConfigurationErrorRate);
     this.orgUnitLevel$ = this.store.select(getGeneralConfigurationOrunitLevel);
-    this.errorRate$.subscribe(
+    this.errorRateSubscription = this.errorRate$.subscribe(
       errorRate => (this.errorRate = errorRate),
       () => (this.errorRate = null)
     );
+  }
+
+  ngOnDestroy() {
+    this.errorRateSubscription.unsubscribe();
   }
   onFilterUpdateAction(dataSelections) {
     this.dataSelections = dataSelections;
@@ -109,11 +111,14 @@ export class VerificationComponent implements OnInit {
       period: getPeriodObject(periodData.items[0])
     };
     this.store.dispatch(loadSelectionFilterData({ data: selectedData }));
+    this.store.select(getTableStructure).subscribe();
     this.tableStructure$ = this.store.select(getTableStructure);
-    this.tableStructure$.subscribe(
+    this.tableStructureSubscription = this.tableStructure$.subscribe(
       tableData => (this.verificationData = tableData)
     );
     this.periodSelection$ = this.store.select(getSelectionFilterPeriod);
+    this.rep = setRepString(this.verificationData[0].monthlyValues.length);
+    this.ver = setVerString(this.verificationData[0].monthlyValues.length);
   }
 
   setFormProperties(indicatorsCount) {

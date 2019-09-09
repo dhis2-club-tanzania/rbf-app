@@ -27,9 +27,9 @@ export function error(discrepancy, totalRep) {
 export function provisionalAmountSum(formData, totalVer, indicatorIndex) {
   return formData[indicatorIndex].unitFee * totalVer;
 }
-export function lossCalculator(provisionalAmount, errorRate, error) {
+export function lossCalculator(provisionalAmount, errorRate, myerror) {
   if (error > errorRate) {
-    const excessError = error - errorRate;
+    const excessError = myerror - errorRate;
     return parseFloat(((provisionalAmount * excessError) / 100).toFixed(2));
   } else {
     return 0;
