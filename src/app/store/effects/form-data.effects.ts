@@ -24,7 +24,7 @@ export class FormDataEffects {
         this.formDataService.sendFormDataValue(action.payload).pipe(
           map(() => {
             const dataValue: FormDataValue = {
-              id: `${action.payload.dataElement}-${action.payload.categoryOption}`,
+              id: `${action.payload.dataElement}-${action.payload.categoryOptionCombo}`,
               val: action.payload.value,
               com: 'false'
             };

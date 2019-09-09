@@ -1,6 +1,6 @@
 export interface FormDataPayload {
   period: string;
-  categoryOption?: string;
+  categoryOptionCombo?: string;
   dataSet: string;
   orgUnit: string;
   dataElement: string;

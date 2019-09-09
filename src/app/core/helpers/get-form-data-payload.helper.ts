@@ -9,7 +9,7 @@ export function getPayload(payload: FormDataPayload): any {
       {
         dataElement: payload.dataElement,
         value: payload.value,
-        categoryCombo: payload.categoryOption
+        categoryCombo: payload.categoryOptionCombo
       }
     ]
   };

@@ -93,7 +93,7 @@ export class AssessmentComponent implements OnInit {
     }
   }
   onInputBlur(index, dataElement) {
-    const dataSet = 'GyfxIp9ecZx';
+    const dataSet = 'ojBzrqep2oK';
     let categoryCombo = '';
     this.store
       .select(getSelectedCategoryCombo(dataElement))
@@ -103,7 +103,7 @@ export class AssessmentComponent implements OnInit {
       dataSet: dataSet,
       orgUnit: this.dataSelections[1].items[0].id,
       dataElement: dataElement,
-      categoryOption: categoryCombo,
+      categoryOptionCombo: categoryCombo,
       value: this.obtainedValue[index]
     };
 

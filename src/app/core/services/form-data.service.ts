@@ -17,6 +17,8 @@ export class FormDataService {
   }
 
   getFormDataValues(payload: any): Observable<any> {
-    return null;
+    return this.dhisHttp.get(
+      `26/${this.dataSetUrl}?dataSet=${payload.dataSet}&period=${payload.period}&orgUnit=${payload.orgUnit}`
+    );
   }
 }
