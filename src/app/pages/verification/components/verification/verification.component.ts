@@ -15,8 +15,7 @@ import {
   getGeneralConfigurationErrorRate,
   getGeneralConfigurationOrunitLevel
 } from 'src/app/store/selectors/general-configuration.selectors';
-import { VerificationData, verificationData } from './verificationData';
-import { setPeriodLooper } from '../../Helpers/periodLooper';
+import { VerificationData } from './verificationData';
 import {
   VerSum,
   RepSum,
@@ -60,7 +59,6 @@ export class VerificationComponent implements OnInit {
       showOrgUnitLevelGroupSection: false
     }
   };
-  periodLooper = [];
 
   // Form Properties are declared below
   verificationConfigCount: number;
@@ -139,7 +137,6 @@ export class VerificationComponent implements OnInit {
   }
   setShowForm() {
     this.showForm = true;
-    this.periodLooper = setPeriodLooper(this.dataSelections);
     this.setFormProperties(this.verificationData.length);
   }
   onVerUpdate(indicatorIndex, monthIndex) {
