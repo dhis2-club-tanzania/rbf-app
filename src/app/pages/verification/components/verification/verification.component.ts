@@ -24,10 +24,12 @@ import {
   provisionalAmountSum,
   lossCalculator,
   actualAmount,
-  totalAmount
+  totalAmount,
+  error
 } from '../../Helpers/summations';
 import { getPeriodObject } from '../../Helpers/period.helper';
 import { loadSelectionFilterData } from 'src/app/store/actions';
+import { getSelectionFilterPeriod } from 'src/app/store/selectors/selection-filter.selectors';
 
 @Component({
   selector: 'app-verification',
@@ -62,7 +64,8 @@ export class VerificationComponent implements OnInit {
 
   // Form Properties are declared below
   verificationConfigCount: number;
-  verificationData: VerificationData[] = verificationData;
+  verificationData: VerificationData[] = [];
+  periodSelection$: Observable<any[]>;
 
   errorRate: number;
   totalRep = [];
@@ -75,7 +78,7 @@ export class VerificationComponent implements OnInit {
   totalAmount = 0;
   verificationConfigurations = [];
 
-  tableStructure: Observable<any[]>;
+  tableStructure$: Observable<any[]>;
   constructor(private store: Store<State>, private snackbar: MatSnackBar) {}
 
   ngOnInit() {
@@ -95,7 +98,7 @@ export class VerificationComponent implements OnInit {
       () => (this.errorRate = null)
     );
 
-    this.tableStructure = this.store.select(getTableStructure);
+    this.tableStructure$ = this.store.select(getTableStructure);
   }
   onFilterUpdateAction(dataSelections) {
     this.dataSelections = dataSelections;
@@ -113,6 +116,10 @@ export class VerificationComponent implements OnInit {
       period: getPeriodObject(periodData.items[0])
     };
     this.store.dispatch(loadSelectionFilterData({ data: selectedData }));
+    this.tableStructure$.subscribe(
+      tableData => (this.verificationData = tableData)
+    );
+    this.periodSelection$ = this.store.select(getSelectionFilterPeriod);
   }
 
   setFormProperties(indicatorsCount) {
@@ -165,10 +172,9 @@ export class VerificationComponent implements OnInit {
     this.difference[indicatorIndex] = Math.abs(
       this.totalRep[indicatorIndex] - this.totalVer[indicatorIndex]
     ); // Updated the difference btn totalRep and totalVer
-    this.error[indicatorIndex] = parseFloat(
-      (this.difference[indicatorIndex] / this.totalRep[indicatorIndex]).toFixed(
-        1
-      )
+    this.error[indicatorIndex] = error(
+      this.difference[indicatorIndex],
+      this.totalRep[indicatorIndex]
     ); // Updated % Error
     this.provisionalAmount[indicatorIndex] = provisionalAmountSum(
       this.verificationData,

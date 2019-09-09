@@ -14,7 +14,7 @@
   </div>
   <div class="form" *ngIf="showForm">
     <!-- Main Form display ground -->
-    {{ tableStructure | async | json }}
+    {{ periodSelection$ | async | json }}
     <form name="verificationForm">
       <h3>
         {{ dataSelections[0].items[0].type | titlecase }}
@@ -34,9 +34,9 @@
             <th
               scope="col"
               class="iteration"
-              *ngFor="let iteration of verificationData[0].monthlyValues"
+              *ngFor="let iteration of periodSelection$ | async"
             >
-              {{ iteration.periodName }}
+              {{ iteration.name }}
             </th>
             <th scope="col">
               Total Declared (Rep.#)
@@ -59,10 +59,7 @@
           <tr>
             <th
               scope="col"
-              *ngFor="
-                let iteration of verificationData[0].monthlyValues;
-                let i = index
-              "
+              *ngFor="let iteration of periodSelection$ | async; let i = index"
               class="iteration"
             >
               <tr class="trwithin">
@@ -178,7 +175,7 @@
             </td>
           </tr>
           <tr>
-            <td [colSpan]="9 + periodLooper.length" class="total">
+            <td [colSpan]="9 + (periodSelection$ | async).length" class="total">
               Total
               {{ dataSelections[0].items[0].type | titlecase }} Provisional
               Amount for {{ orgUnitLevel$ | async | titlecase }}

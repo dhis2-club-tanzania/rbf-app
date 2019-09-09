@@ -17,6 +17,13 @@ export function VerSum(indicatorMonthlyValues, monthIndex) {
 export function difference(totalRep, totalVer) {
   return Math.abs(totalRep - totalVer);
 }
+export function error(discrepancy, totalRep) {
+  if (totalRep === 0) {
+    return 100;
+  } else {
+    return parseFloat((discrepancy / totalRep).toFixed(1));
+  }
+}
 export function provisionalAmountSum(formData, totalVer, indicatorIndex) {
   return formData[indicatorIndex].unitFee * totalVer;
 }

@@ -1,4 +1,5 @@
 export interface VerificationData {
+  id: string;
   indicator: string;
   monthlyValues: {
     rep: number;
