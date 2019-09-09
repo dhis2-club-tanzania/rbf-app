@@ -1,11 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { PeriodFilterConfig } from '@iapps/ngx-dhis2-period-filter';
 import { Observable } from 'rxjs';
 import { AssessmentConfiguration } from '../../../configuration/models/assessment-configuration.model';
 import { State } from 'src/app/store/reducers';
 import { Store } from '@ngrx/store';
-import { getAssessmentConfigurations } from 'src/app/store/selectors';
+import {
+  getAssessmentConfigurations,
+  getAssessmentConfigurationsCount,
+  getSelectedCategoryCombo
+} from 'src/app/store/selectors';
 import { SelectionFilterConfig } from '@iapps/ngx-dhis2-selection-filters';
+import { getGeneralConfigurationOrunitLevel } from 'src/app/store/selectors/general-configuration.selectors';
+import { FormDataPayload } from 'src/app/core/models/form-data.model';
+import { addFormDatavalues } from 'src/app/store/actions';
 
 @Component({
   selector: 'app-assessment',
@@ -13,6 +19,9 @@ import { SelectionFilterConfig } from '@iapps/ngx-dhis2-selection-filters';
   styleUrls: ['./assessment.component.css']
 })
 export class AssessmentComponent implements OnInit {
+  assessmentIndicators$: Observable<AssessmentConfiguration[]>;
+  orgUnitLevel$: Observable<string>;
+
   dataSelections: any;
   selectionFilterConfig: SelectionFilterConfig = {
     allowStepSelection: true,
@@ -32,59 +41,112 @@ export class AssessmentComponent implements OnInit {
     }
   };
 
-  showPeriodFilter = false;
-  showOrgUnitFilter = false;
-
-  assessmentIndicators$: Observable<AssessmentConfiguration[]>;
-
-  orgUnitObject: any;
-  periodObject: any;
-  periodFilterConfig: PeriodFilterConfig = {
-    singleSelection: false,
-    emitOnSelection: false
-  };
-  action: string;
-  orgUnitFilterConfig: OrgUnitFilterConfig = {
-    singleSelection: false,
-    showUserOrgUnitSection: false,
-    showOrgUnitLevelGroupSection: false,
-    showOrgUnitGroupSection: true,
-    showOrgUnitLevelSection: false
-  };
-  selectedOrgUnitItems: any[] = [];
-  selectedPeriodItems: any[] = [];
+  // Form properties
+  showForm = false;
+  createArray = true;
+  allConfigurations = [];
+  possibleMaxValue = [];
+  possibleMaxValueSum = 0;
+  obtainedValue = [];
+  obtainedValueSum = 0;
+  percentage = [];
+  percentageSum = 0;
+  selection = [];
+  assessmentIndex: number;
 
   constructor(private store: Store<State>) {}
 
   ngOnInit() {
     this.assessmentIndicators$ = this.store.select(getAssessmentConfigurations);
+    this.orgUnitLevel$ = this.store.select(getGeneralConfigurationOrunitLevel);
+    this.store
+      .select(getAssessmentConfigurationsCount)
+      .subscribe(count => (this.assessmentIndex = count));
+    this.store
+      .select(getAssessmentConfigurations)
+      .subscribe(configs => (this.allConfigurations = configs));
   }
 
-  onPeriodFilterToggle() {
-    this.showPeriodFilter = !this.showPeriodFilter;
+  onFilterUpdateAction(dataSelections) {
+    this.dataSelections = dataSelections;
+    this.showForm = true;
+    if (this.createArray) {
+      this.createFormArrays(this.assessmentIndex);
+      this.createArray = false;
+    }
   }
 
-  onOrgUnitFilterToggle() {
-    this.showOrgUnitFilter = !this.showOrgUnitFilter;
+  createFormArrays(index) {
+    for (let a = 0; a < index; a++) {
+      this.possibleMaxValue.push(0);
+      this.obtainedValue.push(0);
+      this.selection.push(0);
+      this.percentage.push(0);
+    }
+    this.posssibleMaxValueInitializer(index);
   }
 
-  onOrgUnitUpdate(orgUnitObject, action) {
-    this.orgUnitObject = orgUnitObject;
-    this.action = action;
-    this.onOrgUnitFilterToggle();
+  posssibleMaxValueInitializer(index) {
+    for (let a = 0; a < index; a++) {
+      this.possibleMaxValue[a] = this.allConfigurations[a].possibleMaxValue;
+      this.possibleMaxValueSum += this.possibleMaxValue[a];
+    }
   }
-  onPeriodUpdate(periodObject, action) {
-    this.periodObject = periodObject;
-    this.action = action;
-    this.onPeriodFilterToggle();
+  onInputBlur(index, dataElement) {
+    const ds = 'mnspPTzpCDN';
+    let categoryCombo = '';
+    this.store
+      .select(getSelectedCategoryCombo(dataElement))
+      .subscribe(category => (categoryCombo = category));
+    const value: FormDataPayload = {
+      pe: this.dataSelections[0].items[0].id,
+      ds: ds,
+      ou: this.dataSelections[1].items[0].id,
+      de: dataElement,
+      co: categoryCombo,
+      value: this.obtainedValue[index]
+    };
+
+    this.store.dispatch(addFormDatavalues({ payload: value }));
+  }
+  onInputChange(index) {
+    if (
+      this.obtainedValue[index] > this.allConfigurations[index].possibleMaxValue
+    ) {
+      window.alert(
+        'Input Value Exceeded the Possible Maximum Value of:' +
+          this.allConfigurations[index].possibleMaxValue
+      );
+      this.obtainedValue[index] = 0;
+    }
+  }
+  onOptionSelect(index, value) {
+    this.selection[index] = value;
+
+    if (this.selection[index] === 0) {
+      this.obtainedValue[index] = 0;
+    }
+    this.percentage[index] = parseFloat(
+      (
+        (100 * this.obtainedValue[index]) /
+        this.possibleMaxValue[index]
+      ).toFixed(2)
+    );
+    this.total(this.assessmentIndex);
   }
 
-  onFilterUpdateAction(dataSelections) {}
-}
-export interface OrgUnitFilterConfig {
-  singleSelection: boolean;
-  showUserOrgUnitSection: boolean;
-  showOrgUnitLevelGroupSection: boolean;
-  showOrgUnitGroupSection: boolean;
-  showOrgUnitLevelSection: boolean;
+  total(count) {
+    let checker = 0;
+    this.obtainedValueSum = 0;
+    let percentageSum = 0;
+    for (let index = 0; index < count; index++) {
+      this.obtainedValueSum += this.obtainedValue[index];
+      percentageSum += this.percentage[index];
+      if (this.selection[index] === 1) {
+        checker++;
+      }
+    }
+    this.percentageSum = parseFloat((percentageSum / checker).toFixed(2));
+    console.log(checker);
+  }
 }

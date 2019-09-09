@@ -1,7 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { ErrorMessage } from 'src/app/core';
 import { GeneralConfiguration } from 'src/app/pages/configuration/models/general-configuration.model';
-import { Update } from '@ngrx/entity';
 
 export const loadGeneralConfigurations = createAction(
   '[CONFIGURATIONS] Load general configuration'
@@ -18,7 +17,8 @@ export const loadGeneralConfigurationsFail = createAction(
 );
 
 export const loadDefaultGeneralConfigurations = createAction(
-  '[CONFIGURATION] Load Default Configurations'
+  '[CONFIGURATION] Load Default Configurations',
+  props<{ configuration: any }>()
 );
 
 export const addGeneralConfigurations = createAction(

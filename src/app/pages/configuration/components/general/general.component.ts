@@ -34,7 +34,7 @@ export class GeneralComponent implements OnInit {
   periodTypes: any[];
   OrgUnitLevels: any[];
   generalConfigForm;
-  generalConfiguration: GeneralConfiguration;
+  generalConfiguration$: Observable<GeneralConfiguration>;
 
   constructor(
     private periodType: ConfigurationService,

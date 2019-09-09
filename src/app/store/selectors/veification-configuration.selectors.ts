@@ -3,6 +3,12 @@ import * as _ from 'lodash';
 import { getRootState, State } from '../reducers';
 import * as fromConfigState from '../states/verification-configuration.state';
 import { VerificationConfiguration } from 'src/app/pages/configuration/models/verification-configuration.model';
+import {
+  getSelectionFilterOrganisationUnit,
+  getSelectionFilterPeriod,
+  getSelectionFilterLoadedState
+} from './selection-filter.selectors';
+import { __assign } from 'tslib';
 
 export const getVerificationConfigurationState = createSelector(
   getRootState,
@@ -30,3 +36,43 @@ export const getSelectedVerificationConfig = id =>
     (configurations: VerificationConfiguration[]) =>
       _.find(configurations, config => config.id === id)
   );
+
+export const getTableStructure = createSelector(
+  getVerificationConfigurations,
+  getSelectionFilterLoadedState,
+  getSelectionFilterOrganisationUnit,
+  getSelectionFilterPeriod,
+  (
+    configurations,
+    loadedSelectionFilterData: boolean,
+    orgunit: string,
+    period: any[]
+  ) => {
+    const tableStructure: any[] = [];
+    if (loadedSelectionFilterData) {
+      _.forEach(configurations, config => {
+        let configData = {
+          id: config.id,
+          indicator: config.indicator,
+          unitFee: config.unitFee
+        };
+        const monthlyValues = [];
+        _.forEach(period, pe => {
+          const monthlyValue = {
+            rep: 0,
+            ver: 0,
+            periodId: pe.id,
+            periodName: pe.name,
+            orgunitId: orgunit
+          };
+          monthlyValues.push(monthlyValue);
+        });
+        configData = _.assign({}, configData, { monthlyValues: monthlyValues });
+        tableStructure.push(configData);
+      });
+      return tableStructure;
+    } else {
+      return tableStructure;
+    }
+  }
+);

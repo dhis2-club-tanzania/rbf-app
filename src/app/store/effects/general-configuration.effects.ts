@@ -48,7 +48,23 @@ export class GeneralConfigurationEffects {
           });
           return of(loadGeneralConfigurationsFail({ error: error }));
         } else {
-          return of(loadDefaultGeneralConfigurations());
+          const date = new Date();
+          const defaultConfig = {
+            id: 'default',
+            user: null,
+            created: date,
+            errorRate: 10,
+            lastUpdate: date,
+            periodType: 'Quarterly',
+            organisationUnitLevel: {
+              id: 'm9lBJogzE95',
+              level: 4,
+              displayName: 'Facility'
+            }
+          };
+          return of(
+            loadDefaultGeneralConfigurations({ configuration: defaultConfig })
+          );
         }
       })
     )
@@ -57,12 +73,17 @@ export class GeneralConfigurationEffects {
   loadDefaultConfigurations$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadDefaultGeneralConfigurations),
-      switchMap(() =>
+      switchMap(action =>
         this.configService
-          .addDefaultGeneralConfiguration(this.dataStoreNamespace)
+          .addDefaultGeneralConfiguration(
+            this.dataStoreNamespace,
+            action.configuration
+          )
           .pipe(
             map(config =>
-              loadGeneralConfigurationsSucess({ configurations: config })
+              loadGeneralConfigurationsSucess({
+                configurations: action.configuration
+              })
             )
           )
       ),
@@ -137,3 +158,21 @@ export class GeneralConfigurationEffects {
     )
   );
 }
+
+/**
+ *
+ * const date = new Date();
+    const defaultConfig = {
+      id: 'default',
+      user: null,
+      created: date,
+      errorRate: 10,
+      lastUpdate: date,
+      periodType: 'Quarterly',
+      organisationUnitLevel: {
+        id: 'm9lBJogzE95',
+        level: 4,
+        displayName: 'Facility'
+      }
+    };
+ */

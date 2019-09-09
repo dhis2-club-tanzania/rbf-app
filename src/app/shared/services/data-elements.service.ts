@@ -10,7 +10,7 @@ export class DataElementsService {
 
   getDataElements(): Observable<any> {
     return this.httpService.get(
-      'dataElements.json?fields=id,name&paging=false'
+      'dataElements.json?fields=id,name,categoryCombo[id]&paging=false'
     );
   }
 }

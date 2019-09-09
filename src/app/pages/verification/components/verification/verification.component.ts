@@ -1,14 +1,31 @@
 import { Component, OnInit } from '@angular/core';
 import { SelectionFilterConfig } from '@iapps/ngx-dhis2-selection-filters';
 import { Observable } from 'rxjs';
+import * as _ from 'lodash';
 import { VerificationConfiguration } from 'src/app/pages/configuration/models/verification-configuration.model';
 import { Store } from '@ngrx/store';
 import { State } from 'src/app/store/reducers';
 import {
   getVerificationConfigurations,
-  getVerificationConfigurationsCount
+  getVerificationConfigurationsCount,
+  getTableStructure
 } from 'src/app/store/selectors';
 import { MatSnackBar } from '@angular/material';
+import {
+  getGeneralConfigurationErrorRate,
+  getGeneralConfigurationOrunitLevel
+} from 'src/app/store/selectors/general-configuration.selectors';
+import { VerificationData } from './verificationData';
+import {
+  provisionalAmountSum,
+  lossCalculator,
+  actualAmount,
+  totalAmount,
+  error
+} from '../../Helpers/summations';
+import { getPeriodObject } from '../../Helpers/period.helper';
+import { loadSelectionFilterData } from 'src/app/store/actions';
+import { getSelectionFilterPeriod } from 'src/app/store/selectors/selection-filter.selectors';
 
 @Component({
   selector: 'app-verification',
@@ -16,15 +33,18 @@ import { MatSnackBar } from '@angular/material';
   styleUrls: ['./verification.component.css']
 })
 export class VerificationComponent implements OnInit {
+  verificationConfig$: Observable<VerificationConfiguration[]>;
+  errorRate$: Observable<number>;
+  orgUnitLevel$: Observable<string>;
+
   dataSelections: any;
   showForm = false;
-  verificationConfig$: Observable<VerificationConfiguration[]>;
   selectionFilterConfig: SelectionFilterConfig = {
     allowStepSelection: true,
+    stepSelections: ['pe', 'ou'],
     showDynamicDimension: true,
     showDataFilter: false,
     showValidationRuleGroupFilter: false,
-    stepSelections: ['pe', 'ou'],
     periodFilterConfig: {
       singleSelection: true
     },
@@ -37,46 +57,69 @@ export class VerificationComponent implements OnInit {
     }
   };
 
-  periodObject: any;
-  orgUnitLevel: string;
-  action;
-  periodLooper = [];
-
-  // Form Properties are deckared below
+  // Form Properties are declared below
   verificationConfigCount: number;
+  verificationData: VerificationData[] = [];
+  periodSelection$: Observable<any[]>;
+
+  errorRate: number;
   totalRep = [];
   totalVer = [];
   difference = [];
-  verArray = [];
   error = [];
-  provisionalAmount = [];
-  loss = [];
-  actualAmount = [];
+  provisionalAmount: number[] = [];
+  loss: number[] = [];
+  actualAmount: number[] = [];
   totalAmount = 0;
   verificationConfigurations = [];
 
+  tableStructure$: Observable<any[]>;
   constructor(private store: Store<State>, private snackbar: MatSnackBar) {}
 
   ngOnInit() {
+    // TODO deal with the subscription
     this.verificationConfig$ = this.store.select(getVerificationConfigurations);
-    this.store
+    this.store.select(getTableStructure).subscribe();
+    const sub = this.store
       .select(getVerificationConfigurationsCount)
       .subscribe(count => (this.verificationConfigCount = count));
     this.store
       .select(getVerificationConfigurations)
       .subscribe(configs => (this.verificationConfigurations = configs));
+    this.errorRate$ = this.store.select(getGeneralConfigurationErrorRate);
+    this.orgUnitLevel$ = this.store.select(getGeneralConfigurationOrunitLevel);
+    this.errorRate$.subscribe(
+      errorRate => (this.errorRate = errorRate),
+      () => (this.errorRate = null)
+    );
   }
-
   onFilterUpdateAction(dataSelections) {
     this.dataSelections = dataSelections;
     this.setShowForm();
+    const orgunigData = _.find(
+      dataSelections,
+      dataSelection => dataSelection.dimension === 'ou'
+    );
+    const periodData = _.find(
+      dataSelections,
+      dataSelection => dataSelection.dimension === 'pe'
+    );
+    const selectedData = {
+      organisationUnit: orgunigData.items[0].id,
+      period: getPeriodObject(periodData.items[0])
+    };
+    this.store.dispatch(loadSelectionFilterData({ data: selectedData }));
+    this.tableStructure$ = this.store.select(getTableStructure);
+    this.tableStructure$.subscribe(
+      tableData => (this.verificationData = tableData)
+    );
+    this.periodSelection$ = this.store.select(getSelectionFilterPeriod);
   }
 
-  setFormProperties(index) {
-    for (let a = 0; a < index; a++) {
+  setFormProperties(indicatorsCount) {
+    for (let index = 0; index < indicatorsCount; index++) {
       this.totalRep.push(0);
       this.totalVer.push(0);
-      this.verArray.push(0);
       this.difference.push(0);
       this.error.push(0);
       this.provisionalAmount.push(0);
@@ -84,212 +127,62 @@ export class VerificationComponent implements OnInit {
       this.actualAmount.push(0);
       this.snackbar.open('Arrays Created', 'SUCCESSFUL', { duration: 1000 });
     }
-  }
-
-  setOrgUnitLevel() {
-    switch (this.dataSelections[1].items[0].level) {
-      case 1:
-        this.orgUnitLevel = 'National';
-        break;
-      case 2:
-        this.orgUnitLevel = 'District';
-        break;
-      case 3:
-        this.orgUnitLevel = 'Chiefdom';
-        break;
-      case 4:
-        this.orgUnitLevel = 'Facility';
-        break;
-    }
-  }
-  setPeriodLooper() {
-    if (this.dataSelections[0].items[0].type === 'Monthly') {
-      this.periodLooper = [this.dataSelections[0].items[0].name];
-    }
-    if (this.dataSelections[0].items[0].type === 'BiMonthly') {
-      switch (this.dataSelections[0].items[0].id.charAt(5)) {
-        case '1':
-          {
-            this.periodLooper = [
-              'January '.concat(this.dataSelections[0].items[0].id.slice(0, 4)),
-              'February '.concat(this.dataSelections[0].items[0].id.slice(0, 4))
-            ];
-          }
-          break;
-        case '2':
-          {
-            this.periodLooper = [
-              'March '.concat(this.dataSelections[0].items[0].id.slice(0, 4)),
-              'April '.concat(this.dataSelections[0].items[0].id.slice(0, 4))
-            ];
-          }
-          break;
-        case '3':
-          {
-            this.periodLooper = [
-              'May '.concat(this.dataSelections[0].items[0].id.slice(0, 4)),
-              'June '.concat(this.dataSelections[0].items[0].id.slice(0, 4))
-            ];
-          }
-          break;
-        case '4':
-          {
-            this.periodLooper = [
-              'July '.concat(this.dataSelections[0].items[0].id.slice(0, 4)),
-              'August '.concat(this.dataSelections[0].items[0].id.slice(0, 4))
-            ];
-          }
-          break;
-        case '5':
-          {
-            this.periodLooper = [
-              'September '.concat(
-                this.dataSelections[0].items[0].id.slice(0, 4)
-              ),
-              'October '.concat(this.dataSelections[0].items[0].id.slice(0, 4))
-            ];
-          }
-          break;
-        case '6':
-          {
-            this.periodLooper = [
-              'November '.concat(
-                this.dataSelections[0].items[0].id.slice(0, 4)
-              ),
-              'December '.concat(this.dataSelections[0].items[0].id.slice(0, 4))
-            ];
-          }
-          break;
-      }
-    }
-    if (this.dataSelections[0].items[0].type === 'Quarterly') {
-      switch (this.dataSelections[0].items[0].id.charAt(5)) {
-        case '1':
-          {
-            this.periodLooper = [
-              'January '.concat(this.dataSelections[0].items[0].id.slice(0, 4)),
-              'February '.concat(
-                this.dataSelections[0].items[0].id.slice(0, 4)
-              ),
-              'March '.concat(this.dataSelections[0].items[0].id.slice(0, 4))
-            ];
-          }
-          break;
-        case '2':
-          {
-            this.periodLooper = [
-              'April '.concat(this.dataSelections[0].items[0].id.slice(0, 4)),
-              'May '.concat(this.dataSelections[0].items[0].id.slice(0, 4)),
-              'June '.concat(this.dataSelections[0].items[0].id.slice(0, 4))
-            ];
-          }
-          break;
-        case '3':
-          {
-            this.periodLooper = [
-              'July '.concat(this.dataSelections[0].items[0].id.slice(0, 4)),
-              'August '.concat(this.dataSelections[0].items[0].id.slice(0, 4)),
-              'September '.concat(
-                this.dataSelections[0].items[0].id.slice(0, 4)
-              )
-            ];
-          }
-          break;
-        case '4':
-          {
-            this.periodLooper = [
-              'October '.concat(this.dataSelections[0].items[0].id.slice(0, 4)),
-              'November '.concat(
-                this.dataSelections[0].items[0].id.slice(0, 4)
-              ),
-              'December '.concat(this.dataSelections[0].items[0].id.slice(0, 4))
-            ];
-          }
-          break;
-      }
-    }
-    if (this.dataSelections[0].items[0].type === 'SixMonthly') {
-      switch (this.dataSelections[0].items[0].id.charAt(5)) {
-        case '1':
-          {
-            this.periodLooper = [
-              'January '.concat(this.dataSelections[0].items[0].id.slice(0, 4)),
-              'February '.concat(
-                this.dataSelections[0].items[0].id.slice(0, 4)
-              ),
-              'March '.concat(this.dataSelections[0].items[0].id.slice(0, 4)),
-              'April '.concat(this.dataSelections[0].items[0].id.slice(0, 4)),
-              'May '.concat(this.dataSelections[0].items[0].id.slice(0, 4)),
-              'June '.concat(this.dataSelections[0].items[0].id.slice(0, 4))
-            ];
-          }
-          break;
-        case '2':
-          {
-            this.periodLooper = [
-              'July '.concat(this.dataSelections[0].items[0].id.slice(0, 4)),
-              'August '.concat(this.dataSelections[0].items[0].id.slice(0, 4)),
-              'September '.concat(
-                this.dataSelections[0].items[0].id.slice(0, 4)
-              ),
-              'October '.concat(this.dataSelections[0].items[0].id.slice(0, 4)),
-              'November '.concat(
-                this.dataSelections[0].items[0].id.slice(0, 4)
-              ),
-              'December '.concat(this.dataSelections[0].items[0].id.slice(0, 4))
-            ];
-          }
-          break;
-      }
-    }
-    if (this.dataSelections[0].items[0].type === 'Yearly') {
-      this.periodLooper = [
-        'January '.concat(this.dataSelections[0].items[0].id.slice(0, 4)),
-        'February '.concat(this.dataSelections[0].items[0].id.slice(0, 4)),
-        'March '.concat(this.dataSelections[0].items[0].id.slice(0, 4)),
-        'April '.concat(this.dataSelections[0].items[0].id.slice(0, 4)),
-        'May '.concat(this.dataSelections[0].items[0].id.slice(0, 4)),
-        'June '.concat(this.dataSelections[0].items[0].id.slice(0, 4)),
-        'July '.concat(this.dataSelections[0].items[0].id.slice(0, 4)),
-        'August '.concat(this.dataSelections[0].items[0].id.slice(0, 4)),
-        'September '.concat(this.dataSelections[0].items[0].id.slice(0, 4)),
-        'October '.concat(this.dataSelections[0].items[0].id.slice(0, 4)),
-        'November '.concat(this.dataSelections[0].items[0].id.slice(0, 4)),
-        'December '.concat(this.dataSelections[0].items[0].id.slice(0, 4))
-      ];
+    for (let index = 0; index < indicatorsCount; index++) {
+      this.onFormUpdate(index);
     }
   }
   setShowForm() {
-    if (this.dataSelections[1].items[0].level) {
-      this.showForm = true;
-      this.setOrgUnitLevel();
-      this.setPeriodLooper();
-      this.setFormProperties(this.verificationConfigCount);
-    }
+    this.showForm = true;
+    this.setFormProperties(this.verificationData.length);
   }
-  onVerBlur(index) {
-    this.totalVer[index] = this.verArray[index];
-    this.difference[index] = Math.abs(
-      this.totalRep[index] - this.totalVer[index]
-    );
-    if (this.totalRep[index] === 0) {
-      this.error[index] = 100;
-    } else {
-      this.error[index] = this.difference[index] / this.totalRep[index];
+  onVerUpdate(indicatorIndex, monthIndex) {
+    this.onFormUpdate(indicatorIndex);
+    this.snackbar.open('Value Updated', 'SUCCESSFUL', { duration: 1000 });
+  }
+  onFormUpdate(indicatorIndex) {
+    let totalRep = 0;
+    for (
+      let monthlyIndex = 0;
+      monthlyIndex < this.verificationData[indicatorIndex].monthlyValues.length;
+      monthlyIndex++
+    ) {
+      totalRep += this.verificationData[indicatorIndex].monthlyValues[
+        monthlyIndex
+      ].rep;
     }
-    this.provisionalAmount[index] =
-      this.totalVer[index] * this.verificationConfigurations[index].unitFee;
-    if (this.error[index] > 10) {
-      const excess = (this.error[index] - 10) / 100;
-      this.loss[index] =
-        excess *
-        this.totalVer[index] *
-        this.verificationConfigurations[index].unitFee;
+    this.totalRep[indicatorIndex] = totalRep; // Updating totalRep
+    let totalVer = 0;
+    for (
+      let monthlyIndex = 0;
+      monthlyIndex < this.verificationData[indicatorIndex].monthlyValues.length;
+      monthlyIndex++
+    ) {
+      totalVer += this.verificationData[indicatorIndex].monthlyValues[
+        monthlyIndex
+      ].ver;
     }
-    this.actualAmount[index] = this.provisionalAmount[index] - this.loss[index];
-    for (let a = 0; a < index; a++) {
-      this.totalAmount += this.actualAmount[index];
-    }
-    this.snackbar.open('update field', 'SUCCESSFUL', { duration: 1000 });
+    this.totalVer[indicatorIndex] = totalVer; // Updated totalVer
+    this.difference[indicatorIndex] = Math.abs(
+      this.totalRep[indicatorIndex] - this.totalVer[indicatorIndex]
+    ); // Updated the difference btn totalRep and totalVer
+    this.error[indicatorIndex] = error(
+      this.difference[indicatorIndex],
+      this.totalRep[indicatorIndex]
+    ); // Updated % Error
+    this.provisionalAmount[indicatorIndex] = provisionalAmountSum(
+      this.verificationData,
+      this.totalVer[indicatorIndex],
+      indicatorIndex
+    ); // Updated Provisional Amount
+    this.loss[indicatorIndex] = lossCalculator(
+      this.provisionalAmount[indicatorIndex],
+      this.errorRate,
+      this.error[indicatorIndex]
+    ); // Updated Loss due to excess % error
+    this.actualAmount[indicatorIndex] = actualAmount(
+      this.provisionalAmount[indicatorIndex],
+      this.loss[indicatorIndex]
+    ); // Updated Actual Amount
+    this.totalAmount = totalAmount(this.actualAmount); // Updated totalAmount
   }
 }
