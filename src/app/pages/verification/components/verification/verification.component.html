@@ -14,6 +14,7 @@
   </div>
   <div class="form" *ngIf="showForm">
     <!-- Main Form display ground -->
+    {{ tableStructure | async | json }}
     <form name="verificationForm">
       <h3>
         {{ dataSelections[0].items[0].type | titlecase }}
@@ -188,8 +189,10 @@
                 type="number"
                 step="0.1"
                 [(ngModel)]="totalAmount"
-                [ngModelOptions]="{ standalone: true }"
-                readonly="readonly"
+                [ngModelOptions]="{
+                  standalone: true
+                }"
+                readonly
               />
             </td>
           </tr>

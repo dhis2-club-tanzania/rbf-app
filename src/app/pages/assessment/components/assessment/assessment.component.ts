@@ -1,15 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { PeriodFilterConfig } from '@iapps/ngx-dhis2-period-filter';
 import { Observable } from 'rxjs';
 import { AssessmentConfiguration } from '../../../configuration/models/assessment-configuration.model';
 import { State } from 'src/app/store/reducers';
 import { Store } from '@ngrx/store';
 import {
   getAssessmentConfigurations,
-  getAssessmentConfigurationsCount
+  getAssessmentConfigurationsCount,
+  getSelectedCategoryCombo
 } from 'src/app/store/selectors';
 import { SelectionFilterConfig } from '@iapps/ngx-dhis2-selection-filters';
 import { getGeneralConfigurationOrunitLevel } from 'src/app/store/selectors/general-configuration.selectors';
+import { FormDataPayload } from 'src/app/core/models/form-data.model';
+import { addFormDatavalues } from 'src/app/store/actions';
 
 @Component({
   selector: 'app-assessment',
@@ -90,7 +92,23 @@ export class AssessmentComponent implements OnInit {
       this.possibleMaxValueSum += this.possibleMaxValue[a];
     }
   }
-  onInputBlur(index) {}
+  onInputBlur(index, dataElement) {
+    const ds = 'mnspPTzpCDN';
+    let categoryCombo = '';
+    this.store
+      .select(getSelectedCategoryCombo(dataElement))
+      .subscribe(category => (categoryCombo = category));
+    const value: FormDataPayload = {
+      pe: this.dataSelections[0].items[0].id,
+      ds: ds,
+      ou: this.dataSelections[1].items[0].id,
+      de: dataElement,
+      co: categoryCombo,
+      value: this.obtainedValue[index]
+    };
+
+    this.store.dispatch(addFormDatavalues({ payload: value }));
+  }
   onInputChange(index) {
     if (
       this.obtainedValue[index] > this.allConfigurations[index].possibleMaxValue
@@ -104,7 +122,6 @@ export class AssessmentComponent implements OnInit {
   }
   onOptionSelect(index, value) {
     this.selection[index] = value;
-    // console.log(typeof this.selection[index]);
 
     if (this.selection[index] === 0) {
       this.obtainedValue[index] = 0;
