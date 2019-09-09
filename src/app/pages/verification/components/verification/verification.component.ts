@@ -17,9 +17,6 @@ import {
 } from 'src/app/store/selectors/general-configuration.selectors';
 import { VerificationData } from './verificationData';
 import {
-  VerSum,
-  RepSum,
-  difference,
   provisionalAmountSum,
   lossCalculator,
   actualAmount,
@@ -95,8 +92,6 @@ export class VerificationComponent implements OnInit {
       errorRate => (this.errorRate = errorRate),
       () => (this.errorRate = null)
     );
-
-    this.tableStructure$ = this.store.select(getTableStructure);
   }
   onFilterUpdateAction(dataSelections) {
     this.dataSelections = dataSelections;
@@ -114,6 +109,7 @@ export class VerificationComponent implements OnInit {
       period: getPeriodObject(periodData.items[0])
     };
     this.store.dispatch(loadSelectionFilterData({ data: selectedData }));
+    this.tableStructure$ = this.store.select(getTableStructure);
     this.tableStructure$.subscribe(
       tableData => (this.verificationData = tableData)
     );
