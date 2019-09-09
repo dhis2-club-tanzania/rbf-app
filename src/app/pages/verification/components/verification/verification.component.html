@@ -14,7 +14,6 @@
   </div>
   <div class="form" *ngIf="showForm">
     <!-- Main Form display ground -->
-    {{ periodSelection$ | async | json }}
     <form name="verificationForm">
       <h3>
         {{ dataSelections[0].items[0].type | titlecase }}
