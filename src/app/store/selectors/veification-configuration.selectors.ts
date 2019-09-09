@@ -40,13 +40,13 @@ export const getSelectedVerificationConfig = id =>
 export const getTableStructure = createSelector(
   getVerificationConfigurations,
   getSelectionFilterLoadedState,
-  getSelectionFilterOrganisationUnit,
   getSelectionFilterPeriod,
+  getSelectionFilterOrganisationUnit,
   (
     configurations,
     loadedSelectionFilterData: boolean,
-    orgunit: string,
-    period: any[]
+    period: any[],
+    orgunit: string
   ) => {
     const tableStructure: any[] = [];
     if (loadedSelectionFilterData) {
