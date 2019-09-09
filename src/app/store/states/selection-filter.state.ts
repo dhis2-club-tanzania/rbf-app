@@ -10,5 +10,5 @@ export const initialSelectionFilterState = {
   loaded: false
 };
 
-export const getSelectionFilterState = (state: SelectionFilterState) =>
+export const selectSelectionFilterState = (state: SelectionFilterState) =>
   state.selectionFilterData;

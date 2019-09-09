@@ -75,6 +75,7 @@ export class VerificationComponent implements OnInit {
   totalAmount = 0;
   verificationConfigurations = [];
 
+  tableStructure: Observable<any[]>;
   constructor(private store: Store<State>, private snackbar: MatSnackBar) {}
 
   ngOnInit() {
@@ -93,6 +94,8 @@ export class VerificationComponent implements OnInit {
       errorRate => (this.errorRate = errorRate),
       () => (this.errorRate = null)
     );
+
+    this.tableStructure = this.store.select(getTableStructure);
   }
   onFilterUpdateAction(dataSelections) {
     this.dataSelections = dataSelections;
