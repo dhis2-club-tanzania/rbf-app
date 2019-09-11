@@ -17,9 +17,6 @@
   margin: 3px;
   text-align: center;
 }
-input {
-  width: 4.5rem;
-}
 .tdwithin {
   width: 130px;
 }
@@ -61,4 +58,10 @@ tbody {
 }
 .wide-input {
   width: 10rem;
+}
+.form-control {
+  display: inline-block;
+}
+.form-control[readonly] {
+  background-color: white;
 }
