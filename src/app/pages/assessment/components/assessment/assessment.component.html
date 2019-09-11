@@ -2,13 +2,12 @@
   <div class="card-header">
     Assessment Form
   </div>
-  <div class=" row filter">
+  <div class=" row">
     <ngx-dhis2-selection-filters
       (filterUpdate)="onFilterUpdateAction($event)"
       [dataSelections]="dataSelections"
       [selectionFilterConfig]="selectionFilterConfig"
       (update)="onFilterUpdateAction($event)"
-      class="filter"
     >
     </ngx-dhis2-selection-filters>
   </div>
@@ -46,10 +45,15 @@
                   <th scope="row" class="sno">{{ sno + 1 }}</th>
                   <td class="indicator">{{ indicator.indicator }}</td>
                   <td>
-                    <input value="{{ indicator.possibleMaxValue }}" disabled />
+                    <input
+                      class="form-control"
+                      value="{{ indicator.possibleMaxValue }}"
+                      disabled
+                    />
                   </td>
                   <td>
                     <input
+                      class="form-control input-group-sm"
                       type="number"
                       (blur)="
                         onInputBlur(sno, indicator.dataElement);
@@ -80,12 +84,15 @@
                   </td>
                   <td>
                     <input
+                      class="form-control input-group-sm"
                       disabled
                       [(ngModel)]="percentage[sno]"
                       [ngModelOptions]="{ standalone: true }"
                     />
                   </td>
-                  <td><input class="observation" /></td>
+                  <td>
+                    <input class="observation form-control input-group-sm" />
+                  </td>
                 </tr>
                 <tr class="total-tr">
                   <td colspan="2" class="total">TOTAL</td>
@@ -96,7 +103,10 @@
                 </tr>
               </tbody>
             </table>
-            <button class="btn btn-group btn-primary theme-color" type="submit">
+            <button
+              class="btn btn-group btn-primary theme-color my-2 my-sm-0"
+              type="submit"
+            >
               Complete
             </button>
             <button class="btn btn-group btn-primary theme-color">
