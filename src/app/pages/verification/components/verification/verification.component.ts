@@ -26,6 +26,7 @@ import { getPeriodObject } from '../../helpers/period.helper';
 import { loadSelectionFilterData } from 'src/app/store/actions';
 import { getSelectionFilterPeriod } from 'src/app/store/selectors/selection-filter.selectors';
 import { setRepString, setVerString } from '../../helpers/strings';
+import { concat } from 'rxjs/operators';
 
 @Component({
   selector: 'app-verification',
@@ -35,6 +36,7 @@ import { setRepString, setVerString } from '../../helpers/strings';
 export class VerificationComponent implements OnInit, OnDestroy {
   tableStructureSubscription: Subscription;
   errorRateSubscription: Subscription;
+  orgUnitLevelSubscription: Subscription;
 
   verificationConfig$: Observable<VerificationConfiguration[]>;
   errorRate$: Observable<number>;
@@ -62,6 +64,8 @@ export class VerificationComponent implements OnInit, OnDestroy {
   };
 
   // Form Properties are declared below
+  formTitle = 'Verfication Form';
+  orgUnitLevel = '';
   verificationData: VerificationData[] = [];
 
   errorRate: number;
@@ -89,6 +93,9 @@ export class VerificationComponent implements OnInit, OnDestroy {
     this.errorRateSubscription = this.errorRate$.subscribe(
       errorRate => (this.errorRate = errorRate),
       () => (this.errorRate = null)
+    );
+    this.orgUnitLevelSubscription = this.orgUnitLevel$.subscribe(
+      orgUnitLevel => (this.orgUnitLevel = orgUnitLevel)
     );
   }
 
@@ -141,6 +148,10 @@ export class VerificationComponent implements OnInit, OnDestroy {
   setShowForm() {
     this.showForm = true;
     this.setFormProperties(this.verificationData.length);
+    const periodType = this.dataSelections[0].items[0].type;
+    this.formTitle = periodType.concat(
+      ' ' + this.orgUnitLevel + ' Verification Form'
+    );
   }
   onVerUpdate(indicatorIndex, monthIndex) {
     this.onFormUpdate(indicatorIndex);

@@ -36,7 +36,7 @@ export function lossCalculator(provisionalAmount, errorRate, myerror) {
   }
 }
 export function actualAmount(provisionalAmount, loss) {
-  return provisionalAmount - loss;
+  return parseFloat((provisionalAmount - loss).toFixed(2));
 }
 export function totalAmount(actualAmounts) {
   const indicatorCounts = actualAmounts.length;
@@ -48,5 +48,5 @@ export function totalAmount(actualAmounts) {
   ) {
     sum += actualAmounts[indicatorIndex];
   }
-  return sum;
+  return parseFloat(sum.toFixed(2));
 }
