@@ -27,16 +27,16 @@ export function error(discrepancy, totalRep) {
 export function provisionalAmountSum(formData, totalVer, indicatorIndex) {
   return formData[indicatorIndex].unitFee * totalVer;
 }
-export function lossCalculator(provisionalAmount, errorRate, error) {
-  if (error > errorRate) {
-    const excessError = error - errorRate;
+export function lossCalculator(provisionalAmount, errorRate, myerror) {
+  if (myerror > errorRate) {
+    const excessError = myerror - errorRate;
     return parseFloat(((provisionalAmount * excessError) / 100).toFixed(2));
   } else {
     return 0;
   }
 }
 export function actualAmount(provisionalAmount, loss) {
-  return provisionalAmount - loss;
+  return parseFloat((provisionalAmount - loss).toFixed(2));
 }
 export function totalAmount(actualAmounts) {
   const indicatorCounts = actualAmounts.length;
@@ -48,5 +48,5 @@ export function totalAmount(actualAmounts) {
   ) {
     sum += actualAmounts[indicatorIndex];
   }
-  return sum;
+  return parseFloat(sum.toFixed(2));
 }

@@ -9,9 +9,6 @@
   margin: 3px;
   width: 32%;
 }
-.filter {
-  margin-left: 24%;
-}
 table thead {
   text-align: left;
 }
@@ -57,4 +54,7 @@ table input {
 }
 .theme-color {
   background-color: rgb(39, 102, 150);
+}
+.form-control {
+  display: inline-block;
 }
