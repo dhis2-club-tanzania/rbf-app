@@ -104,17 +104,17 @@ export class AssessmentComponent implements OnInit {
     }
   }
   onInputBlur(index, dataElement) {
-    const ds = 'mnspPTzpCDN';
+    const dataSet = 'ojBzrqep2oK';
     let categoryCombo = '';
     this.store
       .select(getSelectedCategoryCombo(dataElement))
       .subscribe(category => (categoryCombo = category));
     const value: FormDataPayload = {
-      pe: this.dataSelections[0].items[0].id,
-      ds: ds,
-      ou: this.dataSelections[1].items[0].id,
-      de: dataElement,
-      co: categoryCombo,
+      period: this.dataSelections[0].items[0].id,
+      dataSet: dataSet,
+      orgUnit: this.dataSelections[1].items[0].id,
+      dataElement: dataElement,
+      categoryOptionCombo: categoryCombo,
       value: this.obtainedValue[index]
     };
 

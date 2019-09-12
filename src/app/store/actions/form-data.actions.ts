@@ -5,7 +5,10 @@ import {
   FormDataPayload
 } from 'src/app/core/models/form-data.model';
 
-export const loadFormDataValues = createAction('[FORM DATA] Load form data');
+export const loadFormDataValues = createAction(
+  '[FORM DATA] Load form data',
+  props<{ dataRequest: any }>()
+);
 
 export const loadFormDataValuesSuccess = createAction(
   '[FORM DATA] Load form data Success',
