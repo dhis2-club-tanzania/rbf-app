@@ -65,3 +65,9 @@ tbody {
 .form-control[readonly] {
   background-color: white;
 }
+.filter {
+  padding: 0.2rem 2rem;
+}
+form {
+  padding: 0.2rem 1.25rem;
+}
