@@ -1,6 +1,6 @@
 <div class="main">
   <div class="card-header">
-    Assessment Form
+    <h4>{{ formTitle | titlecase }}</h4>
   </div>
   <div class=" row">
     <ngx-dhis2-selection-filters
@@ -17,11 +17,6 @@
       <div class="form">
         <div>
           <form name="assessmentForm" *ngIf="showForm">
-            <h3 class="form-header">
-              Summary of {{ dataSelections[0].items[0].type }} Quality
-              Activities/ Areas Assessment Results of the
-              {{ orgUnitLevel$ | async }}
-            </h3>
             <table class="table table-bordered table-hover table-sm">
               <thead class="card-header">
                 <tr class="table-active">

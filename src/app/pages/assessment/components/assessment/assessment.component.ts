@@ -45,6 +45,7 @@ export class AssessmentComponent implements OnInit {
   showForm = false;
   createArray = true;
   allConfigurations = [];
+  formTitle = 'Assessment Form';
   possibleMaxValue = [];
   possibleMaxValueSum = 0;
   obtainedValue = [];
@@ -53,12 +54,15 @@ export class AssessmentComponent implements OnInit {
   percentageSum = 0;
   selection = [];
   assessmentIndex: number;
+  orgUnitLevel = '';
 
   constructor(private store: Store<State>) {}
 
   ngOnInit() {
     this.assessmentIndicators$ = this.store.select(getAssessmentConfigurations);
-    this.orgUnitLevel$ = this.store.select(getGeneralConfigurationOrunitLevel);
+    this.store
+      .select(getGeneralConfigurationOrunitLevel)
+      .subscribe(orgUnitLevel => (this.orgUnitLevel = orgUnitLevel));
     this.store
       .select(getAssessmentConfigurationsCount)
       .subscribe(count => (this.assessmentIndex = count));
@@ -71,6 +75,11 @@ export class AssessmentComponent implements OnInit {
     if (dataSelections.length > 1) {
       this.dataSelections = dataSelections;
       this.showForm = true;
+      this.formTitle = 'Summary of '.concat(
+        dataSelections[0].items[0].type +
+          ' Quality Activities/ Areas Assessment Results of the ' +
+          this.orgUnitLevel
+      );
       if (this.createArray) {
         this.createFormArrays(this.assessmentIndex);
         this.createArray = false;
