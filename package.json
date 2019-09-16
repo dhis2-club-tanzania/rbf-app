@@ -36,7 +36,7 @@
     "@iapps/ngx-dhis2-period-filter": "^1.0.0-beta.13",
     "@iapps/ngx-dhis2-selection-filters": "^1.0.8-beta.8",
     "@iapps/ngx-dhis2-validation-rule-group-filter": "^1.0.0-beta.2",
-    "@iapps/utils": "^1.0.1-alpha.1",
+    "@iapps/utils": "^1.0.1-alpha.2",
     "@ngrx/effects": "^8.0.1",
     "@ngrx/entity": "^8.0.1",
     "@ngrx/router-store": "^8.0.1",

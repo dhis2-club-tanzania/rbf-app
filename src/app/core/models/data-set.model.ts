@@ -14,8 +14,8 @@ export interface DataSet {
     dataSet: { id: string };
     dataElement: { id: string };
   }>;
-  indicator: Array<{ id: string }>;
-  legendSets: any[];
+  indicator?: Array<{ id: string }>;
+  legendSets?: any[];
   organisationUnits: Array<{ id: string }>;
 }
 
