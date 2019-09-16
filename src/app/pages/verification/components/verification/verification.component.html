@@ -21,7 +21,7 @@
       <table class="table table-bordered table-hover table-sm">
         <thead>
           <tr>
-            <th scope="col" rowspan="2" class="sno">S/No</th>
+            <th scope="col" rowspan="2" class="sno">#</th>
             <th scope="col" rowspan="2" class="indicator">Indicator</th>
             <th
               scope="col"
@@ -30,23 +30,27 @@
             >
               {{ iteration.name }}
             </th>
-            <th scope="col">
+            <th scope="col" class="middle-column">
               Total Declared (Rep.#)
             </th>
-            <th scope="col">
+            <th scope="col" class="middle-column">
               Total Verified (Ver.#)
             </th>
-            <th scope="col">Difference</th>
-            <th scope="col">% Error</th>
-            <th scope="col" rowspan="2">Unit Fee (Tsh)</th>
-            <th scope="col" rowspan="2">
+            <th scope="col" class="middle-column">Difference</th>
+            <th scope="col" class="middle-small-column">% Error</th>
+            <th scope="col" rowspan="2" class="middle-small-column">
+              Unit Fee (Tsh)
+            </th>
+            <th scope="col" rowspan="2" class="wide-sized-column">
               {{ dataSelections[0].items[0].type | titlecase }}
               Provisional Total Amount
             </th>
-            <th scope="col" rowspan="2">
+            <th scope="col" rowspan="2" class="wide-sized-column">
               Loss Due to above {{ errorRate$ | async }}% & Above Error
             </th>
-            <th scope="col" rowspan="2">Actual Quantity Amount</th>
+            <th scope="col" rowspan="2" class="wide-sized-column">
+              Actual Quantity Amount
+            </th>
           </tr>
           <tr>
             <th
@@ -60,10 +64,12 @@
               </tr>
             </th>
 
-            <th scope="col">({{ rep }})</th>
-            <th scope="col">({{ ver }})</th>
-            <th scope="col">(Rep.#-Ver.#)</th>
-            <th scope="col">%(Rep.#-Ver.#) / Rep.#</th>
+            <th scope="col" class="middle-column">({{ rep }})</th>
+            <th scope="col" class="middle-column">({{ ver }})</th>
+            <th scope="col" class="middle-column">(Rep.#-Ver.#)</th>
+            <th scope="col" class="middle-small-column">
+              %(Rep.#-Ver.#) / Rep.#
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -103,7 +109,7 @@
               </tr>
             </td>
 
-            <td>
+            <td class="middle-column">
               <input
                 class="form-control input-group-sm"
                 name="totalRep"
@@ -112,7 +118,7 @@
                 readonly="readonly"
               />
             </td>
-            <td>
+            <td class="middle-column">
               <input
                 class="form-control input-group-sm"
                 [(ngModel)]="totalVer[sno]"
@@ -121,7 +127,7 @@
                 readonly="readonly"
               />
             </td>
-            <td>
+            <td class="middle-column">
               <input
                 class="form-control input-group-sm"
                 [(ngModel)]="difference[sno]"
@@ -130,7 +136,7 @@
                 readonly="readonly"
               /><br />
             </td>
-            <td>
+            <td class="middle-small-column">
               <input
                 class="form-control input-group-sm"
                 type="number"
@@ -140,8 +146,8 @@
                 readonly="readonly"
               />
             </td>
-            <td>{{ indicatior.unitFee }}</td>
-            <td>
+            <td class="middle-small-column">{{ indicatior.unitFee }}</td>
+            <td class="wide-sized-column">
               <input
                 class="wide-input form-control input-group-sm"
                 type="number"
@@ -151,7 +157,7 @@
                 readonly="readonly"
               />
             </td>
-            <td>
+            <td class="wide-sized-column">
               <input
                 class="wide-input form-control input-group-sm"
                 type="number"
@@ -161,7 +167,7 @@
                 readonly="readonly"
               />
             </td>
-            <td>
+            <td class="wide-sized-column">
               <input
                 class="wide-input form-control input-group-sm"
                 type="number"

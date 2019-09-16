@@ -17,6 +17,9 @@
   margin: 3px;
   text-align: center;
 }
+table {
+  width: max-content;
+}
 .tdwithin {
   width: 130px;
 }
@@ -24,26 +27,37 @@
   width: 130px;
 }
 .input-within {
-  width: 119px;
+  width: 100px;
 }
-em {
-  color: red;
+.middle-column {
+  width: 125px;
+}
+.middle-small-column {
+  width: 80px;
+}
+.wide-sized-column {
+  width: 170px;
 }
 table input {
   text-align: center;
 }
 table thead {
   font-size: -5px;
+  background-color: #e9ecef;
 }
-tbody {
+tbody,
+tbody td,
+tbody th {
   font-size: 12pt;
+  vertical-align: middle;
 }
 .indicator {
   width: 250px;
   text-align: left;
 }
 .sno {
-  width: 4px;
+  width: 45px;
+  font-size: small;
 }
 .iteration {
   width: 260px !important;
@@ -60,7 +74,7 @@ tbody {
   background-color: rgb(39, 102, 150);
 }
 .wide-input {
-  width: 10rem;
+  width: 158px;
 }
 .form-control {
   display: inline-block;
@@ -73,4 +87,13 @@ tbody {
 }
 form {
   padding: 0.2rem 1.25rem;
+}
+thead,
+tbody {
+  display: block;
+}
+tbody {
+  height: 555px;
+  overflow: hidden;
+  overflow-y: scroll;
 }
