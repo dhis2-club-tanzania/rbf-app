@@ -97,3 +97,6 @@ tbody {
   overflow: hidden;
   overflow-y: scroll;
 }
+.col-4 {
+  text-align: right;
+}

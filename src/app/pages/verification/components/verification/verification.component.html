@@ -3,21 +3,24 @@
     <h4>{{ formTitle }}</h4>
   </div>
   <div class=" filter row">
-    <ngx-dhis2-selection-filters
-      (filterUpdate)="onFilterUpdateAction($event)"
-      [dataSelections]="dataSelections"
-      [selectionFilterConfig]="selectionFilterConfig"
-      (update)="onFilterUpdateAction($event)"
-    >
-    </ngx-dhis2-selection-filters>
+    <div class="col-8">
+      <ngx-dhis2-selection-filters
+        (filterUpdate)="onFilterUpdateAction($event)"
+        [dataSelections]="dataSelections"
+        [selectionFilterConfig]="selectionFilterConfig"
+        (update)="onFilterUpdateAction($event)"
+      >
+      </ngx-dhis2-selection-filters>
+    </div>
+    <div class="col-4" *ngIf="showForm">
+      <h5>
+        Organization Unit Name: <u>{{ dataSelections[1].items[0].name }}</u>
+      </h5>
+    </div>
   </div>
   <div class="form" *ngIf="showForm">
     <!-- Main Form display ground -->
     <form name="verificationForm">
-      <h5>
-        Organization Unit Name: <u>{{ dataSelections[1].items[0].name }}</u>
-      </h5>
-      <br />
       <table class="table table-bordered table-hover table-sm">
         <thead>
           <tr>
