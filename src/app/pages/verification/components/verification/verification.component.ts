@@ -105,7 +105,6 @@ export class VerificationComponent implements OnInit, OnDestroy {
   onFilterUpdateAction(dataSelections) {
     if (dataSelections.length > 1) {
       this.dataSelections = dataSelections;
-      this.setShowForm();
       const orgunigData = _.find(
         dataSelections,
         dataSelection => dataSelection.dimension === 'ou'
@@ -125,6 +124,7 @@ export class VerificationComponent implements OnInit, OnDestroy {
         tableData => (this.verificationData = tableData)
       );
       this.periodSelection$ = this.store.select(getSelectionFilterPeriod);
+      this.setShowForm();
       this.rep = setRepString(this.verificationData[0].monthlyValues.length);
       this.ver = setVerString(this.verificationData[0].monthlyValues.length);
     }
@@ -148,6 +148,7 @@ export class VerificationComponent implements OnInit, OnDestroy {
   setShowForm() {
     this.showForm = true;
     this.setFormProperties(this.verificationData.length);
+
     const periodType = this.dataSelections[0].items[0].type;
     this.formTitle = periodType.concat(
       ' ' + this.orgUnitLevel + ' Verification Form'

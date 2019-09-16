@@ -93,7 +93,7 @@ tbody {
   display: block;
 }
 tbody {
-  height: 555px;
+  height: 400px;
   overflow: hidden;
   overflow-y: scroll;
 }
