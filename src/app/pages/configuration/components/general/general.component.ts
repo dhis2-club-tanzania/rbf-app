@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { UUID } from '@iapps/utils';
@@ -11,7 +11,7 @@ import {
   updateGeneralConfigurations
 } from 'src/app/store/actions';
 import { GeneralConfiguration } from '../../models/general-configuration.model';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { User } from 'src/app/core';
 import { getCurrentUser } from 'src/app/store/selectors';
 import {
@@ -26,7 +26,11 @@ import { Router } from '@angular/router';
   templateUrl: './general.component.html',
   styleUrls: ['./general.component.css']
 })
-export class GeneralComponent implements OnInit {
+export class GeneralComponent implements OnInit, OnDestroy {
+  perodTypeSubscription: Subscription;
+  orgunitLevelSubscription: Subscription;
+  errorRateSubscription: Subscription;
+
   currentUser$: Observable<any>;
   periodType$: Observable<string>;
   errorRate$: Observable<number>;
@@ -48,19 +52,30 @@ export class GeneralComponent implements OnInit {
     this.periodType$ = this.store.select(getGeneralConfigurationPeriodType);
     this.errorRate$ = this.store.select(getGeneralConfigurationErrorRate);
     this.generateForm();
-    this.periodType
+    this.perodTypeSubscription = this.periodType
       .getPeriodTypes()
       .subscribe(arg => (this.periodTypes = arg.periodTypes));
-    this.OrgUnitFetcher.getOrgUnitsLevel().subscribe(
+    this.orgunitLevelSubscription = this.OrgUnitFetcher.getOrgUnitsLevel().subscribe(
       arg => (this.OrgUnitLevels = arg.organisationUnitLevels)
     );
   }
+  ngOnDestroy() {
+    this.orgunitLevelSubscription.unsubscribe();
+    this.perodTypeSubscription.unsubscribe();
+    this.errorRateSubscription.unsubscribe();
+  }
 
   generateForm() {
+    let periodType: any = null;
+    let errorRate: any = null;
+    this.periodType$.subscribe(period => (periodType = period));
+    this.errorRateSubscription = this.errorRate$.subscribe(
+      error => (errorRate = error)
+    );
     this.generalConfigForm = new FormGroup({
-      periodType: new FormControl(this.periodType$),
+      periodType: new FormControl(periodType),
       OrgUnitLevel: new FormControl(),
-      errorRate: new FormControl(this.errorRate$)
+      errorRate: new FormControl(errorRate)
     });
   }
 
