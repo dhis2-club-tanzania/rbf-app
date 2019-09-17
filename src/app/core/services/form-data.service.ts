@@ -33,6 +33,10 @@ export class FormDataService {
     );
   }
 
+  checkDataSet(id: string) {
+    return this.dhisHttp.get(`26/dataSets/${id}.json`);
+  }
+
   createDefaultDataSet(dataSet: DataSets): Observable<any> {
     return this.dhisHttp.post('metadata', dataSet);
   }
