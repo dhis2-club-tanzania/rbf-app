@@ -1,25 +1,16 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { UUID } from '@iapps/utils';
-import * as _ from 'lodash';
+import { Router } from '@angular/router';
+import { Observable, Subscription } from 'rxjs';
 
 import { ConfigurationService } from '../../services/configuration.service';
 import { State } from 'src/app/store/reducers';
-import {
-  addGeneralConfigurations,
-  updateGeneralConfigurations
-} from 'src/app/store/actions';
+import { updateGeneralConfigurations } from 'src/app/store/actions';
 import { GeneralConfiguration } from '../../models/general-configuration.model';
-import { Observable, Subscription } from 'rxjs';
 import { User } from 'src/app/core';
 import { getCurrentUser } from 'src/app/store/selectors';
-import {
-  getGeneralConfiguration,
-  getGeneralConfigurationPeriodType,
-  getGeneralConfigurationErrorRate
-} from 'src/app/store/selectors/general-configuration.selectors';
-import { Router } from '@angular/router';
+import { getGeneralConfiguration } from 'src/app/store/selectors/general-configuration.selectors';
 
 @Component({
   selector: 'app-general',
@@ -29,8 +20,9 @@ import { Router } from '@angular/router';
 export class GeneralComponent implements OnInit, OnDestroy {
   perodTypeSubscription: Subscription;
   orgunitLevelSubscription: Subscription;
-  errorRateSubscription: Subscription;
+  generalConfigSubscription: Subscription;
 
+  generalConfigurations$: Observable<GeneralConfiguration>;
   currentUser$: Observable<any>;
   periodType$: Observable<string>;
   errorRate$: Observable<number>;
@@ -38,7 +30,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
   periodTypes: any[];
   OrgUnitLevels: any[];
   generalConfigForm;
-  generalConfiguration$: Observable<GeneralConfiguration>;
+  generalConfiguration: GeneralConfiguration;
 
   constructor(
     private periodType: ConfigurationService,
@@ -48,9 +40,8 @@ export class GeneralComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.generalConfigurations$ = this.store.select(getGeneralConfiguration);
     this.currentUser$ = this.store.select(getCurrentUser);
-    this.periodType$ = this.store.select(getGeneralConfigurationPeriodType);
-    this.errorRate$ = this.store.select(getGeneralConfigurationErrorRate);
     this.generateForm();
     this.perodTypeSubscription = this.periodType
       .getPeriodTypes()
@@ -62,20 +53,17 @@ export class GeneralComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.orgunitLevelSubscription.unsubscribe();
     this.perodTypeSubscription.unsubscribe();
-    this.errorRateSubscription.unsubscribe();
+    this.generalConfigSubscription.unsubscribe();
   }
 
   generateForm() {
-    let periodType: any = null;
-    let errorRate: any = null;
-    this.periodType$.subscribe(period => (periodType = period));
-    this.errorRateSubscription = this.errorRate$.subscribe(
-      error => (errorRate = error)
+    this.generalConfigSubscription = this.generalConfigurations$.subscribe(
+      config => (this.generalConfiguration = config)
     );
     this.generalConfigForm = new FormGroup({
-      periodType: new FormControl(periodType),
+      periodType: new FormControl(this.generalConfiguration.periodType),
       OrgUnitLevel: new FormControl(),
-      errorRate: new FormControl(errorRate)
+      errorRate: new FormControl(this.generalConfiguration.errorRate)
     });
   }
 
@@ -90,8 +78,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
     });
     const date = new Date();
     const generalConfig: GeneralConfiguration = {
-      id: 'default',
-      created: date,
+      ...this.generalConfiguration,
       lastUpdate: date,
       organisationUnitLevel: level,
       errorRate: formData.errorRate,
