@@ -22,22 +22,4 @@ export class FormDataService {
       `26/${this.dataSetUrl}?dataSet=${payload.dataSet}&period=${payload.period}&orgUnit=${payload.orgUnit}`
     );
   }
-  getDataSet(
-    startDate: string,
-    endDate: string,
-    orgUnit: string,
-    dataSet: string
-  ): Observable<any> {
-    return this.dhisHttp.get(
-      `dataValueSets.json?dataElementIdScheme=UID&orgUnitIdScheme=UID&includeDeleted=false&children=true&categoryOptionComboIdScheme=UID&startDate=${startDate}&endDate=${endDate}&orgUnit=${orgUnit}&dataSet=${dataSet}`
-    );
-  }
-
-  checkDataSet(id: string) {
-    return this.dhisHttp.get(`26/dataSets/${id}.json`);
-  }
-
-  createDefaultDataSet(dataSet: DataSets): Observable<any> {
-    return this.dhisHttp.post('metadata', dataSet);
-  }
 }

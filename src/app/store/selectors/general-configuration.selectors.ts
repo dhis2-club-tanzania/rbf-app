@@ -14,16 +14,52 @@ export const getGeneralConfiguration = createSelector(
 
 export const getGeneralConfigurationPeriodType = createSelector(
   getGeneralConfigurationState,
-  (state: GeneralConfigurationState) => state.configuration.periodType
+  (state: GeneralConfigurationState) =>
+    state.configuration
+      ? state.configuration.periodType
+        ? state.configuration.periodType
+        : ''
+      : ''
 );
 
 export const getGeneralConfigurationErrorRate = createSelector(
   getGeneralConfigurationState,
-  (state: GeneralConfigurationState) => state.configuration.errorRate
+  (state: GeneralConfigurationState) =>
+    state.configuration
+      ? state.configuration.errorRate
+        ? state.configuration.errorRate
+        : 0
+      : 0
 );
 
 export const getGeneralConfigurationOrunitLevel = createSelector(
   getGeneralConfigurationState,
   (state: GeneralConfigurationState) =>
-    state.configuration.organisationUnitLevel.displayName
+    state.configuration
+      ? state.configuration.organisationUnitLevel
+        ? state.configuration.organisationUnitLevel.displayName
+          ? state.configuration.organisationUnitLevel.displayName
+          : ''
+        : ''
+      : ''
+);
+
+export const getVerificationDataSetId = createSelector(
+  getGeneralConfigurationState,
+  (state: GeneralConfigurationState) =>
+    state.configuration
+      ? state.configuration.verification
+        ? state.configuration.verification
+        : ''
+      : ''
+);
+
+export const getAssessmentDataSetId = createSelector(
+  getGeneralConfigurationState,
+  (state: GeneralConfigurationState) =>
+    state.configuration
+      ? state.configuration.assessment
+        ? state.configuration.assessment
+        : ''
+      : ''
 );
