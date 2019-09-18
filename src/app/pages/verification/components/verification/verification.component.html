@@ -20,7 +20,11 @@
   </div>
   <div class="form" *ngIf="showForm">
     <!-- Main Form display ground -->
-    <form name="verificationForm">
+    <p *ngIf="!dataPresence">
+      <i class="oops fa fa-optin-monster"></i><br />
+      Ooops! Cannot retreive form data!
+    </p>
+    <form name="verificationForm" *ngIf="dataPresence">
       <table class="table table-bordered table-hover table-sm">
         <thead>
           <tr>
