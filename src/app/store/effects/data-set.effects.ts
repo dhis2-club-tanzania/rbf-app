@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { DataSetService } from 'src/app/core/services/data-set.service';
+import { DataSetService } from 'src/app/shared/services/data-set.service';
 import {
   getAssessmentDataSet,
   getVerificationDataSet,

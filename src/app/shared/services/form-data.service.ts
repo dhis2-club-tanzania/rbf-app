@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import { Observable } from 'rxjs';
-import { FormDataPayload } from '../models/form-data.model';
-import { getPayload } from '../helpers/get-form-data-payload.helper';
-import { DataSets } from '../models/data-set.model';
+import { FormDataPayload } from '../../core/models/form-data.model';
+import { getPayload } from '../../core/helpers/get-form-data-payload.helper';
+import { DataSets } from '../../core/models/data-set.model';
 
 @Injectable({
   providedIn: 'root'

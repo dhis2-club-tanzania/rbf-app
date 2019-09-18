@@ -44,6 +44,18 @@ export const getGeneralConfigurationOrunitLevel = createSelector(
       : ''
 );
 
+export const getOrganisationUnitLevel = createSelector(
+  getGeneralConfigurationState,
+  (state: GeneralConfigurationState) =>
+    state.configuration
+      ? state.configuration.organisationUnitLevel
+        ? state.configuration.organisationUnitLevel.level
+          ? state.configuration.organisationUnitLevel.level
+          : 1
+        : 1
+      : 1
+);
+
 export const getVerificationDataSetId = createSelector(
   getGeneralConfigurationState,
   (state: GeneralConfigurationState) =>

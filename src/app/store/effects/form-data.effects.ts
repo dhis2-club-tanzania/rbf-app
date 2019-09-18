@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormDataService } from 'src/app/core/services/form-data.service';
+import { FormDataService } from 'src/app/shared/services/form-data.service';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   addFormDatavalues,
