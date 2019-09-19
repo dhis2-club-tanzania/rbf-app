@@ -8,6 +8,8 @@ import { Observable } from 'rxjs';
 export class OrganisationUnitService {
   constructor(private http: NgxDhis2HttpClientService) {}
   getOrganisationUnits(level: number): Observable<any> {
-    return this.http.get(`26/organisationUnits.json?filter=level:le:${level}`);
+    return this.http.get(
+      `26/organisationUnits.json?filter=level:le:${level}&fields=id`
+    );
   }
 }

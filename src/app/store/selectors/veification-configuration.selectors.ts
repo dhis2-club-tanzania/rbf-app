@@ -20,6 +20,12 @@ export const getVerificationConfigurations = createSelector(
   fromConfigState.selectAllVerificationConfigurations
 );
 
+export const getVerificationConfigurationDataElements = createSelector(
+  getVerificationConfigurations,
+  (configurations: VerificationConfiguration[]) =>
+    _.map(configurations, config => _.assign({}, { id: config.id }))
+);
+
 export const getVerificationConfigErrorState = createSelector(
   getVerificationConfigurationState,
   (state: fromConfigState.VerificationConfigurationState) => state.error

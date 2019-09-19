@@ -54,8 +54,9 @@ export class AssessmentComponent implements OnInit {
   percentage = [];
   percentageSum = 0;
   selection = [];
-  assessmentIndex: number;
+  assessmentCount: number;
   orgUnitLevel = '';
+  dataPresence = false;
 
   constructor(private store: Store<State>) {}
 
@@ -67,7 +68,7 @@ export class AssessmentComponent implements OnInit {
       .subscribe(orgUnitLevel => (this.orgUnitLevel = orgUnitLevel));
     this.store
       .select(getAssessmentConfigurationsCount)
-      .subscribe(count => (this.assessmentIndex = count));
+      .subscribe(count => (this.assessmentCount = count));
     this.store
       .select(getAssessmentConfigurations)
       .subscribe(configs => (this.allConfigurations = configs));
@@ -83,20 +84,23 @@ export class AssessmentComponent implements OnInit {
           this.orgUnitLevel
       );
       if (this.createArray) {
-        this.createFormArrays(this.assessmentIndex);
+        this.createFormArrays(this.assessmentCount);
         this.createArray = false;
       }
     }
   }
 
-  createFormArrays(index) {
-    for (let a = 0; a < index; a++) {
+  createFormArrays(assessmentCount) {
+    if (assessmentCount > 0) {
+      this.dataPresence = true;
+    }
+    for (let a = 0; a < assessmentCount; a++) {
       this.possibleMaxValue.push(0);
       this.obtainedValue.push(0);
       this.selection.push(0);
       this.percentage.push(0);
     }
-    this.posssibleMaxValueInitializer(index);
+    this.posssibleMaxValueInitializer(assessmentCount);
   }
 
   posssibleMaxValueInitializer(index) {
@@ -150,7 +154,7 @@ export class AssessmentComponent implements OnInit {
         this.possibleMaxValue[index]
       ).toFixed(2)
     );
-    this.total(this.assessmentIndex);
+    this.total(this.assessmentCount);
   }
 
   total(count) {

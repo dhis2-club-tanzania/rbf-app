@@ -93,7 +93,13 @@ tbody {
   display: block;
 }
 tbody {
-  height: 400px;
+  max-height: 400px;
   overflow: hidden;
   overflow-y: scroll;
+}
+.col-4 {
+  text-align: right;
+}
+.oops {
+  font-size: 200px;
 }

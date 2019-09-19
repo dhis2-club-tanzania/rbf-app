@@ -34,3 +34,11 @@ export const getSelectedAssessmentConfig = id =>
         (config: AssessmentConfiguration) => config.id === id
       )
   );
+
+export const getAssessmentConfigurationDataElements = createSelector(
+  getAssessmentConfigurations,
+  (configurations: AssessmentConfiguration[]) =>
+    _.map(configurations, (config: AssessmentConfiguration) =>
+      _.assign({}, { id: config.id })
+    )
+);

@@ -3,21 +3,28 @@
     <h4>{{ formTitle }}</h4>
   </div>
   <div class=" filter row">
-    <ngx-dhis2-selection-filters
-      (filterUpdate)="onFilterUpdateAction($event)"
-      [dataSelections]="dataSelections"
-      [selectionFilterConfig]="selectionFilterConfig"
-      (update)="onFilterUpdateAction($event)"
-    >
-    </ngx-dhis2-selection-filters>
-  </div>
-  <div class="form" *ngIf="showForm">
-    <!-- Main Form display ground -->
-    <form name="verificationForm">
+    <div class="col-8">
+      <ngx-dhis2-selection-filters
+        (filterUpdate)="onFilterUpdateAction($event)"
+        [dataSelections]="dataSelections"
+        [selectionFilterConfig]="selectionFilterConfig"
+        (update)="onFilterUpdateAction($event)"
+      >
+      </ngx-dhis2-selection-filters>
+    </div>
+    <div class="col-4" *ngIf="showForm">
       <h5>
         Organization Unit Name: <u>{{ dataSelections[1].items[0].name }}</u>
       </h5>
-      <br />
+    </div>
+  </div>
+  <div class="form" *ngIf="showForm">
+    <!-- Main Form display ground -->
+    <p *ngIf="!dataPresence">
+      <i class="oops fa fa-optin-monster"></i><br />
+      Ooops! Cannot retreive form data!
+    </p>
+    <form name="verificationForm" *ngIf="dataPresence">
       <table class="table table-bordered table-hover table-sm">
         <thead>
           <tr>

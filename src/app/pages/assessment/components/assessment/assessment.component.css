@@ -64,3 +64,9 @@ table input {
 form {
   padding: 0.2rem 1.25rem;
 }
+.oops {
+  font-size: 180px;
+}
+p {
+  text-align: center;
+}

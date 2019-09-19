@@ -83,6 +83,7 @@ export class VerificationComponent implements OnInit, OnDestroy {
   // Form Strings
   rep: string;
   ver: string;
+  dataPresence = false;
 
   constructor(private store: Store<State>, private snackbar: MatSnackBar) {}
 
@@ -122,7 +123,9 @@ export class VerificationComponent implements OnInit, OnDestroy {
       this.store.select(getTableStructure).subscribe();
       this.tableStructure$ = this.store.select(getTableStructure);
       this.tableStructureSubscription = this.tableStructure$.subscribe(
-        tableData => (this.verificationData = tableData)
+        tableData => {
+          this.verificationData = tableData;
+        }
       );
       this.periodSelection$ = this.store.select(getSelectionFilterPeriod);
       this.setShowForm();
@@ -132,6 +135,9 @@ export class VerificationComponent implements OnInit, OnDestroy {
   }
 
   setFormProperties(indicatorsCount) {
+    if (indicatorsCount > 0) {
+      this.dataPresence = true;
+    }
     for (let index = 0; index < indicatorsCount; index++) {
       this.totalRep.push(0);
       this.totalVer.push(0);

@@ -3,16 +3,18 @@ export interface DataSet {
   periodType: string;
   timelyDays: number;
   name: string;
+  shortName: string;
+  code: string;
   description: string;
-  openFuture: number;
-  expiryDate: number;
+  openFuturePeriods: number;
+  expiryDays: number;
   categoryCombo: {
     id: string;
   };
-  dataSetELements: Array<{
+  dataSetElements: Array<{
     id: string;
     dataSet: { id: string };
-    dataElement: { id: string };
+    dataElement: Array<{ id: string }>;
   }>;
   indicator?: Array<{ id: string }>;
   legendSets?: any[];

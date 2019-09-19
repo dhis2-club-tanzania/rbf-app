@@ -11,12 +11,16 @@
     >
     </ngx-dhis2-selection-filters>
   </div>
-  <div>
+  <div *ngIf="showForm">
     <div>
       <!-- This is the beginning of the main form -->
-      <div class="form">
+      <p *ngIf="!dataPresence">
+        <i class="oops fa fa-optin-monster"></i><br />
+        Ooops! Cannot retreive form data!
+      </p>
+      <div class="form" *ngIf="dataPresence">
         <div>
-          <form name="assessmentForm" *ngIf="showForm">
+          <form name="assessmentForm">
             <table class="table table-bordered table-hover table-sm">
               <thead class="card-header">
                 <tr class="table-active">
