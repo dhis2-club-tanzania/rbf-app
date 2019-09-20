@@ -42,7 +42,6 @@ export class DataSetEffects {
     this.actions$.pipe(
       ofType(getAssessmentDataSet),
       withLatestFrom(this.store.select(getAssessmentDataSetId)),
-      withLatestFrom(this.store.select(getVerificationDataSetId)),
       withLatestFrom(this.store.select(getOrganisationUnits)),
       withLatestFrom(this.store.select(getGeneralConfigurationPeriodType)),
       withLatestFrom(this.store.select(getAssessmentConfigurationDataElements)),
@@ -131,10 +130,9 @@ export class DataSetEffects {
     organisationUnits: { id: string }[],
     periodType: string,
     dataELements: Array<{ id: string }>,
-    category: { id: string },
+    category: { categoryCombos: { id: string }[] },
     formName: string
   ): DataSet {
-    console.log(organisationUnits);
     return {
       id: dataSetId,
       timelyDays: 15,
@@ -143,7 +141,7 @@ export class DataSetEffects {
       code: '',
       description: '',
       periodType: periodType,
-      categoryCombo: category,
+      categoryCombo: category.categoryCombos[0],
       openFuturePeriods: 0,
       expiryDays: 0,
       organisationUnits: organisationUnits,
