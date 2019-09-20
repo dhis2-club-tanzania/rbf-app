@@ -26,6 +26,7 @@ import { getPeriodObject } from '../../helpers/period.helper';
 import { loadSelectionFilterData } from 'src/app/store/actions';
 import { getSelectionFilterPeriod } from 'src/app/store/selectors/selection-filter.selectors';
 import { setRepString, setVerString } from '../../helpers/strings';
+import { getVerificationDataSet } from 'src/app/store/actions/data-set.actions';
 
 @Component({
   selector: 'app-verification',
@@ -87,6 +88,7 @@ export class VerificationComponent implements OnInit, OnDestroy {
   constructor(private store: Store<State>, private snackbar: MatSnackBar) {}
 
   ngOnInit() {
+    this.store.dispatch(getVerificationDataSet());
     this.verificationConfig$ = this.store.select(getVerificationConfigurations);
     this.errorRate$ = this.store.select(getGeneralConfigurationErrorRate);
     this.orgUnitLevel$ = this.store.select(getGeneralConfigurationOrunitLevel);

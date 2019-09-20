@@ -1,8 +1,8 @@
 
 {
     "version": "1.0.0-alpha.1",
-    "name": "Seed App",
-    "description": "Seed App",
+    "name": "RBF APP",
+    "description": "Result Based Finance App",
     "appType": "APP",
     "launch_path": "index.html",
     "icons": {

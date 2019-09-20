@@ -12,6 +12,7 @@ import { SelectionFilterConfig } from '@iapps/ngx-dhis2-selection-filters';
 import { getGeneralConfigurationOrunitLevel } from 'src/app/store/selectors/general-configuration.selectors';
 import { FormDataPayload } from 'src/app/core/models/form-data.model';
 import { addFormDatavalues } from 'src/app/store/actions';
+import { getAssessmentDataSet } from 'src/app/store/actions/data-set.actions';
 
 @Component({
   selector: 'app-assessment',
@@ -60,6 +61,7 @@ export class AssessmentComponent implements OnInit {
   constructor(private store: Store<State>) {}
 
   ngOnInit() {
+    this.store.dispatch(getAssessmentDataSet());
     this.assessmentIndicators$ = this.store.select(getAssessmentConfigurations);
     this.store
       .select(getGeneralConfigurationOrunitLevel)

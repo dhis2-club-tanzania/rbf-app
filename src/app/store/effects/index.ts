@@ -6,6 +6,8 @@ import { AssessmentConfigurationEffects } from './assessment-configuration.effec
 import { VerificationConfigurationEffects } from './verification-configuration.effects';
 import { GeneralConfigurationEffects } from './general-configuration.effects';
 import { FormDataEffects } from './form-data.effects';
+import { DataSetEffects } from './data-set.effects';
+import { OrganisationUnitEffects } from './organisation-units.effects';
 
 export const effects: any[] = [
   UserEffects,
@@ -15,5 +17,7 @@ export const effects: any[] = [
   AssessmentConfigurationEffects,
   VerificationConfigurationEffects,
   GeneralConfigurationEffects,
-  FormDataEffects
+  FormDataEffects,
+  DataSetEffects,
+  OrganisationUnitEffects
 ];

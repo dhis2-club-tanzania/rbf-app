@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { switchMap, map, catchError, mergeMap } from 'rxjs/operators';
+import { UUID } from '@iapps/utils';
 import { of } from 'rxjs';
 import { MatSnackBar } from '@angular/material';
 import {
@@ -48,20 +49,7 @@ export class GeneralConfigurationEffects {
           });
           return of(loadGeneralConfigurationsFail({ error: error }));
         } else {
-          const date = new Date();
-          const defaultConfig = {
-            id: 'default',
-            user: null,
-            created: date,
-            errorRate: 10,
-            lastUpdate: date,
-            periodType: 'Quarterly',
-            organisationUnitLevel: {
-              id: 'm9lBJogzE95',
-              level: 4,
-              displayName: 'Facility'
-            }
-          };
+          const defaultConfig = this.getDefaultConfig();
           return of(
             loadDefaultGeneralConfigurations({ configuration: defaultConfig })
           );
@@ -157,22 +145,26 @@ export class GeneralConfigurationEffects {
       })
     )
   );
-}
 
-/**
- *
- * const date = new Date();
-    const defaultConfig = {
+  getDefaultConfig() {
+    const date = new Date();
+    return {
       id: 'default',
       user: null,
       created: date,
       errorRate: 10,
       lastUpdate: date,
       periodType: 'Quarterly',
+      verification: UUID(),
+      assessment: UUID(),
+      categoryCombo: {
+        id: 'bjDvmb4bfuf'
+      },
       organisationUnitLevel: {
         id: 'm9lBJogzE95',
         level: 4,
         displayName: 'Facility'
       }
     };
- */
+  }
+}
