@@ -117,72 +117,26 @@
             </td>
 
             <td class="middle-column">
-              <input
-                class="form-control input-group-sm"
-                name="totalRep"
-                [(ngModel)]="totalRep[sno]"
-                [ngModelOptions]="{ standalone: true }"
-                readonly="readonly"
-              />
+              {{ totalRep[sno] }}
             </td>
             <td class="middle-column">
-              <input
-                class="form-control input-group-sm"
-                [(ngModel)]="totalVer[sno]"
-                [ngModelOptions]="{ standalone: true }"
-                name="totalVer"
-                readonly="readonly"
-              />
+              {{ totalVer[sno] }}
             </td>
             <td class="middle-column">
-              <input
-                class="form-control input-group-sm"
-                [(ngModel)]="difference[sno]"
-                [ngModelOptions]="{ standalone: true }"
-                name="difference"
-                readonly="readonly"
-              /><br />
+              {{ difference[sno] }}
             </td>
             <td class="middle-small-column">
-              <input
-                class="form-control input-group-sm"
-                type="number"
-                [(ngModel)]="error[sno]"
-                [ngModelOptions]="{ standalone: true }"
-                name="%error"
-                readonly="readonly"
-              />
+              {{ error[sno] }}
             </td>
             <td class="middle-small-column">{{ indicatior.unitFee }}</td>
             <td class="wide-sized-column">
-              <input
-                class="wide-input form-control input-group-sm"
-                type="number"
-                [(ngModel)]="provisionalAmount[sno]"
-                [ngModelOptions]="{ standalone: true }"
-                name="totalProvisionalAmount"
-                readonly="readonly"
-              />
+              {{ provisionalAmount[sno] }}
             </td>
             <td class="wide-sized-column">
-              <input
-                class="wide-input form-control input-group-sm"
-                type="number"
-                [(ngModel)]="loss[sno]"
-                [ngModelOptions]="{ standalone: true }"
-                name="loss"
-                readonly="readonly"
-              />
+              {{ loss[sno] }}
             </td>
             <td class="wide-sized-column">
-              <input
-                class="wide-input form-control input-group-sm"
-                type="number"
-                [(ngModel)]="actualAmount[sno]"
-                [ngModelOptions]="{ standalone: true }"
-                name="actualAmount"
-                readonly="readonly"
-              />
+              {{ actualAmount[sno] }}
             </td>
           </tr>
           <tr>
@@ -192,16 +146,7 @@
               Amount for {{ orgUnitLevel$ | async | titlecase }}
             </td>
             <td>
-              <input
-                class="wide-input form-control input-group-sm"
-                type="number"
-                step="0.1"
-                [(ngModel)]="totalAmount"
-                [ngModelOptions]="{
-                  standalone: true
-                }"
-                readonly
-              />
+              {{ totalAmount }}
             </td>
           </tr>
         </tbody>
