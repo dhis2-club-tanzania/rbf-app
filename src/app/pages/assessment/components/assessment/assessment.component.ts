@@ -29,7 +29,8 @@ export class AssessmentComponent implements OnInit {
     showDynamicDimension: false,
     showDataFilter: false,
     showValidationRuleGroupFilter: false,
-    stepSelections: ['pe', 'ou'],
+    stepSelections: ['ou', 'pe'],
+    disablePeriodTypeSelection: true,
     periodFilterConfig: {
       singleSelection: true
     },

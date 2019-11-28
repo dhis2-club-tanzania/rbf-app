@@ -51,6 +51,7 @@ export class VerificationComponent implements OnInit, OnDestroy {
     showDynamicDimension: true,
     showDataFilter: false,
     showValidationRuleGroupFilter: false,
+    disablePeriodTypeSelection: true,
     periodFilterConfig: {
       singleSelection: true
     },
