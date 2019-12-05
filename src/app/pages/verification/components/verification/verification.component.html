@@ -1,65 +1,68 @@
 <div class="main">
   <div class="card-header">
-    Verfication Form
+    <h4>{{ formTitle }}</h4>
   </div>
-  <div class="row">
-    <ngx-dhis2-selection-filters
-      (filterUpdate)="onFilterUpdateAction($event)"
-      [dataSelections]="dataSelections"
-      [selectionFilterConfig]="selectionFilterConfig"
-      (update)="onFilterUpdateAction($event)"
-      class="filter"
-    >
-    </ngx-dhis2-selection-filters>
-  </div>
-  <div class="form" *ngIf="showForm">
-    <!-- Main Form display ground -->
-    <form name="verificationForm">
-      <h3>
-        {{ dataSelections[0].items[0].type | titlecase }}
-        {{ orgUnitLevel | titlecase }}
-        Data Verification Form
-      </h3>
-      <br />
+  <div class=" filter row">
+    <div class="col-8">
+      <ngx-dhis2-selection-filters
+        (filterUpdate)="onFilterUpdateAction($event)"
+        [dataSelections]="dataSelections"
+        [selectionFilterConfig]="selectionFilterConfig"
+        (update)="onFilterUpdateAction($event)"
+      >
+      </ngx-dhis2-selection-filters>
+    </div>
+    <div class="col-4" *ngIf="showForm">
       <h5>
         Organization Unit Name: <u>{{ dataSelections[1].items[0].name }}</u>
       </h5>
-      <br />
-      <table class="table table-bordered table-hover">
-        <thead class="card-header">
+    </div>
+  </div>
+  <div class="form" *ngIf="showForm">
+    <!-- Main Form display ground -->
+    <p *ngIf="!dataPresence">
+      <i class="oops fa fa-optin-monster"></i><br />
+      Ooops! Cannot retreive form data!
+    </p>
+    <form name="verificationForm" *ngIf="dataPresence">
+      <table class="table table-bordered table-hover table-sm">
+        <thead>
           <tr>
-            <th scope="col" rowspan="2" class="sno">S/No</th>
+            <th scope="col" rowspan="2" class="sno">#</th>
             <th scope="col" rowspan="2" class="indicator">Indicator</th>
             <th
               scope="col"
               class="iteration"
-              *ngFor="let iteration of periodLooper"
+              *ngFor="let iteration of periodSelection$ | async"
             >
-              {{ iteration }}
+              {{ iteration.name }}
             </th>
-            <th scope="col">
+            <th scope="col" class="middle-column">
               Total Declared (Rep.#)
             </th>
-            <th scope="col">
+            <th scope="col" class="middle-column">
               Total Verified (Ver.#)
             </th>
-            <th scope="col">Difference</th>
-            <th scope="col">% Error</th>
-            <th scope="col" rowspan="2">Unit Fee (Tsh)</th>
-            <th scope="col" rowspan="2">
+            <th scope="col" class="middle-column">Difference</th>
+            <th scope="col" class="middle-small-column">% Error</th>
+            <th scope="col" rowspan="2" class="middle-small-column">
+              Unit Fee (Tsh)
+            </th>
+            <th scope="col" rowspan="2" class="wide-sized-column">
               {{ dataSelections[0].items[0].type | titlecase }}
               Provisional Total Amount
             </th>
-            <!-- Tolerance rate percentage is needed here -->
-            <th scope="col" rowspan="2">
-              Loss Due to above <em>ToleranceRate%?</em> & Above Error
+            <th scope="col" rowspan="2" class="wide-sized-column">
+              Loss Due to above {{ errorRate$ | async }}% & Above Error
             </th>
-            <th scope="col" rowspan="2">Actual Quantity Amount</th>
+            <th scope="col" rowspan="2" class="wide-sized-column">
+              Actual Quantity Amount
+            </th>
           </tr>
           <tr>
             <th
               scope="col"
-              *ngFor="let iteration of periodLooper; let i = index"
+              *ngFor="let iteration of periodSelection$ | async; let i = index"
               class="iteration"
             >
               <tr class="trwithin">
@@ -68,116 +71,95 @@
               </tr>
             </th>
 
-            <th scope="col">(Rep.#1 +Rep.#2 +Rep.#3)</th>
-            <th scope="col">(Ver.#1 +Ver.#2 +Ver.#3)</th>
-            <th scope="col">(Rep.#-Ver.#)</th>
-            <th scope="col">%(Rep.#-Ver.#) / Rep.#</th>
+            <th scope="col" class="middle-column">({{ rep }})</th>
+            <th scope="col" class="middle-column">({{ ver }})</th>
+            <th scope="col" class="middle-column">(Rep.#-Ver.#)</th>
+            <th scope="col" class="middle-small-column">
+              %(Rep.#-Ver.#) / Rep.#
+            </th>
           </tr>
         </thead>
         <tbody>
-          <tr
-            *ngFor="
-              let indicatior of verificationConfig$ | async;
-              let sno = index
-            "
-          >
+          <tr *ngFor="let indicatior of verificationData; let sno = index">
             <th scope="row" class="sno">{{ sno + 1 }}</th>
             <td class="indicator">{{ indicatior.indicator }}</td>
-            <td *ngFor="let iteration of periodLooper" class="iteration">
+            <td
+              *ngFor="
+                let iteration of indicatior.monthlyValues;
+                let columnIndex = index
+              "
+              class="iteration"
+            >
               <tr class="trwithin">
-                <td class="tdwithin"><input value="0" disabled /></td>
                 <td class="tdwithin">
                   <input
+                    class=" input-within form-control input-group-sm"
                     type="number"
-                    [(ngModel)]="verArray[sno]"
+                    [(ngModel)]="
+                      verificationData[sno].monthlyValues[columnIndex].rep
+                    "
                     [ngModelOptions]="{ standalone: true }"
-                    (blur)="onVerBlur(sno)"
+                    disabled
+                  />
+                </td>
+                <td class="tdwithin">
+                  <input
+                    class="input-within form-control input-group-sm"
+                    type="number"
+                    [(ngModel)]="
+                      verificationData[sno].monthlyValues[columnIndex].ver
+                    "
+                    [ngModelOptions]="{ standalone: true }"
+                    (blur)="onVerUpdate(sno, columnIndex)"
                   />
                 </td>
               </tr>
             </td>
 
-            <td>
-              <input
-                name="totalRep"
-                [(ngModel)]="totalRep[sno]"
-                [ngModelOptions]="{ standalone: true }"
-                readonly="readonly"
-              />
+            <td class="middle-column">
+              {{ totalRep[sno] }}
             </td>
-            <td>
-              <input
-                [(ngModel)]="totalVer[sno]"
-                [ngModelOptions]="{ standalone: true }"
-                name="totalVer"
-                readonly="readonly"
-              />
+            <td class="middle-column">
+              {{ totalVer[sno] }}
             </td>
-            <td>
-              <input
-                [(ngModel)]="difference[sno]"
-                [ngModelOptions]="{ standalone: true }"
-                name="difference"
-                readonly="readonly"
-              /><br />
+            <td class="middle-column">
+              {{ difference[sno] }}
             </td>
-            <td>
-              <input
-                type="number"
-                [(ngModel)]="error[sno]"
-                [ngModelOptions]="{ standalone: true }"
-                name="%error"
-                readonly="readonly"
-              />
+            <td class="middle-small-column">
+              {{ error[sno] }}
             </td>
-            <td>{{ indicatior.unitFee }}</td>
-            <td>
-              <input
-                type="number"
-                [(ngModel)]="provisionalAmount[sno]"
-                [ngModelOptions]="{ standalone: true }"
-                name="totalProvisionalAmount"
-                readonly="readonly"
-              />
+            <td class="middle-small-column">{{ indicatior.unitFee }}</td>
+            <td class="wide-sized-column">
+              {{ provisionalAmount[sno] }}
             </td>
-            <td>
-              <input
-                type="number"
-                [(ngModel)]="loss[sno]"
-                [ngModelOptions]="{ standalone: true }"
-                name="loss"
-                readonly="readonly"
-              />
+            <td class="wide-sized-column">
+              {{ loss[sno] }}
             </td>
-            <td>
-              <input
-                type="number"
-                [(ngModel)]="actualAmount[sno]"
-                [ngModelOptions]="{ standalone: true }"
-                name="actualAmount"
-                readonly="readonly"
-              />
+            <td class="wide-sized-column">
+              {{ actualAmount[sno] }}
             </td>
           </tr>
           <tr>
-            <td colspan="10" class="total">
+            <td [colSpan]="9 + (periodSelection$ | async).length" class="total">
               Total
               {{ dataSelections[0].items[0].type | titlecase }} Provisional
-              Amount for {{ orgUnitLevel | titlecase }}
+              Amount for {{ orgUnitLevel$ | async | titlecase }}
             </td>
             <td>
-              <input
-                type="number"
-                [(ngModel)]="totalAmount"
-                [ngModelOptions]="{ standalone: true }"
-              />
+              {{ totalAmount }}
             </td>
           </tr>
         </tbody>
       </table>
-      <button class="btn btn-group btn-primary btn-form">Complete</button>
-      <button class="btn btn-group btn-primary btn-form">Incomplete</button>
-      <button class="btn btn-group btn-primary btn-form">Run Validation</button>
+      <button class="center btn btn-group btn-primary btn-form theme-color">
+        Complete
+      </button>
+      <button class="center btn btn-group btn-primary btn-form theme-color">
+        Incomplete
+      </button>
+      <button class="center btn btn-group btn-primary btn-form theme-color">
+        Run Validation
+      </button>
     </form>
   </div>
 </div>

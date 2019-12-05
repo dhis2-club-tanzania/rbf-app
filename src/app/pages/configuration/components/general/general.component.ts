@@ -1,32 +1,29 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { UUID } from '@iapps/utils';
+import { Router } from '@angular/router';
+import { Observable, Subscription } from 'rxjs';
 import * as _ from 'lodash';
 
 import { ConfigurationService } from '../../services/configuration.service';
 import { State } from 'src/app/store/reducers';
-import {
-  addGeneralConfigurations,
-  updateGeneralConfigurations
-} from 'src/app/store/actions';
+import { updateGeneralConfigurations } from 'src/app/store/actions';
 import { GeneralConfiguration } from '../../models/general-configuration.model';
-import { Observable } from 'rxjs';
 import { User } from 'src/app/core';
 import { getCurrentUser } from 'src/app/store/selectors';
-import {
-  getGeneralConfiguration,
-  getGeneralConfigurationPeriodType,
-  getGeneralConfigurationErrorRate
-} from 'src/app/store/selectors/general-configuration.selectors';
-import { Router } from '@angular/router';
+import { getGeneralConfiguration } from 'src/app/store/selectors/general-configuration.selectors';
 
 @Component({
   selector: 'app-general',
   templateUrl: './general.component.html',
   styleUrls: ['./general.component.css']
 })
-export class GeneralComponent implements OnInit {
+export class GeneralComponent implements OnInit, OnDestroy {
+  perodTypeSubscription: Subscription;
+  orgunitLevelSubscription: Subscription;
+  generalConfigSubscription: Subscription;
+
+  generalConfigurations$: Observable<GeneralConfiguration>;
   currentUser$: Observable<any>;
   periodType$: Observable<string>;
   errorRate$: Observable<number>;
@@ -44,23 +41,30 @@ export class GeneralComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.generalConfigurations$ = this.store.select(getGeneralConfiguration);
     this.currentUser$ = this.store.select(getCurrentUser);
-    this.periodType$ = this.store.select(getGeneralConfigurationPeriodType);
-    this.errorRate$ = this.store.select(getGeneralConfigurationErrorRate);
     this.generateForm();
-    this.periodType
+    this.perodTypeSubscription = this.periodType
       .getPeriodTypes()
       .subscribe(arg => (this.periodTypes = arg.periodTypes));
-    this.OrgUnitFetcher.getOrgUnitsLevel().subscribe(
+    this.orgunitLevelSubscription = this.OrgUnitFetcher.getOrgUnitsLevel().subscribe(
       arg => (this.OrgUnitLevels = arg.organisationUnitLevels)
     );
   }
+  ngOnDestroy() {
+    this.orgunitLevelSubscription.unsubscribe();
+    this.perodTypeSubscription.unsubscribe();
+    this.generalConfigSubscription.unsubscribe();
+  }
 
   generateForm() {
+    this.generalConfigSubscription = this.generalConfigurations$.subscribe(
+      config => (this.generalConfiguration = config)
+    );
     this.generalConfigForm = new FormGroup({
-      periodType: new FormControl(this.periodType$),
+      periodType: new FormControl(this.generalConfiguration.periodType),
       OrgUnitLevel: new FormControl(),
-      errorRate: new FormControl(this.errorRate$)
+      errorRate: new FormControl(this.generalConfiguration.errorRate)
     });
   }
 
@@ -75,8 +79,7 @@ export class GeneralComponent implements OnInit {
     });
     const date = new Date();
     const generalConfig: GeneralConfiguration = {
-      id: 'default',
-      created: date,
+      ...this.generalConfiguration,
       lastUpdate: date,
       organisationUnitLevel: level,
       errorRate: formData.errorRate,

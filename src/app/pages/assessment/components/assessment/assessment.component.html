@@ -1,32 +1,36 @@
 <div class="main">
   <div class="card-header">
-    Assessment Form
+    <h4>{{ formTitle | titlecase }}</h4>
   </div>
-  <div class=" row filter">
+  <div class="filter row">
     <ngx-dhis2-selection-filters
       (filterUpdate)="onFilterUpdateAction($event)"
       [dataSelections]="dataSelections"
       [selectionFilterConfig]="selectionFilterConfig"
       (update)="onFilterUpdateAction($event)"
-      class="filter"
     >
     </ngx-dhis2-selection-filters>
   </div>
-  <div>
+  <div *ngIf="showForm">
     <div>
       <!-- This is the beginning of the main form -->
-
-      <div class="form">
+      <p *ngIf="!dataPresence">
+        <i class="oops fa fa-optin-monster"></i><br />
+        Ooops! Cannot retreive form data!
+      </p>
+      <div class="form" *ngIf="dataPresence">
         <div>
-          <form>
+          <form name="assessmentForm">
             <table class="table table-bordered table-hover table-sm">
-              <thead>
+              <thead class="card-header">
                 <tr class="table-active">
-                  <th scope="col">S/No</th>
-                  <th scope="col">Indicator</th>
-                  <th scope="col">Possible Maximum Value</th>
+                  <th scope="col" class="sno">S/No</th>
+                  <th scope="col" class="indicator">Indicator</th>
+                  <th scope="col" class="possibleMaxValue">
+                    Possible Maximum Value
+                  </th>
                   <th scope="col">Obtained Points</th>
-                  <th scope="col">%</th>
+                  <th scope="col" class="percentage">%</th>
                   <th scope="col">Observations</th>
                 </tr>
               </thead>
@@ -37,27 +41,79 @@
                     let sno = index
                   "
                 >
-                  <th scope="row">{{ sno + 1 }}</th>
-                  <td>{{ indicator.indicator }}</td>
+                  <th scope="row" class="sno">{{ sno + 1 }}</th>
+                  <td class="indicator">{{ indicator.indicator }}</td>
                   <td>
-                    <input value="{{ indicator.possibleMaxValue }}" disabled />
+                    <input
+                      class="form-control"
+                      value="{{ indicator.possibleMaxValue }}"
+                      disabled
+                    />
                   </td>
                   <td>
-                    <input class="small" />
-                    <select class="small">
-                      <option>Select</option>
-                      <option>Applicable</option>
-                      <option>Not Applicable</option>
-                    </select>
+                    <input
+                      class="form-control input-group-sm"
+                      type="number"
+                      (blur)="
+                        onInputBlur(sno, indicator.dataElement);
+                        onInputChange(sno)
+                      "
+                      (keyup)="onInputChange(sno)"
+                      [(ngModel)]="obtainedValue[sno]"
+                      [ngModelOptions]="{ standalone: true }"
+                      max="{{ indicator.possibleMaxValue }}"
+                    />
+                    <mat-form-field class="mat-form-field">
+                      <mat-label>Selection Application</mat-label>
+                      <mat-select>
+                        <mat-option
+                          [value]="1"
+                          (click)="onOptionSelect(sno, 1)"
+                        >
+                          Applicable
+                        </mat-option>
+                        <mat-option
+                          [value]="2"
+                          (click)="onOptionSelect(sno, 0)"
+                        >
+                          Not Applicable
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
                   </td>
-                  <td><input class="small" disabled /></td>
-                  <td><input /></td>
+                  <td>
+                    <input
+                      class="form-control input-group-sm"
+                      disabled
+                      [(ngModel)]="percentage[sno]"
+                      [ngModelOptions]="{ standalone: true }"
+                    />
+                  </td>
+                  <td>
+                    <input class="observation form-control input-group-sm" />
+                  </td>
+                </tr>
+                <tr class="total-tr">
+                  <td colspan="2" class="total">TOTAL</td>
+                  <td>{{ possibleMaxValueSum }}</td>
+                  <td>{{ obtainedValueSum }}</td>
+                  <td>{{ percentageSum }}</td>
+                  <td></td>
                 </tr>
               </tbody>
             </table>
-            <button class="btn btn-group btn-primary">Complete</button>
-            <button class="btn btn-group btn-primary">Incomplete</button>
-            <button class="btn btn-group btn-primary">Run Validation</button>
+            <button
+              class="btn btn-group btn-primary theme-color my-2 my-sm-0"
+              type="submit"
+            >
+              Complete
+            </button>
+            <button class="btn btn-group btn-primary theme-color">
+              Incomplete
+            </button>
+            <button class="btn btn-group btn-primary theme-color">
+              Run Validation
+            </button>
           </form>
         </div>
       </div>

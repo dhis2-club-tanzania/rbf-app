@@ -137,22 +137,10 @@ export class ConfigurationService {
    *
    * @param namespace data store namespace
    */
-  addDefaultGeneralConfiguration(namespace: string): Observable<any> {
-    const date = new Date();
-    const defaultConfig = {
-      id: 'default',
-      user: null,
-      created: date,
-      errorRate: 10,
-      lastUpdate: date,
-      periodType: 'Quarterly',
-      organisationUnitLevel: {
-        id: 'm9lBJogzE95',
-        level: 4,
-        displayName: 'Facility'
-      }
-    };
-
+  addDefaultGeneralConfiguration(
+    namespace: string,
+    defaultConfig: GeneralConfiguration
+  ): Observable<any> {
     return this.httpService.post(
       `${this.dataStoreUrl}/${namespace}/${defaultConfig.id}`,
       defaultConfig

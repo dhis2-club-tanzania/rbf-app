@@ -5,17 +5,68 @@
   margin: 5px;
   width: 100%;
 }
-.small {
-  width: 70px;
-}
-.select {
-  background-color: rgb(39, 102, 150);
-  color: white;
-}
 .btn {
   margin: 3px;
   width: 32%;
 }
+table thead {
+  text-align: left;
+}
+.sno {
+  width: 10px !important;
+  text-align: center;
+}
+table td {
+  width: 100px;
+}
+input {
+  margin-right: 4px;
+  width: 100px;
+}
+.indicator {
+  text-align: left;
+}
+td,
+.percentage {
+  text-align: center;
+}
+.observation {
+  text-align: left;
+  width: 100%;
+}
+.total {
+  text-align: left;
+}
+.total-tr {
+  font-weight: bold;
+}
+.mat-form-field {
+  width: 100px;
+  height: 5px;
+  font-size: -4px;
+  line-height: 1;
+}
+table input {
+  text-align: center;
+}
+.form-header {
+  text-align: center;
+}
+.theme-color {
+  background-color: rgb(39, 102, 150);
+}
+.form-control {
+  display: inline-block;
+}
 .filter {
-  margin-left: 24%;
+  padding: 0.2rem 2rem;
+}
+form {
+  padding: 0.2rem 1.25rem;
+}
+.oops {
+  font-size: 180px;
+}
+p {
+  text-align: center;
 }

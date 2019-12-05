@@ -15,9 +15,10 @@
 .btn-form {
   width: 32%;
   margin: 3px;
+  text-align: center;
 }
-input {
-  width: 4.5rem;
+table {
+  width: max-content;
 }
 .tdwithin {
   width: 130px;
@@ -25,28 +26,38 @@ input {
 .tdwithinplus {
   width: 130px;
 }
-em {
-  color: red;
+.input-within {
+  width: 100px;
 }
-.filter {
-  margin-left: 44%;
-  margin-top: 4px;
+.middle-column {
+  width: 125px;
+}
+.middle-small-column {
+  width: 80px;
+}
+.wide-sized-column {
+  width: 170px;
 }
 table input {
   text-align: center;
 }
 table thead {
   font-size: -5px;
+  background-color: #e9ecef;
 }
-tbody {
+tbody,
+tbody td,
+tbody th {
   font-size: 12pt;
+  vertical-align: middle;
 }
 .indicator {
   width: 250px;
   text-align: left;
 }
 .sno {
-  width: 4px;
+  width: 45px;
+  font-size: small;
 }
 .iteration {
   width: 260px !important;
@@ -57,4 +68,41 @@ tbody {
 }
 .total {
   text-align: left;
+  font-weight: bold;
+}
+.theme-color {
+  background-color: rgb(39, 102, 150);
+}
+.wide-input {
+  width: 158px;
+}
+.form-control {
+  display: inline-block;
+}
+.form-control[readonly] {
+  background-color: white;
+}
+.filter {
+  padding: 0.2rem 2rem;
+}
+form {
+  padding: 0.2rem 1.25rem;
+}
+thead,
+tbody {
+  display: block;
+}
+tbody {
+  max-height: 400px;
+  overflow: hidden;
+  overflow-y: scroll;
+}
+.col-4 {
+  text-align: right;
+}
+.oops {
+  font-size: 200px;
+}
+.center {
+  text-align: center;
 }
