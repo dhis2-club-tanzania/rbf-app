@@ -27,6 +27,7 @@ import { loadSelectionFilterData } from 'src/app/store/actions';
 import { getSelectionFilterPeriod } from 'src/app/store/selectors/selection-filter.selectors';
 import { setRepString, setVerString } from '../../helpers/strings';
 import { getVerificationDataSet } from 'src/app/store/actions/data-set.actions';
+import { getGeneralConfigurationPeriodType } from '../../../../store/selectors/general-configuration.selectors';
 
 @Component({
   selector: 'app-verification',
@@ -67,6 +68,7 @@ export class VerificationComponent implements OnInit, OnDestroy {
   // Form Properties are declared below
   formTitle = 'Verfication Form';
   orgUnitLevel = '';
+  selectedPeriodType = '';
   verificationData: VerificationData[] = [];
 
   errorRate: number;
@@ -100,10 +102,26 @@ export class VerificationComponent implements OnInit, OnDestroy {
     this.orgUnitLevelSubscription = this.orgUnitLevel$.subscribe(
       orgUnitLevel => (this.orgUnitLevel = orgUnitLevel)
     );
+    this.store
+      .select(getGeneralConfigurationPeriodType)
+      .subscribe(
+      (periodType: string) => this.selectedPeriodType = periodType);
+    this.addPeriodTypeConfig();
   }
 
   ngOnDestroy() {
-    this.errorRateSubscription.unsubscribe();
+    if (this.errorRateSubscription) {
+      this.errorRateSubscription.unsubscribe();
+    }
+    if (this.orgUnitLevelSubscription) {
+      this.orgUnitLevelSubscription.unsubscribe();
+    }
+  }
+
+  addPeriodTypeConfig() {
+    this.selectionFilterConfig = {
+      ...this.selectionFilterConfig,
+      selectedPeriodType : this.selectedPeriodType};
   }
   onFilterUpdateAction(dataSelections) {
     if (dataSelections.length > 1) {

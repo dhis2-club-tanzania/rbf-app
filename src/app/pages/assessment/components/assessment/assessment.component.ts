@@ -13,6 +13,7 @@ import { getGeneralConfigurationOrunitLevel } from 'src/app/store/selectors/gene
 import { FormDataPayload } from 'src/app/core/models/form-data.model';
 import { addFormDatavalues } from 'src/app/store/actions';
 import { getAssessmentDataSet } from 'src/app/store/actions/data-set.actions';
+import { getGeneralConfigurationPeriodType } from '../../../../store/selectors/general-configuration.selectors';
 
 @Component({
   selector: 'app-assessment',
@@ -57,8 +58,10 @@ export class AssessmentComponent implements OnInit {
   selection = [];
   assessmentCount: number;
   orgUnitLevel = '';
+  selectedPeriodType = '';
   dataPresence = false;
 
+  // TODO take care of memory leaks
   constructor(private store: Store<State>) {}
 
   ngOnInit() {
@@ -73,6 +76,16 @@ export class AssessmentComponent implements OnInit {
     this.store
       .select(getAssessmentConfigurations)
       .subscribe(configs => (this.allConfigurations = configs));
+    this.store
+      .select(getGeneralConfigurationPeriodType)
+      .subscribe(periodType => this.selectedPeriodType = periodType);
+    this.addPeriodTypeConfig();
+  }
+
+  addPeriodTypeConfig() {
+    this.selectionFilterConfig = {
+      ...this.selectionFilterConfig,
+      selectedPeriodType : this.selectedPeriodType};
   }
 
   onFilterUpdateAction(dataSelections) {
