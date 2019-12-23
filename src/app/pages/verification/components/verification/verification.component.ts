@@ -67,6 +67,7 @@ export class VerificationComponent implements OnInit, OnDestroy {
   formTitle = 'Verfication Form';
   orgUnitLevel = '';
   verificationData: VerificationData[] = [];
+  isFormComplete = false;
 
   errorRate: number;
   totalRep = [];
@@ -85,7 +86,7 @@ export class VerificationComponent implements OnInit, OnDestroy {
   ver: string;
   dataPresence = false;
 
-  constructor(private store: Store<State>, private snackbar: MatSnackBar) {}
+  constructor(private store: Store<State>, private snackbar: MatSnackBar) { }
 
   ngOnInit() {
     this.store.dispatch(getVerificationDataSet());
@@ -210,5 +211,12 @@ export class VerificationComponent implements OnInit, OnDestroy {
       this.loss[indicatorIndex]
     ); // Updated Actual Amount
     this.totalAmount = totalAmount(this.actualAmount); // Updated totalAmount
+  }
+
+  completeForm() {
+    this.isFormComplete = true;
+  }
+  incompleteForm() {
+    this.isFormComplete = false;
   }
 }
