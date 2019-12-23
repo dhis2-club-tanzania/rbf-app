@@ -24,7 +24,7 @@ export class AssessmentListComponent implements OnInit {
     private store: Store<State>,
     private dialog: MatDialog,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.assessmentIndicators$ = this.store.select(getAssessmentConfigurations);
@@ -41,16 +41,15 @@ export class AssessmentListComponent implements OnInit {
       data: id
     });
 
-    // dialogRef.afterClosed();
   }
 
   onEdit(e, id: string) {
     e.stopPropagation();
-    this.router.navigate([`/configuration/assessment_edit/${id}`]);
+    this.router.navigate([`/configuration/assessment/edit/${id}`]);
   }
 
   onClickAdd(e) {
     e.stopPropagation();
-    this.router.navigate([`/configuration/assessment_configurations`]);
+    this.router.navigate([`/configuration/assessment/configurations`]);
   }
 }

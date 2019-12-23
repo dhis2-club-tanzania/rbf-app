@@ -24,7 +24,7 @@ export class VerificationListComponent implements OnInit {
     private store: Store<State>,
     private dialog: MatDialog,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.verificationIndicators$ = this.store.select(
@@ -36,7 +36,7 @@ export class VerificationListComponent implements OnInit {
   }
 
   onClickAdd() {
-    this.router.navigate(['/configuration/verification_configurations']);
+    this.router.navigate(['/configuration/verification/configurations']);
   }
   onDeleteConfig(e, id: string) {
     e.stopPropagation();
@@ -51,6 +51,6 @@ export class VerificationListComponent implements OnInit {
 
   onEdit(e, id: string) {
     e.stopPropagation();
-    this.router.navigate([`configuration/verification_edit/${id}`]);
+    this.router.navigate([`configuration/verification/edit/${id}`]);
   }
 }

@@ -25,11 +25,11 @@ export const routes: Routes = [
         component: AssessmentListComponent
       },
       {
-        path: 'assessment_configurations',
+        path: 'assessment/configurations',
         component: AssessmentComponent
       },
       {
-        path: 'assessment_edit/:id',
+        path: 'assessment/edit/:id',
         component: EditAssessmentComponent
       },
       {
@@ -37,11 +37,11 @@ export const routes: Routes = [
         component: VerificationListComponent
       },
       {
-        path: 'verification_configurations',
+        path: 'verification/configurations',
         component: VerificationComponent
       },
       {
-        path: 'verification_edit/:id',
+        path: 'verification/edit/:id',
         component: EditVerificationComponent
       },
       {
@@ -64,4 +64,4 @@ export const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class RoutingModule {}
+export class RoutingModule { }
