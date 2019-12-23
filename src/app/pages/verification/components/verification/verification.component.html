@@ -4,12 +4,8 @@
   </div>
   <div class=" filter row">
     <div class="col-8">
-      <ngx-dhis2-selection-filters
-        (filterUpdate)="onFilterUpdateAction($event)"
-        [dataSelections]="dataSelections"
-        [selectionFilterConfig]="selectionFilterConfig"
-        (update)="onFilterUpdateAction($event)"
-      >
+      <ngx-dhis2-selection-filters (filterUpdate)="onFilterUpdateAction($event)" [dataSelections]="dataSelections"
+        [selectionFilterConfig]="selectionFilterConfig" (update)="onFilterUpdateAction($event)">
       </ngx-dhis2-selection-filters>
     </div>
     <div class="col-4" *ngIf="showForm">
@@ -30,11 +26,7 @@
           <tr>
             <th scope="col" rowspan="2" class="sno">#</th>
             <th scope="col" rowspan="2" class="indicator">Indicator</th>
-            <th
-              scope="col"
-              class="iteration"
-              *ngFor="let iteration of periodSelection$ | async"
-            >
+            <th scope="col" class="iteration" *ngFor="let iteration of periodSelection$ | async">
               {{ iteration.name }}
             </th>
             <th scope="col" class="middle-column">
@@ -60,84 +52,66 @@
             </th>
           </tr>
           <tr>
-            <th
-              scope="col"
-              *ngFor="let iteration of periodSelection$ | async; let i = index"
-              class="iteration"
-            >
-              <tr class="trwithin">
-                <td class="tdwithinplus">Rep. #{{ i + 1 }}</td>
-                <td class="tdwithinplus">Ver. #{{ i + 1 }}</td>
-              </tr>
-            </th>
+            <th scope="col" *ngFor="let iteration of periodSelection$ | async; let i = index" class="iteration">
+          <tr class="trwithin">
+            <td class="tdwithinplus">Rep. #{{ i + 1 }}</td>
+            <td class="tdwithinplus">Ver. #{{ i + 1 }}</td>
+          </tr>
+          </th>
 
-            <th scope="col" class="middle-column">({{ rep }})</th>
-            <th scope="col" class="middle-column">({{ ver }})</th>
-            <th scope="col" class="middle-column">(Rep.#-Ver.#)</th>
-            <th scope="col" class="middle-small-column">
-              %(Rep.#-Ver.#) / Rep.#
-            </th>
+          <th scope="col" class="middle-column">({{ rep }})</th>
+          <th scope="col" class="middle-column">({{ ver }})</th>
+          <th scope="col" class="middle-column">(Rep.#-Ver.#)</th>
+          <th scope="col" class="middle-small-column">
+            %(Rep.#-Ver.#) / Rep.#
+          </th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let indicatior of verificationData; let sno = index">
             <th scope="row" class="sno">{{ sno + 1 }}</th>
             <td class="indicator">{{ indicatior.indicator }}</td>
-            <td
-              *ngFor="
+            <td *ngFor="
                 let iteration of indicatior.monthlyValues;
                 let columnIndex = index
-              "
-              class="iteration"
-            >
-              <tr class="trwithin">
-                <td class="tdwithin">
-                  <input
-                    class=" input-within form-control input-group-sm"
-                    type="number"
-                    [(ngModel)]="
+              " class="iteration">
+          <tr class="trwithin">
+            <td class="tdwithin">
+              <input class=" input-within form-control input-group-sm" type="number" [(ngModel)]="
                       verificationData[sno].monthlyValues[columnIndex].rep
-                    "
-                    [ngModelOptions]="{ standalone: true }"
-                    disabled
-                  />
-                </td>
-                <td class="tdwithin">
-                  <input
-                    class="input-within form-control input-group-sm"
-                    type="number"
-                    [(ngModel)]="
+                    " [ngModelOptions]="{ standalone: true }" disabled />
+            </td>
+            <td class="tdwithin">
+              <input class="input-within form-control input-group-sm" type="number" [(ngModel)]="
                       verificationData[sno].monthlyValues[columnIndex].ver
-                    "
-                    [ngModelOptions]="{ standalone: true }"
-                    (blur)="onVerUpdate(sno, columnIndex)"
-                  />
-                </td>
-              </tr>
+                    " [ngModelOptions]="{ standalone: true }" (blur)="onVerUpdate(sno, columnIndex)"
+                [disabled]="isFormComplete" />
             </td>
+          </tr>
+          </td>
 
-            <td class="middle-column">
-              {{ totalRep[sno] }}
-            </td>
-            <td class="middle-column">
-              {{ totalVer[sno] }}
-            </td>
-            <td class="middle-column">
-              {{ difference[sno] }}
-            </td>
-            <td class="middle-small-column">
-              {{ error[sno] }}
-            </td>
-            <td class="middle-small-column">{{ indicatior.unitFee }}</td>
-            <td class="wide-sized-column">
-              {{ provisionalAmount[sno] }}
-            </td>
-            <td class="wide-sized-column">
-              {{ loss[sno] }}
-            </td>
-            <td class="wide-sized-column">
-              {{ actualAmount[sno] }}
-            </td>
+          <td class="middle-column">
+            {{ totalRep[sno] }}
+          </td>
+          <td class="middle-column">
+            {{ totalVer[sno] }}
+          </td>
+          <td class="middle-column">
+            {{ difference[sno] }}
+          </td>
+          <td class="middle-small-column">
+            {{ error[sno] }}
+          </td>
+          <td class="middle-small-column">{{ indicatior.unitFee }}</td>
+          <td class="wide-sized-column">
+            {{ provisionalAmount[sno] }}
+          </td>
+          <td class="wide-sized-column">
+            {{ loss[sno] }}
+          </td>
+          <td class="wide-sized-column">
+            {{ actualAmount[sno] }}
+          </td>
           </tr>
           <tr>
             <td [colSpan]="9 + (periodSelection$ | async).length" class="total">
@@ -151,13 +125,13 @@
           </tr>
         </tbody>
       </table>
-      <button class="center btn btn-group btn-primary btn-form theme-color">
+      <button class="center btn btn-group btn-primary btn-form theme-color" (click)="completeForm()">
         Complete
       </button>
-      <button class="center btn btn-group btn-primary btn-form theme-color">
+      <button class="center btn btn-group btn-primary btn-form theme-color" (click)="incompleteForm()">
         Incomplete
       </button>
-      <button class="center btn btn-group btn-primary btn-form theme-color">
+      <button class="center btn btn-group btn-primary btn-form theme-color" type="submit">
         Run Validation
       </button>
     </form>
