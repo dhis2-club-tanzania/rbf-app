@@ -60,6 +60,8 @@ export class AssessmentComponent implements OnInit {
   orgUnitLevel = '';
   selectedPeriodType = '';
   dataPresence = false;
+  isFormComplete = [];
+  isApplicable = [];
 
   // TODO take care of memory leaks
   constructor(private store: Store<State>) { }
@@ -114,6 +116,8 @@ export class AssessmentComponent implements OnInit {
       this.obtainedValue.push(0);
       this.selection.push(0);
       this.percentage.push(0);
+      this.isFormComplete.push(false);
+      this.isApplicable.push(true);
     }
     this.posssibleMaxValueInitializer(assessmentCount);
   }
@@ -184,5 +188,20 @@ export class AssessmentComponent implements OnInit {
       }
     }
     this.percentageSum = parseFloat((percentageSum / checker).toFixed(2));
+  }
+
+  completeForm() {
+    for (let a = 0; a < this.assessmentCount; a++) {
+      this.isFormComplete[a] = true;
+    }
+  }
+
+  incompleteForm() {
+    for (let a = 0; a < this.assessmentCount; a++) {
+      this.isFormComplete[a] = false;
+    }
+  }
+  notApplicable(index) {
+    this.isApplicable[index] = false;
   }
 }

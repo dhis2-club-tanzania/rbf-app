@@ -45,14 +45,15 @@
                         onInputBlur(sno, indicator.dataElement);
                         onInputChange(sno)
                       " (keyup)="onInputChange(sno)" [(ngModel)]="obtainedValue[sno]"
-                      [ngModelOptions]="{ standalone: true }" max="{{ indicator.possibleMaxValue }}" />
+                      [ngModelOptions]="{ standalone: true }" max="{{ indicator.possibleMaxValue }}"
+                      [disabled]="isFormComplete[sno] || !isApplicable[sno]" />
                     <mat-form-field class="mat-form-field">
                       <mat-label>Selection Application</mat-label>
                       <mat-select>
                         <mat-option [value]="1" (click)="onOptionSelect(sno, 1)">
                           Applicable
                         </mat-option>
-                        <mat-option [value]="2" (click)="onOptionSelect(sno, 0)">
+                        <mat-option [value]="2" (click)="onOptionSelect(sno, 0); notApplicable(sno)">
                           Not Applicable
                         </mat-option>
                       </mat-select>
@@ -74,13 +75,13 @@
                 </tr>
               </tbody>
             </table>
-            <button class="btn btn-group btn-primary theme-color my-2 my-sm-0" type="submit">
+            <button class="btn btn-group btn-primary theme-color my-2 my-sm-0" (click)="completeForm()">
               Complete
             </button>
-            <button class="btn btn-group btn-primary theme-color">
+            <button class="btn btn-group btn-primary theme-color" (click)="incompleteForm()">
               Incomplete
             </button>
-            <button class="btn btn-group btn-primary theme-color">
+            <button class="btn btn-group btn-primary theme-color" type="submit">
               Run Validation
             </button>
           </form>
