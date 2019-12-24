@@ -62,7 +62,7 @@ export class AssessmentComponent implements OnInit {
   dataPresence = false;
 
   // TODO take care of memory leaks
-  constructor(private store: Store<State>) {}
+  constructor(private store: Store<State>) { }
 
   ngOnInit() {
     this.store.dispatch(getAssessmentDataSet());
@@ -85,7 +85,8 @@ export class AssessmentComponent implements OnInit {
   addPeriodTypeConfig() {
     this.selectionFilterConfig = {
       ...this.selectionFilterConfig,
-      selectedPeriodType : this.selectedPeriodType};
+      selectedPeriodType: this.selectedPeriodType
+    };
   }
 
   onFilterUpdateAction(dataSelections) {
@@ -94,8 +95,8 @@ export class AssessmentComponent implements OnInit {
       this.showForm = true;
       this.formTitle = 'Summary of '.concat(
         dataSelections[0].items[0].type +
-          ' Quality Activities/ Areas Assessment Results of the ' +
-          this.orgUnitLevel
+        ' Quality Activities/ Areas Assessment Results of the ' +
+        this.orgUnitLevel
       );
       if (this.createArray) {
         this.createFormArrays(this.assessmentCount);
@@ -146,7 +147,7 @@ export class AssessmentComponent implements OnInit {
     ) {
       window.alert(
         'Input Value Exceeded the Possible Maximum Value of:' +
-          this.allConfigurations[index].possibleMaxValue
+        this.allConfigurations[index].possibleMaxValue
       );
       this.obtainedValue[index] = 0;
     }
