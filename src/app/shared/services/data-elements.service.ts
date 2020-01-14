@@ -31,7 +31,22 @@ export class DataElementsService {
     );
   }
 
+  getDataElementById(id: string): Observable<any> {
+    return this.httpService.get(`dataElements/${id}`);
+  }
+
   createDataElement(dataElement: DataElement): Observable<any> {
-    return this.httpService.post('dataElements', this.de);
+    return this.httpService.post('dataElements', dataElement);
+  }
+
+  deleteDataElement(id: string): Observable<any> {
+    return this.httpService.delete(`dataElements/${id}`);
+  }
+
+  updateDataElement(id: string, dataElement: DataElement): Observable<any> {
+    return this.httpService.put(
+      `dataElements/${id}?mergeMode=REPLACE`,
+      dataElement
+    );
   }
 }
