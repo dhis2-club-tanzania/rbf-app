@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { ErrorMessage } from 'src/app/core';
-import { DataSets } from 'src/app/core/models/data-set.model';
+import { DataSets } from 'src/app/shared/models/data-set.model';
 
 export const getVerificationDataSet = createAction(
   '[DATA SET] Get Verification dataSet'

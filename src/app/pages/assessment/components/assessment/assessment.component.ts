@@ -10,7 +10,7 @@ import {
 } from 'src/app/store/selectors';
 import { SelectionFilterConfig } from '@iapps/ngx-dhis2-selection-filters';
 import { getGeneralConfigurationOrunitLevel } from 'src/app/store/selectors/general-configuration.selectors';
-import { FormDataPayload } from 'src/app/core/models/form-data.model';
+import { FormDataPayload } from 'src/app/shared/models/form-data.model';
 import { addFormDatavalues } from 'src/app/store/actions';
 import { getAssessmentDataSet } from 'src/app/store/actions/data-set.actions';
 import { getGeneralConfigurationPeriodType } from '../../../../store/selectors/general-configuration.selectors';

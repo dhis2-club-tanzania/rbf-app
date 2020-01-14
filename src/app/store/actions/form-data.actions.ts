@@ -2,8 +2,8 @@ import { createAction, props } from '@ngrx/store';
 import { ErrorMessage } from 'src/app/core';
 import {
   FormDataValue,
-  FormDataPayload
-} from 'src/app/core/models/form-data.model';
+  FormDataPayload,
+} from 'src/app/shared/models/form-data.model';
 
 export const loadFormDataValues = createAction(
   '[FORM DATA] Load form data',

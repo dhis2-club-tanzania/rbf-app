@@ -8,7 +8,7 @@ import {
   getVerificationDataSet,
   getDataSetSuccess,
   getDataSetFail,
-  createDefaultDataSet
+  createDefaultDataSet,
 } from '../actions/data-set.actions';
 import { switchMap, withLatestFrom, map, catchError } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
@@ -16,18 +16,18 @@ import { State } from '../reducers';
 import {
   getAssessmentDataSetId,
   getVerificationDataSetId,
-  getGeneralConfigurationPeriodType
+  getGeneralConfigurationPeriodType,
 } from '../selectors/general-configuration.selectors';
 import { ErrorMessage } from '@iapps/ngx-dhis2-http-client';
 import { of } from 'rxjs';
 import {
   getOrganisationUnits,
   getAssessmentConfigurationDataElements,
-  getVerificationConfigurationDataElements
+  getVerificationConfigurationDataElements,
 } from '../selectors';
 import { CategoryComboService } from 'src/app/shared/services/category-combo.service';
 import { DataElement } from '@iapps/ngx-dhis2-data-filter';
-import { DataSet, DataSets } from 'src/app/core/models/data-set.model';
+import { DataSet, DataSets } from 'src/app/shared/models/data-set.model';
 
 @Injectable()
 export class DataSetEffects {
@@ -49,7 +49,7 @@ export class DataSetEffects {
       switchMap(
         ([
           [[[[action, id], organisationUnits], periodType], dataElements],
-          category
+          category,
         ]) => {
           return this.dataSetService.checkDataSet(id).pipe(
             map(() => getDataSetSuccess()),
@@ -87,7 +87,7 @@ export class DataSetEffects {
       switchMap(
         ([
           [[[[action, id], organisationUnits], periodType], dataElements],
-          category
+          category,
         ]) => {
           return this.dataSetService.checkDataSet(id).pipe(
             map(() => getDataSetSuccess()),
@@ -145,7 +145,7 @@ export class DataSetEffects {
       openFuturePeriods: 0,
       expiryDays: 0,
       organisationUnits: organisationUnits,
-      dataSetElements: this.getDataSetElements(dataELements, dataSetId)
+      dataSetElements: this.getDataSetElements(dataELements, dataSetId),
     };
   }
 
