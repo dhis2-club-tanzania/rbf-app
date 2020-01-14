@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 import {
   getAssessmentConfigurations,
   getAssessmentConfigurationsCount,
-  getSelectedCategoryCombo
+  getSelectedCategoryCombo,
 } from 'src/app/store/selectors';
 import { SelectionFilterConfig } from '@iapps/ngx-dhis2-selection-filters';
 import { getGeneralConfigurationOrunitLevel } from 'src/app/store/selectors/general-configuration.selectors';
@@ -18,7 +18,7 @@ import { getGeneralConfigurationPeriodType } from '../../../../store/selectors/g
 @Component({
   selector: 'app-assessment',
   templateUrl: './assessment.component.html',
-  styleUrls: ['./assessment.component.css']
+  styleUrls: ['./assessment.component.css'],
 })
 export class AssessmentComponent implements OnInit {
   assessmentIndicators$: Observable<AssessmentConfiguration[]>;
@@ -33,15 +33,15 @@ export class AssessmentComponent implements OnInit {
     stepSelections: ['ou', 'pe'],
     disablePeriodTypeSelection: true,
     periodFilterConfig: {
-      singleSelection: true
+      singleSelection: true,
     },
     orgUnitFilterConfig: {
       showUserOrgUnitSection: false,
       singleSelection: true,
       showOrgUnitGroupSection: false,
       showOrgUnitLevelSection: false,
-      showOrgUnitLevelGroupSection: false
-    }
+      showOrgUnitLevelGroupSection: false,
+    },
   };
 
   // Form properties
@@ -64,7 +64,7 @@ export class AssessmentComponent implements OnInit {
   isApplicable = [];
 
   // TODO take care of memory leaks
-  constructor(private store: Store<State>) { }
+  constructor(private store: Store<State>) {}
 
   ngOnInit() {
     this.store.dispatch(getAssessmentDataSet());
@@ -80,14 +80,14 @@ export class AssessmentComponent implements OnInit {
       .subscribe(configs => (this.allConfigurations = configs));
     this.store
       .select(getGeneralConfigurationPeriodType)
-      .subscribe(periodType => this.selectedPeriodType = periodType);
+      .subscribe(periodType => (this.selectedPeriodType = periodType));
     this.addPeriodTypeConfig();
   }
 
   addPeriodTypeConfig() {
     this.selectionFilterConfig = {
       ...this.selectionFilterConfig,
-      selectedPeriodType: this.selectedPeriodType
+      selectedPeriodType: this.selectedPeriodType,
     };
   }
 
@@ -97,8 +97,8 @@ export class AssessmentComponent implements OnInit {
       this.showForm = true;
       this.formTitle = 'Summary of '.concat(
         dataSelections[0].items[0].type +
-        ' Quality Activities/ Areas Assessment Results of the ' +
-        this.orgUnitLevel
+          ' Quality Activities/ Areas Assessment Results of the ' +
+          this.orgUnitLevel
       );
       if (this.createArray) {
         this.createFormArrays(this.assessmentCount);
@@ -140,7 +140,7 @@ export class AssessmentComponent implements OnInit {
       orgUnit: this.dataSelections[1].items[0].id,
       dataElement: dataElement,
       categoryOptionCombo: categoryCombo,
-      value: this.obtainedValue[index]
+      value: this.obtainedValue[index],
     };
 
     this.store.dispatch(addFormDatavalues({ payload: value }));
@@ -151,7 +151,7 @@ export class AssessmentComponent implements OnInit {
     ) {
       window.alert(
         'Input Value Exceeded the Possible Maximum Value of:' +
-        this.allConfigurations[index].possibleMaxValue
+          this.allConfigurations[index].possibleMaxValue
       );
       this.obtainedValue[index] = 0;
     }
