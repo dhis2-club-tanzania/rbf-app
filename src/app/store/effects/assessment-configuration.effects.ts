@@ -92,7 +92,10 @@ export class AssessmentConfigurationEffects {
           duration: 1000,
         });
         return this.configServices
-          .deleteConfiguration(this.datastoreNamespace, action.id)
+          .deleteConfigurationWithDataElement(
+            this.datastoreNamespace,
+            action.id
+          )
           .pipe(
             map(() => {
               this._snackBar.open(
@@ -123,7 +126,7 @@ export class AssessmentConfigurationEffects {
           duration: 1000,
         });
         return this.configServices
-          .updateConfiguration(
+          .updateConfigurationWithDataElement(
             this.datastoreNamespace,
             action.configuration.id,
             action.configuration
