@@ -21,7 +21,7 @@ export class DataSetService {
   }
 
   checkDataSet(id: string) {
-    return this.http.get(`26/dataSets/${id}.json`);
+    return this.http.get(`dataSets/${id}.json`);
   }
 
   createDefaultDataSet(dataSet: DataSets): Observable<any> {
