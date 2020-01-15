@@ -16,7 +16,7 @@ import {
   deleteVerificationConfiguration,
   addVerificationConfiguration,
   addVerificationConfigurationSuccess,
-  addVerificationConfigurationFail
+  addVerificationConfigurationFail,
 } from '../actions';
 import { MatSnackBar } from '@angular/material';
 
@@ -45,7 +45,7 @@ export class VerificationConfigurationEffects {
       ),
       catchError(error => {
         this._snackBar.open('Loading Verification Configuration', 'FAIL', {
-          duration: 1000
+          duration: 1000,
         });
         return of(loadVerificationConfigurationFail({ error: error }));
       })
@@ -57,28 +57,28 @@ export class VerificationConfigurationEffects {
       ofType(addVerificationConfiguration),
       mergeMap(action => {
         this._snackBar.open('Adding Verification Configuration', '', {
-          duration: 1000
+          duration: 1000,
         });
         return this.configServices
-          .createConfiguration(this.datastoreNamespace, action.configuration)
+          .createDataElement(this.datastoreNamespace, action.configuration)
           .pipe(
             map(() => {
               this._snackBar.open(
                 'Adding Verification Configuration',
                 'SUCCESS',
                 {
-                  duration: 1000
+                  duration: 1000,
                 }
               );
               return addVerificationConfigurationSuccess({
-                configuration: action.configuration
+                configuration: action.configuration,
               });
             })
           );
       }),
       catchError(error => {
         this._snackBar.open('Adding Verification Configuration', 'FAIL', {
-          duration: 1000
+          duration: 1000,
         });
         return of(addVerificationConfigurationFail({ error: error }));
       })
@@ -90,7 +90,7 @@ export class VerificationConfigurationEffects {
       ofType(deleteVerificationConfiguration),
       mergeMap(action => {
         this._snackBar.open('Deleting Verification Configuration', '', {
-          duration: 1000
+          duration: 1000,
         });
         return this.configServices
           .deleteConfiguration(this.datastoreNamespace, action.id)
@@ -100,7 +100,7 @@ export class VerificationConfigurationEffects {
                 'Deleting Verification Configuration',
                 'SUCCESS',
                 {
-                  duration: 1000
+                  duration: 1000,
                 }
               );
               return deleteVerificationConfigurationSuccess({ id: action.id });
@@ -109,7 +109,7 @@ export class VerificationConfigurationEffects {
       }),
       catchError(error => {
         this._snackBar.open('Deleting Verification Configuration', 'FAIL', {
-          duration: 1000
+          duration: 1000,
         });
         return of(deleteVerificationConfigurationFail({ error: error }));
       })
@@ -121,7 +121,7 @@ export class VerificationConfigurationEffects {
       ofType(updateVerificationConfiguration),
       mergeMap(action => {
         this._snackBar.open('Updating Verification Configuration', '', {
-          duration: 1000
+          duration: 1000,
         });
         return this.configServices
           .updateConfiguration(
@@ -135,14 +135,14 @@ export class VerificationConfigurationEffects {
                 'Updating Verification Configuration',
                 'SUCCESS',
                 {
-                  duration: 1000
+                  duration: 1000,
                 }
               );
               return updateVerificationConfigurationSuccess({
                 configuration: {
                   id: action.configuration.id,
-                  changes: action.configuration
-                }
+                  changes: action.configuration,
+                },
               });
             })
           );
@@ -150,7 +150,7 @@ export class VerificationConfigurationEffects {
       catchError(error => {
         {
           this._snackBar.open('Updating Verification Configuration', 'FAIL', {
-            duration: 1000
+            duration: 1000,
           });
           return of(updateVerificationConfigurationFail(error));
         }

@@ -35,18 +35,44 @@ export class DataElementsService {
     return this.httpService.get(`dataElements/${id}`);
   }
 
-  createDataElement(dataElement: DataElement): Observable<any> {
-    return this.httpService.post('dataElements', dataElement);
+  createDataElement(dataElement: DataElement): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.httpService.post('dataElements', dataElement).subscribe(
+        data => {
+          resolve(data['response']);
+        },
+        error => {
+          reject(error);
+        }
+      );
+    });
   }
 
-  deleteDataElement(id: string): Observable<any> {
-    return this.httpService.delete(`dataElements/${id}`);
+  deleteDataElement(id: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.httpService.delete(`dataElements/${id}`).subscribe(
+        res => {
+          resolve(res);
+        },
+        err => {
+          reject(err);
+        }
+      );
+    });
   }
 
-  updateDataElement(id: string, dataElement: DataElement): Observable<any> {
-    return this.httpService.put(
-      `dataElements/${id}?mergeMode=REPLACE`,
-      dataElement
-    );
+  updateDataElement(id: string, dataElement: DataElement): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.httpService
+        .put(`dataElements/${id}?mergeMode=REPLACE`, dataElement)
+        .subscribe(
+          res => {
+            resolve(res);
+          },
+          err => {
+            reject(err);
+          }
+        );
+    });
   }
 }

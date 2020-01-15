@@ -1,17 +1,24 @@
+import { DataElement } from './../../../shared/models/data-elements.model';
 import { Injectable } from '@angular/core';
 import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import * as _ from 'lodash';
 import { VerificationConfiguration } from '../models/verification-configuration.model';
 import { AssessmentConfiguration } from '../models/assessment-configuration.model';
 import { GeneralConfiguration } from '../models/general-configuration.model';
+import { DataElementsService } from '../../../shared/services/data-elements.service';
+import { map, catchError } from 'rxjs/operators';
+import { ErrorMessage } from '../../../core/models/error-message.model';
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ConfigurationService {
   dataStoreUrl: string;
   periodTypeUrl = 'periodTypes.json';
-  constructor(private httpService: NgxDhis2HttpClientService) {
+  constructor(
+    private httpService: NgxDhis2HttpClientService,
+    private dataElementsService: DataElementsService
+  ) {
     this.dataStoreUrl = 'dataStore';
   }
 
@@ -31,6 +38,40 @@ export class ConfigurationService {
       `${this.dataStoreUrl}/${namespace}/${createdConfigurations.id}`,
       createdConfigurations
     );
+  }
+
+  createDataElement(
+    namespace: string,
+    createdConfigurations:
+      | VerificationConfiguration
+      | AssessmentConfiguration
+      | GeneralConfiguration
+  ): Observable<any> {
+    const dataElement: DataElement = {
+      name: createdConfigurations.indicator,
+      shortName: createdConfigurations.indicator,
+      aggregationType: 'SUM',
+      domainType: 'AGGREGATE',
+      description: `RBF-${createdConfigurations.indicator} Data element`,
+      valueType: 'NUMBER',
+      categoryCombo: null,
+      zeroIsSignificant: true,
+      legendSets: [],
+      aggregationLevels: [2],
+    };
+    return new Observable(observer => {
+      this.dataElementsService.createDataElement(dataElement).then(
+        res => {
+          this.createConfiguration(namespace, {
+            ...createdConfigurations,
+            id: res.uid,
+          }).subscribe(config => {
+            observer.next(config), observer.complete();
+          });
+        },
+        error => observer.error(error)
+      );
+    });
   }
 
   /**

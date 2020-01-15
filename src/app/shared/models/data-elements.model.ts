@@ -8,7 +8,8 @@ export interface DataElement {
   valueType: string;
   legendSets: Array<{ id: string }>;
   aggregationLevels: Array<number>;
-
+  description: string;
+  zeroIsSignificant: boolean;
   // TODO check if the below fields are necessary
   // formName: string;
   // fieldMask: string;
