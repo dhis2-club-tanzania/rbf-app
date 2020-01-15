@@ -23,7 +23,6 @@
         <tr>
           <th scope="col">S/No</th>
           <th scope="col">Indicator</th>
-          <th scope="col">Data Element</th>
           <th scope="col">Possible Maximum Value</th>
           <th scope="col">Last Date Modified</th>
           <th></th>
@@ -38,7 +37,6 @@
         >
           <th scope="row">{{ sno + 1 }}</th>
           <td>{{ indicator.indicator }}</td>
-          <td>{{ indicator.dataElement | dataElement }}</td>
           <td>{{ indicator.possibleMaxValue }}</td>
           <td>{{ indicator.lastUpdate | date }}</td>
           <td>
