@@ -60,7 +60,10 @@ export class AssessmentConfigurationEffects {
           duration: 1000,
         });
         return this.configServices
-          .createDataElement(this.datastoreNamespace, action.configuration)
+          .createConfigurationWithDataElement(
+            this.datastoreNamespace,
+            action.configuration
+          )
           .pipe(
             map(() => {
               this._snackBar.open('Adding Configuration', 'SUCCESS', {

@@ -54,7 +54,7 @@ export class ConfigurationService {
     );
   }
 
-  createDataElement(
+  createConfigurationWithDataElement(
     namespace: string,
     createdConfigurations:
       | VerificationConfiguration
