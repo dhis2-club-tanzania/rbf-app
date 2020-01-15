@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
@@ -30,9 +30,8 @@ export class AssessmentComponent implements OnInit {
     this.dataElements$ = this.store.select(getAllDataElements);
     this.currentUser$ = this.store.select(getCurrentUser);
     this.assessmentForm = new FormGroup({
-      indicator: new FormControl(),
-      dataElement: new FormControl('[Select Data Element]'),
-      possibleMaxValue: new FormControl(),
+      indicator: new FormControl('', Validators.required),
+      possibleMaxValue: new FormControl('', Validators.required),
     });
   }
 
