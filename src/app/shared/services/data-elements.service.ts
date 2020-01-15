@@ -9,22 +9,6 @@ import { DataElement } from '../models/data-elements.model';
 export class DataElementsService {
   constructor(private httpService: NgxDhis2HttpClientService) {}
 
-  // sample object
-  de = {
-    aggregationType: 'SUM',
-    domainType: 'AGGREGATE',
-    description: 'trial',
-    valueType: 'NUMBER',
-    formName: 'form name',
-    fieldMask: 'mask',
-    zeroIsSignificant: true,
-    name: 'trial de',
-    shortName: 'de',
-    categoryCombo: { id: 'bjDvmb4bfuf' },
-    legendSets: [],
-    aggregationLevels: [2],
-  };
-
   getDataElements(): Observable<any> {
     return this.httpService.get(
       'dataElements.json?fields=id,name,categoryCombo[id]&paging=false&filter=valueType:eq:NUMBER'

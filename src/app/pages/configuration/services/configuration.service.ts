@@ -15,6 +15,20 @@ import { ErrorMessage } from '../../../core/models/error-message.model';
 export class ConfigurationService {
   dataStoreUrl: string;
   periodTypeUrl = 'periodTypes.json';
+
+  dataElement: DataElement = {
+    name: '',
+    shortName: '',
+    aggregationType: 'SUM',
+    domainType: 'AGGREGATE',
+    description: 'RBF Data element',
+    valueType: 'NUMBER',
+    categoryCombo: null,
+    zeroIsSignificant: true,
+    legendSets: [],
+    aggregationLevels: [1, 2, 3, 4],
+  };
+
   constructor(
     private httpService: NgxDhis2HttpClientService,
     private dataElementsService: DataElementsService
@@ -47,20 +61,14 @@ export class ConfigurationService {
       | AssessmentConfiguration
       | GeneralConfiguration
   ): Observable<any> {
-    const dataElement: DataElement = {
+    const createdDataElement: DataElement = {
+      ...this.dataElement,
       name: createdConfigurations.indicator,
       shortName: createdConfigurations.indicator,
-      aggregationType: 'SUM',
-      domainType: 'AGGREGATE',
       description: `RBF-${createdConfigurations.indicator} Data element`,
-      valueType: 'NUMBER',
-      categoryCombo: null,
-      zeroIsSignificant: true,
-      legendSets: [],
-      aggregationLevels: [2],
     };
     return new Observable(observer => {
-      this.dataElementsService.createDataElement(dataElement).then(
+      this.dataElementsService.createDataElement(createdDataElement).then(
         res => {
           this.createConfiguration(namespace, {
             ...createdConfigurations,
