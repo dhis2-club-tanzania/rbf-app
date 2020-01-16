@@ -123,6 +123,51 @@
               {{ totalAmount }}
             </td>
           </tr>
+          <tr>
+            <td [colSpan]="9 + (periodSelection$ | async).length" class="total">
+              Total
+              {{ dataSelections[0].items[0].type | titlecase }} Provisional
+              Amount for community Indicators
+            </td>
+            <td>
+              <!-- TO DO -->
+              Waiting confirmations
+            </td>
+          </tr>
+          <tr>
+            <td [colSpan]="((10 + (periodSelection$ | async).length)/2)-1" class="footer">Quality Score</td>
+            <td><input class="input-within form-control input-group-sm" type="number"></td>
+            <td [colSpan]="((10 + (periodSelection$ | async).length)/2)-1" class="footer">Total Amount earned due
+              quality scoring</td>
+            <td><input class="input-within form-control input-group-sm" type="number"></td>
+          </tr>
+          <tr>
+            <td [colSpan]="(10 + (periodSelection$ | async).length)/2" class="footer total">Health facility Incharge
+            </td>
+            <td [colSpan]="(11 + (periodSelection$ | async).length)/2" class="footer total">Data verification team</td>
+          </tr>
+          <tr>
+            <td [colSpan]="(10 + (periodSelection$ | async).length)/2" class="footer">
+              Name________________________________</td>
+            <td [colSpan]="(11 + (periodSelection$ | async).length)/2" class="footer">Name &
+              Signature________________________________</td>
+          </tr>
+          <tr>
+            <td [colSpan]="(10 + (periodSelection$ | async).length)/2" [rowSpan]="2" class="footer">Signature & Health
+              Facility Stamp_______________________</td>
+            <td [colSpan]="((11 + (periodSelection$ | async).length)/2)" class="footer">Name &
+              Signature________________________________</td>
+          </tr>
+          <tr>
+            <td [colSpan]="(11 + (periodSelection$ | async).length)/2" class="footer">Name &
+              Signature________________________________</td>
+          </tr>
+          <tr>
+            <td [colSpan]="(10 + (periodSelection$ | async).length)/2" class="footer">
+              Date________________________________</td>
+            <td [colSpan]="(11 + (periodSelection$ | async).length)/2" class="footer">
+              Date________________________________</td>
+          </tr>
         </tbody>
       </table>
       <button class="center btn btn-group btn-primary btn-form theme-color" (click)="completeForm()">
