@@ -6,7 +6,7 @@
     <p
       class="warning"
       *ngIf="
-        !(assessmentIndicators$ | async) ||
+        !(assessmentConfigurationAvailable$ | async) ||
         (assessmentConfigurationError$ | async)
       "
     >
@@ -14,7 +14,7 @@
     </p>
     <table
       *ngIf="
-        (assessmentIndicators$ | async) &&
+        (assessmentConfigurationAvailable$ | async) &&
         !(assessmentConfigurationError$ | async)
       "
       class="table table-hover"

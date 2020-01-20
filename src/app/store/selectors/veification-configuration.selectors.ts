@@ -6,7 +6,7 @@ import { VerificationConfiguration } from 'src/app/pages/configuration/models/ve
 import {
   getSelectionFilterOrganisationUnit,
   getSelectionFilterPeriod,
-  getSelectionFilterLoadedState
+  getSelectionFilterLoadedState,
 } from './selection-filter.selectors';
 import { __assign } from 'tslib';
 
@@ -18,6 +18,11 @@ export const getVerificationConfigurationState = createSelector(
 export const getVerificationConfigurations = createSelector(
   getVerificationConfigurationState,
   fromConfigState.selectAllVerificationConfigurations
+);
+
+export const getVerificationConfigurationsAvailable = createSelector(
+  getVerificationConfigurations,
+  (config: VerificationConfiguration[]) => (config.length > 0 ? true : false)
 );
 
 export const getVerificationConfigurationDataElements = createSelector(
@@ -60,7 +65,7 @@ export const getTableStructure = createSelector(
         let configData = {
           id: config.id,
           indicator: config.indicator,
-          unitFee: config.unitFee
+          unitFee: config.unitFee,
         };
         const monthlyValues = [];
         _.forEach(period, pe => {
@@ -69,7 +74,7 @@ export const getTableStructure = createSelector(
             ver: 0,
             periodId: pe.id,
             periodName: pe.name,
-            orgunitId: orgunit
+            orgunitId: orgunit,
           };
           monthlyValues.push(monthlyValue);
         });
