@@ -106,7 +106,7 @@ export class VerificationComponent implements OnInit, OnDestroy {
     this.store
       .select(getGeneralConfigurationPeriodType)
       .subscribe(
-      (periodType: string) => this.selectedPeriodType = periodType);
+        (periodType: string) => this.selectedPeriodType = periodType);
     this.addPeriodTypeConfig();
   }
 
@@ -122,7 +122,8 @@ export class VerificationComponent implements OnInit, OnDestroy {
   addPeriodTypeConfig() {
     this.selectionFilterConfig = {
       ...this.selectionFilterConfig,
-      selectedPeriodType : this.selectedPeriodType};
+      selectedPeriodType: this.selectedPeriodType
+    };
   }
   onFilterUpdateAction(dataSelections) {
     if (dataSelections.length > 1) {

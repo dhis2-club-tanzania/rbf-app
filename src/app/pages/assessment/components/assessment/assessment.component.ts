@@ -129,21 +129,22 @@ export class AssessmentComponent implements OnInit {
     }
   }
   onInputBlur(index, dataElement) {
-    const dataSet = 'ojBzrqep2oK';
-    let categoryCombo = '';
-    this.store
-      .select(getSelectedCategoryCombo(dataElement))
-      .subscribe(category => (categoryCombo = category));
-    const value: FormDataPayload = {
-      period: this.dataSelections[0].items[0].id,
-      dataSet: dataSet,
-      orgUnit: this.dataSelections[1].items[0].id,
-      dataElement: dataElement,
-      categoryOptionCombo: categoryCombo,
-      value: this.obtainedValue[index],
-    };
-
-    this.store.dispatch(addFormDatavalues({ payload: value }));
+    // const dataSet = 'ojBzrqep2oK';
+    // let categoryCombo = '';
+    // this.store
+    //   .select(getSelectedCategoryCombo(dataElement))
+    //   .subscribe(category => (categoryCombo = category));
+    // const value: FormDataPayload = {
+    //   period: this.dataSelections[0].items[0].id,
+    //   dataSet: dataSet,
+    //   orgUnit: this.dataSelections[1].items[0].id,
+    //   dataElement: dataElement,
+    //   categoryOptionCombo: categoryCombo,
+    //   value: this.obtainedValue[index],
+    // };
+    console.log(dataElement);
+    const value = this.obtainedValue[index];
+    // this.store.dispatch(addFormDatavalues({ payload: value }));
   }
   onInputChange(index) {
     if (
