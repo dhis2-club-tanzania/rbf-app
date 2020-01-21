@@ -1,14 +1,12 @@
 import { DataElement } from './../../../shared/models/data-elements.model';
 import { Injectable } from '@angular/core';
 import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
-import { Observable, of, observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import * as _ from 'lodash';
 import { VerificationConfiguration } from '../models/verification-configuration.model';
 import { AssessmentConfiguration } from '../models/assessment-configuration.model';
 import { GeneralConfiguration } from '../models/general-configuration.model';
 import { DataElementsService } from '../../../shared/services/data-elements.service';
-import { map, catchError } from 'rxjs/operators';
-import { ErrorMessage } from '../../../core/models/error-message.model';
 @Injectable({
   providedIn: 'root',
 })
@@ -80,7 +78,7 @@ export class ConfigurationService {
             id: res.uid,
           }).subscribe(
             config => {
-              observer.next(config), observer.complete();
+              observer.next({ ...config, id: res.uid }), observer.complete();
             },
 
             err => observer.error(err)

@@ -65,7 +65,7 @@ export class VerificationConfigurationEffects {
             action.configuration
           )
           .pipe(
-            map(() => {
+            map(response => {
               this._snackBar.open(
                 'Adding Verification Configuration',
                 'SUCCESS',
@@ -74,7 +74,7 @@ export class VerificationConfigurationEffects {
                 }
               );
               return addVerificationConfigurationSuccess({
-                configuration: action.configuration,
+                configuration: { ...action.configuration, id: response['id'] },
               });
             })
           );

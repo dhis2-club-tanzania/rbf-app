@@ -70,7 +70,6 @@ export class EditAssessmentComponent implements OnInit {
       user: { id: userObject.id, name: userObject.displayName },
       possibleMaxValue: this.assessmentForm.value.possibleMaxValue,
     };
-    console.log(config);
     this.store.dispatch(
       updateAssessmentConfiguration({ configuration: config })
     );

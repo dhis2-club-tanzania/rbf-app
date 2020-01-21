@@ -65,12 +65,12 @@ export class AssessmentConfigurationEffects {
             action.configuration
           )
           .pipe(
-            map(() => {
+            map(response => {
               this._snackBar.open('Adding Configuration', 'SUCCESS', {
                 duration: 1000,
               });
               return addAssessmentConfigurationSuccess({
-                configuration: action.configuration,
+                configuration: { ...action.configuration, id: response['id'] },
               });
             })
           );
