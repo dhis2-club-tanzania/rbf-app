@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import { Observable } from 'rxjs';
-import { DataSets } from '../../core/models/data-set.model';
+import { DataSets } from '../models/data-set.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DataSetService {
   constructor(private http: NgxDhis2HttpClientService) {}
@@ -21,7 +21,7 @@ export class DataSetService {
   }
 
   checkDataSet(id: string) {
-    return this.http.get(`26/dataSets/${id}.json`);
+    return this.http.get(`dataSets/${id}.json`);
   }
 
   createDefaultDataSet(dataSet: DataSets): Observable<any> {

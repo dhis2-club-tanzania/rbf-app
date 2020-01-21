@@ -1,4 +1,4 @@
-import { FormDataPayload } from '../models/form-data.model';
+import { FormDataPayload } from '../../shared/models/form-data.model';
 
 export function getPayload(payload: FormDataPayload): any {
   const newPayload = {
@@ -9,9 +9,9 @@ export function getPayload(payload: FormDataPayload): any {
       {
         dataElement: payload.dataElement,
         value: payload.value,
-        categoryCombo: payload.categoryOptionCombo
-      }
-    ]
+        categoryCombo: payload.categoryOptionCombo,
+      },
+    ],
   };
   console.log(newPayload);
   return newPayload;

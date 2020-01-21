@@ -16,7 +16,7 @@ import {
   addAssessmentConfigurationFail,
   deleteAssessmentConfiguration,
   deleteAssessmentConfigurationSuccess,
-  deleteAssessmentConfigurationFail
+  deleteAssessmentConfigurationFail,
 } from '../actions';
 import { MatSnackBar } from '@angular/material';
 
@@ -45,7 +45,7 @@ export class AssessmentConfigurationEffects {
       ),
       catchError(error => {
         this._snackBar.open('Loading Assessment Configuration', 'FAIL', {
-          duration: 1000
+          duration: 1000,
         });
         return of(loadAssessmentConfigurationFail({ error: error }));
       })
@@ -57,24 +57,27 @@ export class AssessmentConfigurationEffects {
       ofType(addAssessmentConfiguration),
       mergeMap(action => {
         this._snackBar.open('Adding Assessment Configuration', '', {
-          duration: 1000
+          duration: 1000,
         });
         return this.configServices
-          .createConfiguration(this.datastoreNamespace, action.configuration)
+          .createConfigurationWithDataElement(
+            this.datastoreNamespace,
+            action.configuration
+          )
           .pipe(
-            map(() => {
+            map(response => {
               this._snackBar.open('Adding Configuration', 'SUCCESS', {
-                duration: 1000
+                duration: 1000,
               });
               return addAssessmentConfigurationSuccess({
-                configuration: action.configuration
+                configuration: { ...action.configuration, id: response['id'] },
               });
             })
           );
       }),
       catchError(error => {
         this._snackBar.open('Adding Assessment Configuration', 'FAIL', {
-          duration: 1000
+          duration: 1000,
         });
         return of(addAssessmentConfigurationFail({ error: error }));
       })
@@ -86,17 +89,20 @@ export class AssessmentConfigurationEffects {
       ofType(deleteAssessmentConfiguration),
       mergeMap(action => {
         this._snackBar.open('Deleting Assessment Configuration', '', {
-          duration: 1000
+          duration: 1000,
         });
         return this.configServices
-          .deleteConfiguration(this.datastoreNamespace, action.id)
+          .deleteConfigurationWithDataElement(
+            this.datastoreNamespace,
+            action.id
+          )
           .pipe(
             map(() => {
               this._snackBar.open(
                 'Deleting Assessment Configuration',
                 'SUCCESS',
                 {
-                  duration: 1000
+                  duration: 1000,
                 }
               );
               return deleteAssessmentConfigurationSuccess({ id: action.id });
@@ -105,7 +111,7 @@ export class AssessmentConfigurationEffects {
       }),
       catchError(error => {
         this._snackBar.open('Deleting Assessment Configuration', 'FAIL', {
-          duration: 1000
+          duration: 1000,
         });
         return of(deleteAssessmentConfigurationFail({ error: error }));
       })
@@ -117,10 +123,10 @@ export class AssessmentConfigurationEffects {
       ofType(updateAssessmentConfiguration),
       mergeMap(action => {
         this._snackBar.open('Updating Assessment Configuration', 'FAIL', {
-          duration: 1000
+          duration: 1000,
         });
         return this.configServices
-          .updateConfiguration(
+          .updateConfigurationWithDataElement(
             this.datastoreNamespace,
             action.configuration.id,
             action.configuration
@@ -131,21 +137,21 @@ export class AssessmentConfigurationEffects {
                 'Updating Assessment Configuration',
                 'SUCCESS',
                 {
-                  duration: 1000
+                  duration: 1000,
                 }
               );
               return updateAssessmentConfigurationSuccess({
                 configuration: {
                   id: action.configuration.id,
-                  changes: action.configuration
-                }
+                  changes: action.configuration,
+                },
               });
             })
           );
       }),
       catchError(error => {
         this._snackBar.open('Updating Assessment Configuration', 'FAIL', {
-          duration: 1000
+          duration: 1000,
         });
         return of(updateAssessmentConfigurationFail(error));
       })

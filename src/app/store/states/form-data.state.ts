@@ -1,6 +1,6 @@
 import { BaseState, initialBaseState } from './base.state';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { FormDataValue } from 'src/app/core/models/form-data.model';
+import { FormDataValue } from 'src/app/shared/models/form-data.model';
 
 export interface FormDataState extends BaseState, EntityState<FormDataValue> {
   adding: boolean;
@@ -13,17 +13,17 @@ export function selectDataId(fromDataValue: FormDataValue) {
 
 export const adapter: EntityAdapter<FormDataValue> = createEntityAdapter({
   sortComparer: false,
-  selectId: selectDataId
+  selectId: selectDataId,
 });
 
 export const initialFormDataState: FormDataState = adapter.getInitialState({
   ...initialBaseState,
   added: false,
-  adding: false
+  adding: false,
 });
 
 export const {
   selectAll: selectAllFormDataValues,
   selectIds: selectFormDataValuesIds,
-  selectEntities: selectFormDataValuesEntities
+  selectEntities: selectFormDataValuesEntities,
 } = adapter.getSelectors();

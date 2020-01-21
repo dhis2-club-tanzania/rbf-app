@@ -15,6 +15,11 @@ export const getAssessmentConfigurations = createSelector(
   fromConfigState.selectAllAssessmentConfigurations
 );
 
+export const getAssessmentConfigurationsAvailable = createSelector(
+  getAssessmentConfigurations,
+  (config: AssessmentConfiguration[]) => (config.length > 0 ? true : false)
+);
+
 export const getAssessmentConfigurationsCount = createSelector(
   getAssessmentConfigurationState,
   fromConfigState.selectAssessmntConfigCount

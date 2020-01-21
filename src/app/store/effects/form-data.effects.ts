@@ -4,10 +4,10 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   addFormDatavalues,
   addFormDatavaluesSuccess,
-  addFormDatavaluesFail
+  addFormDatavaluesFail,
 } from '../actions';
 import { mergeMap, map, catchError } from 'rxjs/operators';
-import { FormDataValue } from 'src/app/core/models/form-data.model';
+import { FormDataValue } from 'src/app/shared/models/form-data.model';
 import { of } from 'rxjs';
 
 @Injectable()
@@ -26,7 +26,7 @@ export class FormDataEffects {
             const dataValue: FormDataValue = {
               id: `${action.payload.dataElement}-${action.payload.categoryOptionCombo}`,
               val: action.payload.value,
-              com: 'false'
+              com: 'false',
             };
             return addFormDatavaluesSuccess({ formDataValues: dataValue });
           }),

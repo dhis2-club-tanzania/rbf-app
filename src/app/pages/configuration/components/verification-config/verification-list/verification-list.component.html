@@ -7,7 +7,7 @@
     <p
       *ngIf="
         (verificationConfigurationError$ | async) ||
-        !(verificationIndicators$ | async)
+        !(verificationConfigurationAvailable$ | async)
       "
       class="warning"
     >
@@ -15,7 +15,7 @@
     </p>
     <table
       *ngIf="
-        (verificationIndicators$ | async) &&
+        (verificationConfigurationAvailable$ | async) &&
         !(verificationConfigurationError$ | async)
       "
       class="overflow-auto tableContainer table-bordered"

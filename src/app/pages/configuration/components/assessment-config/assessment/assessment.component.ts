@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
-import { UUID } from '@iapps/utils';
 
 import { getAllDataElements, getCurrentUser } from 'src/app/store/selectors';
 import { State } from 'src/app/store/reducers';
@@ -15,7 +14,7 @@ import { DataElementList } from '../../../models/data-element.model';
 @Component({
   selector: 'app-assessment',
   templateUrl: './assessment.component.html',
-  styleUrls: ['./assessment.component.css']
+  styleUrls: ['./assessment.component.css'],
 })
 export class AssessmentComponent implements OnInit {
   dataElements$: Observable<DataElementList[]>;
@@ -31,9 +30,8 @@ export class AssessmentComponent implements OnInit {
     this.dataElements$ = this.store.select(getAllDataElements);
     this.currentUser$ = this.store.select(getCurrentUser);
     this.assessmentForm = new FormGroup({
-      indicator: new FormControl(),
-      dataElement: new FormControl('[Select Data Element]'),
-      possibleMaxValue: new FormControl()
+      indicator: new FormControl('', Validators.required),
+      possibleMaxValue: new FormControl('', Validators.required),
     });
   }
 
@@ -44,13 +42,12 @@ export class AssessmentComponent implements OnInit {
     });
     const date = new Date();
     const config: AssessmentConfiguration = {
-      id: UUID(),
       indicator: this.assessmentForm.value.indicator,
       dataElement: this.assessmentForm.value.dataElement,
       created: date,
       lastUpdate: date,
       user: { id: userObject.id, name: userObject.displayName },
-      possibleMaxValue: this.assessmentForm.value.possibleMaxValue
+      possibleMaxValue: this.assessmentForm.value.possibleMaxValue,
     };
     this.store.dispatch(addAssessmentConfiguration({ configuration: config }));
     this.router.navigate(['/configuration/assessment']);
