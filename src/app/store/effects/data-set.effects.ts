@@ -38,41 +38,41 @@ export class DataSetEffects {
     private store: Store<State>
   ) {}
 
-  getAssessmentDataSet$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(getAssessmentDataSet),
-      withLatestFrom(this.store.select(getAssessmentDataSetId)),
-      withLatestFrom(this.store.select(getOrganisationUnits)),
-      withLatestFrom(this.store.select(getGeneralConfigurationPeriodType)),
-      withLatestFrom(this.store.select(getAssessmentConfigurationDataElements)),
-      withLatestFrom(this.categoryService.getDefaultCategoryCombo()),
-      switchMap(
-        ([
-          [[[[action, id], organisationUnits], periodType], dataElements],
-          category,
-        ]) => {
-          return this.dataSetService.checkDataSet(id).pipe(
-            map(() => getDataSetSuccess()),
-            catchError((error: ErrorMessage) => {
-              if (error.status === 404) {
-                const dataSet = this.getDataSetPayload(
-                  id,
-                  organisationUnits,
-                  periodType,
-                  dataElements,
-                  category,
-                  'assessment'
-                );
-                const dataSets: DataSets = { dataSets: [dataSet] };
-                return of(createDefaultDataSet({ dataSet: dataSets }));
-              }
-              return of(getDataSetFail({ error: error }));
-            })
-          );
-        }
-      )
-    )
-  );
+  // getAssessmentDataSet$ = createEffect(() =>
+  //   this.actions$.pipe(
+  //     ofType(getAssessmentDataSet),
+  //     withLatestFrom(this.store.select(getAssessmentDataSetId)),
+  //     withLatestFrom(this.store.select(getOrganisationUnits)),
+  //     withLatestFrom(this.store.select(getGeneralConfigurationPeriodType)),
+  //     withLatestFrom(this.store.select(getAssessmentConfigurationDataElements)),
+  //     withLatestFrom(this.categoryService.getDefaultCategoryCombo()),
+  //     switchMap(
+  //       ([
+  //         [[[[action, id], organisationUnits], periodType], dataElements],
+  //         category,
+  //       ]) => {
+  //         return this.dataSetService.checkDataSet(id).pipe(
+  //           map(() => getDataSetSuccess()),
+  //           catchError((error: ErrorMessage) => {
+  //             if (error.status === 404) {
+  //               const dataSet = this.getDataSetPayload(
+  //                 id,
+  //                 organisationUnits,
+  //                 periodType,
+  //                 dataElements,
+  //                 category,
+  //                 'assessment'
+  //               );
+  //               const dataSets: DataSets = { dataSets: [dataSet] };
+  //               return of(createDefaultDataSet({ dataSet: dataSets }));
+  //             }
+  //             return of(getDataSetFail({ error: error }));
+  //           })
+  //         );
+  //       }
+  //     )
+  //   )
+  // );
 
   getVerificationDataSet$ = createEffect(() =>
     this.actions$.pipe(
@@ -89,38 +89,51 @@ export class DataSetEffects {
           [[[[action, id], organisationUnits], periodType], dataElements],
           category,
         ]) => {
-          return this.dataSetService.checkDataSet(id).pipe(
+          const dataSet = this.getDataSetPayload(
+            id,
+            organisationUnits,
+            periodType,
+            dataElements,
+            category,
+            'RBF verification'
+          );
+          const dataSets: DataSets = { dataSets: [dataSet] };
+          return this.dataSetService.createDefaultDataSet(dataSets).pipe(
             map(() => getDataSetSuccess()),
-            catchError((error: ErrorMessage) => {
-              if (error.status !== 404) {
-                return of(getDataSetFail({ error: error }));
-              } else {
-                const dataSet = this.getDataSetPayload(
-                  id,
-                  organisationUnits,
-                  periodType,
-                  dataElements,
-                  category,
-                  'verification'
-                );
-                const dataSets: DataSets = { dataSets: [dataSet] };
-                return of(createDefaultDataSet({ dataSet: dataSets }));
-              }
-            })
+            catchError(error => of(getDataSetFail({ error: error })))
           );
         }
       )
     )
   );
 
-  createDefaultDataSet$ = createEffect(() =>
+  getAssessmentDataSet$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(createDefaultDataSet),
-      switchMap(action =>
-        this.dataSetService.createDefaultDataSet(action.dataSet).pipe(
-          map(() => getDataSetSuccess()),
-          catchError(error => of(getDataSetFail({ error: error })))
-        )
+      ofType(getAssessmentDataSet),
+      withLatestFrom(this.store.select(getAssessmentDataSetId)),
+      withLatestFrom(this.store.select(getOrganisationUnits)),
+      withLatestFrom(this.store.select(getGeneralConfigurationPeriodType)),
+      withLatestFrom(this.store.select(getAssessmentConfigurationDataElements)),
+      withLatestFrom(this.categoryService.getDefaultCategoryCombo()),
+      switchMap(
+        ([
+          [[[[action, id], organisationUnits], periodType], dataElements],
+          category,
+        ]) => {
+          const dataSet = this.getDataSetPayload(
+            id,
+            organisationUnits,
+            periodType,
+            dataElements,
+            category,
+            'RBF assessment'
+          );
+          const dataSets: DataSets = { dataSets: [dataSet] };
+          return this.dataSetService.createDefaultDataSet(dataSets).pipe(
+            map(() => getDataSetSuccess()),
+            catchError(error => of(getDataSetFail({ error: error })))
+          );
+        }
       )
     )
   );
@@ -137,7 +150,7 @@ export class DataSetEffects {
       id: dataSetId,
       timelyDays: 15,
       name: formName,
-      shortName: formName,
+      shortName: `RBF ${formName} form`,
       code: '',
       description: '',
       periodType: periodType,
