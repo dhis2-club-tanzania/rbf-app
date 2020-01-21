@@ -8,7 +8,6 @@ import {
   getVerificationDataSet,
   getDataSetSuccess,
   getDataSetFail,
-  createDefaultDataSet,
 } from '../actions/data-set.actions';
 import { switchMap, withLatestFrom, map, catchError } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
@@ -18,7 +17,6 @@ import {
   getVerificationDataSetId,
   getGeneralConfigurationPeriodType,
 } from '../selectors/general-configuration.selectors';
-import { ErrorMessage } from '@iapps/ngx-dhis2-http-client';
 import { of } from 'rxjs';
 import {
   getOrganisationUnits,
@@ -37,42 +35,6 @@ export class DataSetEffects {
     private categoryService: CategoryComboService,
     private store: Store<State>
   ) {}
-
-  // getAssessmentDataSet$ = createEffect(() =>
-  //   this.actions$.pipe(
-  //     ofType(getAssessmentDataSet),
-  //     withLatestFrom(this.store.select(getAssessmentDataSetId)),
-  //     withLatestFrom(this.store.select(getOrganisationUnits)),
-  //     withLatestFrom(this.store.select(getGeneralConfigurationPeriodType)),
-  //     withLatestFrom(this.store.select(getAssessmentConfigurationDataElements)),
-  //     withLatestFrom(this.categoryService.getDefaultCategoryCombo()),
-  //     switchMap(
-  //       ([
-  //         [[[[action, id], organisationUnits], periodType], dataElements],
-  //         category,
-  //       ]) => {
-  //         return this.dataSetService.checkDataSet(id).pipe(
-  //           map(() => getDataSetSuccess()),
-  //           catchError((error: ErrorMessage) => {
-  //             if (error.status === 404) {
-  //               const dataSet = this.getDataSetPayload(
-  //                 id,
-  //                 organisationUnits,
-  //                 periodType,
-  //                 dataElements,
-  //                 category,
-  //                 'assessment'
-  //               );
-  //               const dataSets: DataSets = { dataSets: [dataSet] };
-  //               return of(createDefaultDataSet({ dataSet: dataSets }));
-  //             }
-  //             return of(getDataSetFail({ error: error }));
-  //           })
-  //         );
-  //       }
-  //     )
-  //   )
-  // );
 
   getVerificationDataSet$ = createEffect(() =>
     this.actions$.pipe(
@@ -95,7 +57,7 @@ export class DataSetEffects {
             periodType,
             dataElements,
             category,
-            'RBF verification'
+            'verification'
           );
           const dataSets: DataSets = { dataSets: [dataSet] };
           return this.dataSetService.createDefaultDataSet(dataSets).pipe(
@@ -126,7 +88,7 @@ export class DataSetEffects {
             periodType,
             dataElements,
             category,
-            'RBF assessment'
+            'assessment'
           );
           const dataSets: DataSets = { dataSets: [dataSet] };
           return this.dataSetService.createDefaultDataSet(dataSets).pipe(
