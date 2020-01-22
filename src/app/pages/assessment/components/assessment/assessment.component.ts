@@ -6,7 +6,6 @@ import { Store } from '@ngrx/store';
 import {
   getAssessmentConfigurations,
   getAssessmentConfigurationsCount,
-  getSelectedCategoryCombo,
 } from 'src/app/store/selectors';
 import { SelectionFilterConfig } from '@iapps/ngx-dhis2-selection-filters';
 import { getGeneralConfigurationOrunitLevel } from 'src/app/store/selectors/general-configuration.selectors';
@@ -128,23 +127,14 @@ export class AssessmentComponent implements OnInit {
       this.possibleMaxValueSum += this.possibleMaxValue[a];
     }
   }
-  onInputBlur(index, dataElement) {
-    // const dataSet = 'ojBzrqep2oK';
-    // let categoryCombo = '';
-    // this.store
-    //   .select(getSelectedCategoryCombo(dataElement))
-    //   .subscribe(category => (categoryCombo = category));
-    // const value: FormDataPayload = {
-    //   period: this.dataSelections[0].items[0].id,
-    //   dataSet: dataSet,
-    //   orgUnit: this.dataSelections[1].items[0].id,
-    //   dataElement: dataElement,
-    //   categoryOptionCombo: categoryCombo,
-    //   value: this.obtainedValue[index],
-    // };
-    console.log(dataElement);
-    const value = this.obtainedValue[index];
-    // this.store.dispatch(addFormDatavalues({ payload: value }));
+  onSaveDataValues(index, dataElement) {
+    const dataValue: FormDataPayload = {
+      dataElement: dataElement,
+      value: this.obtainedValue[index],
+      period: this.dataSelections[0].items[0].id,
+      orgUnit: this.dataSelections[1].items[0].id,
+    };
+    this.store.dispatch(addFormDatavalues({ payload: dataValue }));
   }
   onInputChange(index) {
     if (

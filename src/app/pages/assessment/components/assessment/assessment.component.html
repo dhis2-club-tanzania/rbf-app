@@ -3,8 +3,12 @@
     <h4>{{ formTitle | titlecase }}</h4>
   </div>
   <div class="filter row">
-    <ngx-dhis2-selection-filters (filterUpdate)="onFilterUpdateAction($event)" [dataSelections]="dataSelections"
-      [selectionFilterConfig]="selectionFilterConfig" (update)="onFilterUpdateAction($event)">
+    <ngx-dhis2-selection-filters
+      (filterUpdate)="onFilterUpdateAction($event)"
+      [dataSelections]="dataSelections"
+      [selectionFilterConfig]="selectionFilterConfig"
+      (update)="onFilterUpdateAction($event)"
+    >
     </ngx-dhis2-selection-filters>
   </div>
   <div *ngIf="showForm">
@@ -31,29 +35,43 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="
+                <tr
+                  *ngFor="
                     let indicator of assessmentIndicators$ | async;
                     let sno = index
-                  ">
+                  "
+                >
                   <th scope="row" class="sno">{{ sno + 1 }}</th>
                   <td class="indicator">{{ indicator.indicator }}</td>
                   <td>
                     {{ indicator.possibleMaxValue }}
                   </td>
                   <td>
-                    <input class="form-control input-group-sm" type="number" (blur)="
-                        onInputBlur(sno, indicator.dataElement);
-                        onInputChange(sno)
-                      " (keyup)="onInputChange(sno)" [(ngModel)]="obtainedValue[sno]"
-                      [ngModelOptions]="{ standalone: true }" max="{{ indicator.possibleMaxValue }}"
-                      [disabled]="isFormComplete[sno] || !isApplicable[sno]" />
+                    <input
+                      class="form-control input-group-sm"
+                      type="number"
+                      (blur)="
+                        onSaveDataValues(sno, indicator.id); onInputChange(sno)
+                      "
+                      (keyup)="onInputChange(sno)"
+                      [(ngModel)]="obtainedValue[sno]"
+                      [ngModelOptions]="{ standalone: true }"
+                      max="{{ indicator.possibleMaxValue }}"
+                      [disabled]="isFormComplete[sno] || !isApplicable[sno]"
+                    />
                     <mat-form-field class="mat-form-field">
                       <mat-label>Selection Application</mat-label>
                       <mat-select>
-                        <mat-option [value]="1" (click)="onOptionSelect(sno, 1)">
+                        <mat-option
+                          [value]="1"
+                          (click)="onOptionSelect(sno, 1)"
+                        >
                           Applicable
                         </mat-option>
-                        <mat-option [value]="2" (click)="onOptionSelect(sno, 0); notApplicable(sno)">
+                        <mat-option
+                          [value]="2"
+                          (click)="onOptionSelect(sno, 0); notApplicable(sno)"
+                        >
                           Not Applicable
                         </mat-option>
                       </mat-select>
@@ -75,10 +93,16 @@
                 </tr>
               </tbody>
             </table>
-            <button class="btn btn-group btn-primary theme-color my-2 my-sm-0" (click)="completeForm()">
+            <button
+              class="btn btn-group btn-primary theme-color my-2 my-sm-0"
+              (click)="completeForm()"
+            >
               Complete
             </button>
-            <button class="btn btn-group btn-primary theme-color" (click)="incompleteForm()">
+            <button
+              class="btn btn-group btn-primary theme-color"
+              (click)="incompleteForm()"
+            >
               Incomplete
             </button>
             <button class="btn btn-group btn-primary theme-color" type="submit">
