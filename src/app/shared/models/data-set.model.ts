@@ -6,6 +6,8 @@ export interface DataSet {
   shortName: string;
   code: string;
   description: string;
+  publicAccess?: string;
+  formType?: string;
   openFuturePeriods: number;
   expiryDays: number;
   categoryCombo: {

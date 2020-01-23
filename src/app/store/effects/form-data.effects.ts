@@ -12,6 +12,14 @@ import { of } from 'rxjs';
 import { State } from '../reducers/index';
 import { Store } from '@ngrx/store';
 import { getAssessmentDataSetId } from '../selectors/general-configuration.selectors';
+import { ErrorMessage } from '../../core/models/error-message.model';
+import { loadFormDataValuesFail } from '../actions/form-data.actions';
+import { getSanitizedFormData } from '../../shared/helpers/get-sanitized-form-data.helper';
+import {
+  loadFormDataValues,
+  loadFormDataValuesSuccess,
+} from '../actions/form-data.actions';
+import * as _ from 'lodash';
 
 @Injectable()
 export class FormDataEffects {
@@ -21,6 +29,30 @@ export class FormDataEffects {
     private store: Store<State>
   ) {}
 
+  loadFormDataValues$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadFormDataValues),
+      withLatestFrom(this.store.select(getAssessmentDataSetId)),
+      mergeMap(([action, dataset]) => {
+        const dataSetPayload = {
+          ...action.dataRequest,
+          dataSet: dataset,
+        };
+        return this.formDataService.getFormDataValues(dataSetPayload).pipe(
+          map(result =>
+            loadFormDataValuesSuccess({
+              formDataValues: _.forEach(result['dataValues'] || [], dataValue =>
+                getSanitizedFormData(dataValue)
+              ),
+            })
+          ),
+          catchError((error: ErrorMessage) =>
+            of(loadFormDataValuesFail({ error }))
+          )
+        );
+      })
+    )
+  );
   addFormDataValues$ = createEffect(() =>
     this.actions$.pipe(
       ofType(addFormDatavalues),
@@ -33,7 +65,6 @@ export class FormDataEffects {
         return this.formDataService.sendFormDataValue(dataValues).pipe(
           map(() => {
             const dataValue: FormDataValue = {
-              // id: `${action.payload.dataElement}-${action.payload.categoryOptionCombo}`,
               id: action.payload.dataElement,
               val: action.payload.value,
               com: 'false',

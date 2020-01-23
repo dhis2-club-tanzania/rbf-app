@@ -115,6 +115,7 @@ export class DataSetEffects {
       shortName: `RBF ${formName} form`,
       code: '',
       description: '',
+      publicAccess: 'rwr-----',
       periodType: periodType,
       categoryCombo: category.categoryCombos[0],
       openFuturePeriods: 0,

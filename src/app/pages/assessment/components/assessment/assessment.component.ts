@@ -13,6 +13,7 @@ import { FormDataPayload } from 'src/app/shared/models/form-data.model';
 import { addFormDatavalues } from 'src/app/store/actions';
 import { getAssessmentDataSet } from 'src/app/store/actions/data-set.actions';
 import { getGeneralConfigurationPeriodType } from '../../../../store/selectors/general-configuration.selectors';
+import { loadFormDataValues } from '../../../../store/actions/form-data.actions';
 
 @Component({
   selector: 'app-assessment',
@@ -90,10 +91,22 @@ export class AssessmentComponent implements OnInit {
     };
   }
 
+  loadDataValues() {
+    this.store.dispatch(
+      loadFormDataValues({
+        dataRequest: {
+          period: this.dataSelections[0].items[0].id,
+          orgUnit: this.dataSelections[1].items[0].id,
+        },
+      })
+    );
+  }
+
   onFilterUpdateAction(dataSelections) {
     if (dataSelections.length > 1) {
       this.dataSelections = dataSelections;
       this.showForm = true;
+      this.loadDataValues();
       this.formTitle = 'Summary of '.concat(
         dataSelections[0].items[0].type +
           ' Quality Activities/ Areas Assessment Results of the ' +

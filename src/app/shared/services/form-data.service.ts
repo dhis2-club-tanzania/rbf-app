@@ -24,7 +24,11 @@ export class FormDataService {
     return this.dhisHttp.post(`dataValues`, params);
   }
 
-  getFormDataValues(payload: any): Observable<any> {
+  getFormDataValues(payload: {
+    period: string;
+    dataSet: string;
+    orgUnit: string;
+  }): Observable<any> {
     return this.dhisHttp.get(
       `dhis-web-dataentry/getDataValues.action?periodId=${payload.period}&dataSetId=${payload.dataSet}&organisationUnitId=${payload.orgUnit}`
     );
