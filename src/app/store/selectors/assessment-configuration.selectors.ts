@@ -5,7 +5,6 @@ import { getRootState, State } from '../reducers';
 import * as fromConfigState from '../states/assessment-configuration.state';
 import { AssessmentConfiguration } from 'src/app/pages/configuration/models/assessment-configuration.model';
 import { getAllFormDataValues } from './form-data.selectors';
-import { FormDataValue } from '../../shared/models/form-data.model';
 import { AssessmentData } from '../../pages/verification/models/assessment-data';
 import { getDavaValues } from 'src/app/shared/helpers/get-data-values.helper';
 
@@ -30,7 +29,6 @@ export const getAssessmentFormStructure = createSelector(
       });
       assessmentFormStructure.push(data);
     });
-    console.log(assessmentFormStructure);
     return assessmentFormStructure;
   }
 );

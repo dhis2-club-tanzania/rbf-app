@@ -39,16 +39,21 @@ export class FormDataEffects {
           dataSet: dataset,
         };
         return this.formDataService.getFormDataValues(dataSetPayload).pipe(
-          map(result =>
-            loadFormDataValuesSuccess({
-              formDataValues: _.forEach(result['dataValues'] || [], dataValue =>
-                getSanitizedFormData(dataValue)
-              ),
-            })
-          ),
-          catchError((error: ErrorMessage) =>
-            of(loadFormDataValuesFail({ error }))
-          )
+          map(result => {
+            const sanitizedFormDataValues = _.map(
+              result['dataValues'],
+              dataValue => getSanitizedFormData(dataValue)
+            );
+
+            console.log(sanitizedFormDataValues);
+            return loadFormDataValuesSuccess({
+              formDataValues: sanitizedFormDataValues,
+            });
+          }),
+          catchError((error: ErrorMessage) => {
+            console.log(error);
+            return of(loadFormDataValuesFail({ error }));
+          })
         );
       })
     )
@@ -62,6 +67,8 @@ export class FormDataEffects {
           ...action.payload,
           dataSet: dataSet,
         };
+
+        console.log(dataValues);
         return this.formDataService.sendFormDataValue(dataValues).pipe(
           map(() => {
             const dataValue: FormDataValue = {
@@ -69,9 +76,13 @@ export class FormDataEffects {
               val: action.payload.value,
               com: 'false',
             };
+            console.log(dataValue);
             return addFormDatavaluesSuccess({ formDataValues: dataValue });
           }),
-          catchError(error => of(addFormDatavaluesFail({ error: error })))
+          catchError(error => {
+            console.log(JSON.stringify(error));
+            return of(addFormDatavaluesFail({ error: error }));
+          })
         );
       })
     )
