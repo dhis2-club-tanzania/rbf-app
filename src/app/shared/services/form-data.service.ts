@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import { Observable } from 'rxjs';
 import { FormDataPayload } from '../models/form-data.model';
-import { HttpParams } from '@angular/common/http';
+import { HttpParams, HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FormDataService {
   dataSetUrl: string;
-  constructor(private dhisHttp: NgxDhis2HttpClientService) {
+  constructor(private dhisHttp: NgxDhis2HttpClientService, http: HttpClient) {
     this.dataSetUrl = 'dataValueSets';
   }
   sendFormDataValue(payload: FormDataPayload): Observable<any> {
@@ -30,7 +30,8 @@ export class FormDataService {
     orgUnit: string;
   }): Observable<any> {
     return this.dhisHttp.get(
-      `dhis-web-dataentry/getDataValues.action?periodId=${payload.period}&dataSetId=${payload.dataSet}&organisationUnitId=${payload.orgUnit}`
+      `dhis-web-dataentry/getDataValues.action?periodId=${payload.period}&dataSetId=${payload.dataSet}&organisationUnitId=${payload.orgUnit}`,
+      { useRootUrl: true }
     );
   }
 }

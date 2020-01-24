@@ -14,6 +14,8 @@ import { addFormDatavalues } from 'src/app/store/actions';
 import { getAssessmentDataSet } from 'src/app/store/actions/data-set.actions';
 import { getGeneralConfigurationPeriodType } from '../../../../store/selectors/general-configuration.selectors';
 import { loadFormDataValues } from '../../../../store/actions/form-data.actions';
+import { AssessmentData } from '../../../verification/models/assessment-data';
+import { getAssessmentFormStructure } from '../../../../store/selectors/assessment-configuration.selectors';
 
 @Component({
   selector: 'app-assessment',
@@ -21,7 +23,7 @@ import { loadFormDataValues } from '../../../../store/actions/form-data.actions'
   styleUrls: ['./assessment.component.css'],
 })
 export class AssessmentComponent implements OnInit {
-  assessmentIndicators$: Observable<AssessmentConfiguration[]>;
+  assessmentIndicators$: Observable<AssessmentData[]>;
   orgUnitLevel$: Observable<string>;
 
   dataSelections: any[];
@@ -68,7 +70,7 @@ export class AssessmentComponent implements OnInit {
 
   ngOnInit() {
     this.store.dispatch(getAssessmentDataSet());
-    this.assessmentIndicators$ = this.store.select(getAssessmentConfigurations);
+    this.assessmentIndicators$ = this.store.select(getAssessmentFormStructure);
     this.store
       .select(getGeneralConfigurationOrunitLevel)
       .subscribe(orgUnitLevel => (this.orgUnitLevel = orgUnitLevel));

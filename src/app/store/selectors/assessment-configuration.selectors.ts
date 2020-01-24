@@ -4,6 +4,10 @@ import * as _ from 'lodash';
 import { getRootState, State } from '../reducers';
 import * as fromConfigState from '../states/assessment-configuration.state';
 import { AssessmentConfiguration } from 'src/app/pages/configuration/models/assessment-configuration.model';
+import { getAllFormDataValues } from './form-data.selectors';
+import { FormDataValue } from '../../shared/models/form-data.model';
+import { AssessmentData } from '../../pages/verification/models/assessment-data';
+import { getDavaValues } from 'src/app/shared/helpers/get-data-values.helper';
 
 export const getAssessmentConfigurationState = createSelector(
   getRootState,
@@ -13,6 +17,22 @@ export const getAssessmentConfigurationState = createSelector(
 export const getAssessmentConfigurations = createSelector(
   getAssessmentConfigurationState,
   fromConfigState.selectAllAssessmentConfigurations
+);
+
+export const getAssessmentFormStructure = createSelector(
+  getAssessmentConfigurations,
+  getAllFormDataValues,
+  (assesmentConfig, dataValues) => {
+    const assessmentFormStructure: AssessmentData[] = [];
+    _.forEach(assesmentConfig, (config: AssessmentConfiguration) => {
+      const data = _.assign({}, config, {
+        value: getDavaValues(config.id, dataValues),
+      });
+      assessmentFormStructure.push(data);
+    });
+    console.log(assessmentFormStructure);
+    return assessmentFormStructure;
+  }
 );
 
 export const getAssessmentConfigurationsAvailable = createSelector(

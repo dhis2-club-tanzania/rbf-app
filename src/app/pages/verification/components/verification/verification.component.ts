@@ -7,20 +7,20 @@ import { Store } from '@ngrx/store';
 import { State } from 'src/app/store/reducers';
 import {
   getVerificationConfigurations,
-  getTableStructure
+  getVerificationFormStructure,
 } from 'src/app/store/selectors';
 import { MatSnackBar } from '@angular/material';
 import {
   getGeneralConfigurationErrorRate,
-  getGeneralConfigurationOrunitLevel
+  getGeneralConfigurationOrunitLevel,
 } from 'src/app/store/selectors/general-configuration.selectors';
-import { VerificationData } from './verificationData';
+import { VerificationData } from '../../models/verification-data';
 import {
   provisionalAmountSum,
   lossCalculator,
   actualAmount,
   totalAmount,
-  error
+  error,
 } from '../../helpers/summations';
 import { getPeriodObject } from '../../helpers/period.helper';
 import { loadSelectionFilterData } from 'src/app/store/actions';
@@ -32,7 +32,7 @@ import { getGeneralConfigurationPeriodType } from '../../../../store/selectors/g
 @Component({
   selector: 'app-verification',
   templateUrl: './verification.component.html',
-  styleUrls: ['./verification.component.css']
+  styleUrls: ['./verification.component.css'],
 })
 export class VerificationComponent implements OnInit, OnDestroy {
   tableStructureSubscription: Subscription;
@@ -54,15 +54,15 @@ export class VerificationComponent implements OnInit, OnDestroy {
     showValidationRuleGroupFilter: false,
     disablePeriodTypeSelection: true,
     periodFilterConfig: {
-      singleSelection: true
+      singleSelection: true,
     },
     orgUnitFilterConfig: {
       showUserOrgUnitSection: false,
       singleSelection: true,
       showOrgUnitGroupSection: false,
       showOrgUnitLevelSection: false,
-      showOrgUnitLevelGroupSection: false
-    }
+      showOrgUnitLevelGroupSection: false,
+    },
   };
 
   // Form Properties are declared below
@@ -89,7 +89,7 @@ export class VerificationComponent implements OnInit, OnDestroy {
   ver: string;
   dataPresence = false;
 
-  constructor(private store: Store<State>, private snackbar: MatSnackBar) { }
+  constructor(private store: Store<State>, private snackbar: MatSnackBar) {}
 
   ngOnInit() {
     this.store.dispatch(getVerificationDataSet());
@@ -106,7 +106,8 @@ export class VerificationComponent implements OnInit, OnDestroy {
     this.store
       .select(getGeneralConfigurationPeriodType)
       .subscribe(
-        (periodType: string) => this.selectedPeriodType = periodType);
+        (periodType: string) => (this.selectedPeriodType = periodType)
+      );
     this.addPeriodTypeConfig();
   }
 
@@ -122,7 +123,7 @@ export class VerificationComponent implements OnInit, OnDestroy {
   addPeriodTypeConfig() {
     this.selectionFilterConfig = {
       ...this.selectionFilterConfig,
-      selectedPeriodType: this.selectedPeriodType
+      selectedPeriodType: this.selectedPeriodType,
     };
   }
   onFilterUpdateAction(dataSelections) {
@@ -138,11 +139,11 @@ export class VerificationComponent implements OnInit, OnDestroy {
       );
       const selectedData = {
         organisationUnit: orgunigData.items[0].id,
-        period: getPeriodObject(periodData.items[0])
+        period: getPeriodObject(periodData.items[0]),
       };
       this.store.dispatch(loadSelectionFilterData({ data: selectedData }));
-      this.store.select(getTableStructure).subscribe();
-      this.tableStructure$ = this.store.select(getTableStructure);
+      this.store.select(getVerificationFormStructure).subscribe();
+      this.tableStructure$ = this.store.select(getVerificationFormStructure);
       this.tableStructureSubscription = this.tableStructure$.subscribe(
         tableData => {
           this.verificationData = tableData;
