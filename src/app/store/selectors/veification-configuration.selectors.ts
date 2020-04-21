@@ -48,7 +48,7 @@ export const getSelectedVerificationConfig = id =>
       _.find(configurations, config => config.id === id)
   );
 
-export const getTableStructure = createSelector(
+export const getVerificationFormStructure = createSelector(
   getVerificationConfigurations,
   getSelectionFilterLoadedState,
   getSelectionFilterPeriod,

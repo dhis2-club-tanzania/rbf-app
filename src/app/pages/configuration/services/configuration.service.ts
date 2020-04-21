@@ -68,7 +68,7 @@ export class ConfigurationService {
       ...this.dataElement,
       name: createdConfigurations.indicator,
       shortName: createdConfigurations.indicator,
-      description: `"RBF-${createdConfigurations.indicator}" Data element`,
+      description: `RBF ${createdConfigurations.indicator} Data element`,
     };
     return new Observable(observer => {
       this.dataElementsService.createDataElement(createdDataElement).then(
@@ -199,7 +199,7 @@ export class ConfigurationService {
       id: updatedConfigurations.id,
       name: updatedConfigurations.indicator,
       shortName: updatedConfigurations.indicator,
-      description: `"RBF-${updatedConfigurations.indicator}" Data element`,
+      description: `RBF ${updatedConfigurations.indicator} Data element`,
     };
     return new Observable(observer => {
       this.dataElementsService

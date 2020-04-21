@@ -25,6 +25,7 @@ export class DataSetService {
   }
 
   createDefaultDataSet(dataSet: DataSets): Observable<any> {
+    console.log(dataSet);
     return this.http.post('metadata', dataSet);
   }
 }
